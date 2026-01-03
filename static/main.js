@@ -1,20 +1,41 @@
 // Animacja tła - zabezpieczona przed brakiem elementu
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const img = document.getElementById('img');
 
     // Sprawdź czy element istnieje
     if (img) {
-        let x = -100, y = -100;
-        let vx = 0.3, vy = 0.2;
+        // Konfiguracja
+        let vx = 0.5; // Prędkość X
+        let vy = 0.3; // Prędkość Y
+
+        // Pozycja początkowa (środek dostępnego zakresu)
+        let x = -window.innerWidth * 0.15;
+        let y = -window.innerHeight * 0.15;
 
         function animate() {
+            // Oblicz bezpieczne granice (w pikselach)
+            // Obrazek ma 130% (1.3) ekranu.
+            // Nadmiar to 0.3 (30%).
+            // Chcemy ruszać się w zakresie od -5% do -25%, żeby zawsze mieć 5% marginesu z każdej strony.
+            const minX = -window.innerWidth * 0.25;
+            const maxX = -window.innerWidth * 0.05;
+            const minY = -window.innerHeight * 0.25;
+            const maxY = -window.innerHeight * 0.05;
+
             x += vx;
             y += vy;
-            // Ograniczenie ruchu do 100px od krawędzi mapy (mapa to 130vw/vh, więc 15vw = ~100px margines)
-            if (x <= -130 || x >= -100) vx = -vx;
-            if (y <= -130 || y >= -100) vy = -vy;
-            img.style.left = x + 'px';
-            img.style.top = y + 'px';
+
+            // Odbijanie od granic
+            if (x >= maxX || x <= minX) vx = -vx;
+            if (y >= maxY || y <= minY) vy = -vy;
+
+            // Zabezpieczenie przed "ucieczką" poza zakres przy zmianie rozmiaru okna
+            if (x > maxX) x = maxX;
+            if (x < minX) x = minX;
+            if (y > maxY) y = maxY;
+            if (y < minY) y = minY;
+
+            img.style.transform = `translate3d(${x}px, ${y}px, 0)`;
             requestAnimationFrame(animate);
         }
 
@@ -94,18 +115,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     dice_number: currentNumber
                 })
             })
-            .then(response => {
-                if (!response.ok) throw new Error('HTTP error ' + response.status);
-                return response.json();
-            })
-            .then(data => {
-                const result = data?.calculated_value ?? '';
-                box.textContent = result;
-            })
-            .catch(err => {
-                console.error('Błąd:', err);
-                box.textContent = 'Błąd';
-            });
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP error ' + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    const result = data?.calculated_value ?? '';
+                    box.textContent = result;
+                })
+                .catch(err => {
+                    console.error('Błąd:', err);
+                    box.textContent = 'Błąd';
+                });
         });
     });
 }); // DODANE: zamykający nawias dla DOMContentLoaded
@@ -119,7 +140,7 @@ function toggleRoller() {
 }
 
 // Zamknij roller klikając poza nim
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const sidebar = document.getElementById('rollerSidebar');
     const toggle = document.querySelector('.roller-toggle');
 
@@ -131,7 +152,7 @@ document.addEventListener('click', function(e) {
 });
 
 // Opcjonalnie: zamknij na ESC
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         const sidebar = document.getElementById('rollerSidebar');
         if (sidebar) {
@@ -142,7 +163,7 @@ document.addEventListener('keydown', function(e) {
 
 // ===== OBSŁUGA GESTÓW SWIPE DLA ROLLER SIDEBAR (MOBILE) =====
 
-(function() {
+(function () {
     const sidebar = document.getElementById('rollerSidebar');
     if (!sidebar) return;
 
@@ -159,7 +180,7 @@ document.addEventListener('keydown', function(e) {
     const maxVerticalDiff = 100;
 
     // SWIPE OD LEWEJ KRAWĘDZI EKRANU - otwiera sidebar
-    document.addEventListener('touchstart', function(e) {
+    document.addEventListener('touchstart', function (e) {
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
 
@@ -169,7 +190,7 @@ document.addEventListener('keydown', function(e) {
         }
     }, { passive: true });
 
-    document.addEventListener('touchend', function(e) {
+    document.addEventListener('touchend', function (e) {
         if (!isSwiping) return;
 
         touchEndX = e.changedTouches[0].screenX;
@@ -187,7 +208,7 @@ document.addEventListener('keydown', function(e) {
     }, { passive: true });
 
     // SWIPE W LEWO NA SIDEBARZE - zamyka sidebar
-    sidebar.addEventListener('touchstart', function(e) {
+    sidebar.addEventListener('touchstart', function (e) {
         if (!sidebar.classList.contains('active')) return;
 
         touchStartX = e.changedTouches[0].screenX;
@@ -195,7 +216,7 @@ document.addEventListener('keydown', function(e) {
         isSwiping = true;
     }, { passive: true });
 
-    sidebar.addEventListener('touchend', function(e) {
+    sidebar.addEventListener('touchend', function (e) {
         if (!isSwiping || !sidebar.classList.contains('active')) return;
 
         touchEndX = e.changedTouches[0].screenX;
@@ -217,7 +238,7 @@ document.addEventListener('keydown', function(e) {
     let currentX = 0;
     let initialX = 0;
 
-    sidebar.addEventListener('touchstart', function(e) {
+    sidebar.addEventListener('touchstart', function (e) {
         if (!sidebar.classList.contains('active')) return;
 
         // Sprawdź czy dotknięto sidebara (nie iframe wewnątrz)
@@ -227,7 +248,7 @@ document.addEventListener('keydown', function(e) {
         isDragging = true;
     }, { passive: true });
 
-    sidebar.addEventListener('touchmove', function(e) {
+    sidebar.addEventListener('touchmove', function (e) {
         if (!isDragging) return;
 
         currentX = e.touches[0].clientX - initialX;
@@ -238,7 +259,7 @@ document.addEventListener('keydown', function(e) {
         }
     }, { passive: true });
 
-    sidebar.addEventListener('touchend', function(e) {
+    sidebar.addEventListener('touchend', function (e) {
         if (!isDragging) return;
 
         isDragging = false;

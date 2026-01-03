@@ -2,27 +2,33 @@
     box-shadow: 0 0 20px grey;
     width: 960px;
     margin: auto;
-    position: relative;  /* DODAJ - bez tego z-index nie działa */
+    position: relative;
+    /* DODAJ - bez tego z-index nie działa */
     z-index: 1;
-    background: white;   /* DODAJ - żeby treść była czytelna */
+    background: white;
+    /* DODAJ - żeby treść była czytelna */
 }
 
 body {
     font-family: sans-serif;
     background: url("tło.gif") repeat;
     padding: 40px 0;
+    overflow: hidden;
+    /* Ucięcie krawędzi */
     /* usuń z-index z body - nie jest potrzebne */
 }
 
 h1 {
-        font-size: 36px;
-        margin-bottom: 10px;
-        color: green;
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: green;
 
-    }
+}
 
 .floating-image {
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: -2;
     width: 130vw;
     height: 130vh;
@@ -55,7 +61,10 @@ h1 {
 }
 
 /* Wspólne style */
-.image-button1, .image-button2, .image-button3, .image-button4 {
+.image-button1,
+.image-button2,
+.image-button3,
+.image-button4 {
     position: fixed;
     border: none;
     cursor: pointer;
@@ -68,13 +77,19 @@ h1 {
     opacity: 0.95;
 
 
-    color: white;              /* kolor tekstu */
-    font-size: 35px;           /* rozmiar czcionki */
-    font-weight: bold;         /* pogrubienie */
-    font-family: Arial, sans-serif;  /* czcionka */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);  /* cień tekstu */
+    color: white;
+    /* kolor tekstu */
+    font-size: 35px;
+    /* rozmiar czcionki */
+    font-weight: bold;
+    /* pogrubienie */
+    font-family: Arial, sans-serif;
+    /* czcionka */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* cień tekstu */
     text-align: center;
 }
+
 /* Indywidualne pozycje i grafiki */
 .image-button1 {
     top: 50%;
@@ -130,24 +145,36 @@ h1 {
 
 
 .overlay-container {
-    position: relative;   /* konieczne dla overlay-bg */
-    display: flex;        /* używamy flex do centrowania */
-    justify-content: center; /* poziome centrowanie wszystkich kolumn */
-    align-items: center;     /* ZMIENIONE: pionowe centrowanie kolumn */
+    position: relative;
+    /* konieczne dla overlay-bg */
+    display: flex;
+    /* używamy flex do centrowania */
+    justify-content: center;
+    /* poziome centrowanie wszystkich kolumn */
+    align-items: center;
+    /* ZMIENIONE: pionowe centrowanie kolumn */
     padding: 10px;
-    margin: 0 auto;       /* dodatkowe centrowanie kontenera w body */
-    width: max-content;   /* dopasowanie szerokości do zawartości */
-    height: 100vh;        /* DODANE: pełna wysokość ekranu dla lepszego centrowania */
+    margin: 0 auto;
+    /* dodatkowe centrowanie kontenera w body */
+    width: max-content;
+    /* dopasowanie szerokości do zawartości */
+    height: 100vh;
+    /* DODANE: pełna wysokość ekranu dla lepszego centrowania */
 }
 
 .overlay-bg {
     position: absolute;
-    top: 50%;             /* DODANE: centrowanie tła */
-    left: 50%;            /* DODANE: centrowanie tła */
-    transform: translate(-50%, -50%); /* DODANE: centrowanie tła */
+    top: 50%;
+    /* DODANE: centrowanie tła */
+    left: 50%;
+    /* DODANE: centrowanie tła */
+    transform: translate(-50%, -50%);
+    /* DODANE: centrowanie tła */
     width: 100%;
-    height: auto;         /* ZMIENIONE: wysokość dopasowana do zawartości */
-    min-height: 80%;      /* DODANE: minimalna wysokość tła */
+    height: auto;
+    /* ZMIENIONE: wysokość dopasowana do zawartości */
+    min-height: 80%;
+    /* DODANE: minimalna wysokość tła */
     background-color: rgba(139, 69, 19, 0.9);
     z-index: 0;
     border-radius: 10px;
@@ -158,7 +185,8 @@ h1 {
     gap: 20px;
     justify-content: center;
     position: relative;
-    z-index: 1;  /* nad tłem */
+    z-index: 1;
+    /* nad tłem */
 }
 
 .column {
@@ -180,6 +208,7 @@ h1 {
     background: none;
     z-index: 10;
 }
+
 .buttonrol img {
     width: 100%;
     height: 100%;
@@ -196,9 +225,13 @@ h1 {
     background-position: center;
     position: relative;
 }
+
 .display-content {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -210,28 +243,37 @@ h1 {
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
-        width: 100%;       /* kontener wypełnia cały ekran */
-        padding: 0 10px;   /* opcjonalny odstęp od krawędzi */
+        width: 100%;
+        /* kontener wypełnia cały ekran */
+        padding: 0 10px;
+        /* opcjonalny odstęp od krawędzi */
         box-sizing: border-box;
     }
 
     .column {
-        flex: 1 1 45%;     /* każda kolumna ok. 45% szerokości */
-        max-width: 45%;    /* ograniczenie szerokości */
+        flex: 1 1 45%;
+        /* każda kolumna ok. 45% szerokości */
+        max-width: 45%;
+        /* ograniczenie szerokości */
         box-sizing: border-box;
         gap: 1px;
     }
 
-    .buttonrol, .display-box {
-        width: 50%;       /* zajmują całą szerokość kolumny */
-        height: auto;      /* wysokość dopasowana do szerokości */
-        aspect-ratio: 1;   /* wymusza proporcje kwadratu (jeśli grafika jest kwadratowa) */
+    .buttonrol,
+    .display-box {
+        width: 50%;
+        /* zajmują całą szerokość kolumny */
+        height: auto;
+        /* wysokość dopasowana do szerokości */
+        aspect-ratio: 1;
+        /* wymusza proporcje kwadratu (jeśli grafika jest kwadratowa) */
     }
 
     .buttonrol img {
         width: 50%;
         height: 50%;
-        object-fit: contain; /* grafika dopasowuje się do przycisku */
+        object-fit: contain;
+        /* grafika dopasowuje się do przycisku */
     }
 
     .display-box {
@@ -243,14 +285,19 @@ h1 {
 
 
 @media (max-width: 768px) {
-    .image-button1, .image-button2, .image-button3, .image-button4 {
+
+    .image-button1,
+    .image-button2,
+    .image-button3,
+    .image-button4 {
         width: 200px;
         height: 120px;
         font-size: 25px;
     }
 
     .floating-image {
-        width: 150vw;   /* zwiększ na telefonie - mniejszy ekran potrzebuje więcej marginesu */
+        width: 150vw;
+        /* zwiększ na telefonie - mniejszy ekran potrzebuje więcej marginesu */
         height: 150vh;
     }
 }
