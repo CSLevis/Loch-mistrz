@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 8px;
+            background: rgba(230, 187, 95, 0.9);
+        }
+        .floating-image, .overlay2 {
+            display: none;
+        }
+        .overlay-container {
+            padding: 0;
+        }
+        .overlay-bg {
+            display: none;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 8px;
+            margin-top: 50px;
+        }
+        .header-left {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            padding-left: 10px;
+        }
+        .header-text {
+            font-family: fangsong;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 #76521e, 1px -1px 0 #76521e, -1px 1px 0 #76521e, 1px 1px 0 #76521e;
+            margin: 0;
+        }
+        .header-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
+        .number-control-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-text2 {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .number-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 45px;
+        }
+        .arrow-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .arrow-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .number-display {
+            font-family: fangsong;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 #76521e, 1px -1px 0 #76521e, -1px 1px 0 #76521e, 1px 1px 0 #76521e;
+            line-height: 45px;
+            min-width: 45px;
+            text-align: center;
+        }
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+        }
+        .column {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 6px;
+            align-items: center;
+        }
+        .buttonrol {
+            width: 90px;
+            height: 90px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+        .buttonrol img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .display-box {
+            width: 130px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            margin: 0;
+        }
+        .display-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: fangsong;
+            font-weight: bold;
+            color: white;
+            font-size: 32px;
+            text-shadow: -1px -1px 0 #76521e, 1px -1px 0 #76521e, -1px 1px 0 #76521e, 1px 1px 0 #76521e;
+        }
+        .bottom-row {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 6px;
+            gap: 6px;
+        }
+        .bottom-left {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .bottom-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .bottom-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .form-window {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(139, 69, 19, 0.3);
+            border: 2px solid #8B4513;
+            border-radius: 8px;
+            padding: 8px;
+            backdrop-filter: blur(5px);
+        }
+        .custom-input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #8B4513;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 12px;
+            outline: none;
+            width: 120px;
+        }
+        .display-box2 {
+            width: 140px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="overlay-container">
+        <div class="overlay-bg"></div>
+
+        <div class="content-wrapper">
+            <!-- HEADER -->
+            <div class="header-row">
+                <div class="header-left">
+                    <span class="header-text">Roller</span>
+                </div>
+                <div class="header-right">
+                    <div class="number-control-section">
+                        <div class="header-text2">Throws</div>
+                        <div class="number-controls">
+                            <button class="arrow-btn" onclick="changeNumber(-1)">
+                                <img src="{{ url_for('static', filename='al.png') }}" alt="<">
+                            </button>
+                            <span class="number-display" id="numberDisplay">1</span>
+                            <button class="arrow-btn" onclick="changeNumber(1)">
+                                <img src="{{ url_for('static', filename='ar.png') }}" alt=">">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOSTKI W KOLUMNIE -->
+            <div class="flex-container">
+                <!-- d4 -->
+                <div class="column">
+                    <button class="buttonrol" id="b1"><img src="{{ url_for('static', filename='d4a.png') }}"></button>
+                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box1"></div>
+                    </div>
+                </div>
+
+                <!-- d6 -->
+                <div class="column">
+                    <button class="buttonrol" id="b2"><img src="{{ url_for('static', filename='d6a.png') }}"></button>
+                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box2"></div>
+                    </div>
+                </div>
+
+                <!-- d8 -->
+                <div class="column">
+                    <button class="buttonrol" id="b3"><img src="{{ url_for('static', filename='d8a.png') }}"></button>
+                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box3"></div>
+                    </div>
+                </div>
+
+                <!-- d10 -->
+                <div class="column">
+                    <button class="buttonrol" id="b4"><img src="{{ url_for('static', filename='d10a.png') }}"></button>
+                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box4"></div>
+                    </div>
+                </div>
+
+                <!-- d12 -->
+                <div class="column">
+                    <button class="buttonrol" id="b5"><img src="{{ url_for('static', filename='d12a.png') }}"></button>
+                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box5"></div>
+                    </div>
+                </div>
+
+                <!-- d20 -->
+                <div class="column">
+                    <button class="buttonrol" id="b6"><img src="{{ url_for('static', filename='d20a.png') }}"></button>
+                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CUSTOM -->
+            <div class="bottom-row">
+                <div class="column">
+                    <button class="buttonrol" id="b7"><img src="{{ url_for('static', filename='dms2.png') }}"></button>
+                    <div class="form-window">
+                        <input type="text" id="customInput" placeholder="sides" class="custom-input">
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="display-box2" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box7"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+
+</html>

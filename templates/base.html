@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <!-- PWA Settings -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='d20a.png') }}">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Menu powrotu - tylko jeśli NIE jesteś na stronie głównej -->
+    {% if request.endpoint != 'index' %}
+    <div class="user-menu" style="left: 20px; right: auto;">
+        <a href="{{ url_for('index') }}">← Powrót do menu</a>
+    </div>
+    {% endif %}
+
+    <!-- Menu logowania -->
+    <div class="user-menu">
+        {% if current_user.is_authenticated %}
+        <span class="username">{{ current_user.username }}</span>
+        <a href="{{ url_for('logout') }}">Wyloguj</a>
+        {% else %}
+        <a href="{{ url_for('login') }}">Zaloguj się</a>
+        <a href="{{ url_for('register') }}">Rejestracja</a>
+        {% endif %}
+    </div>
+
+    <!-- Komunikaty flash -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for message in messages %}
+        <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <header>
+
+    </header>
+
+    <main>
+        <div class="main">
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- MUZYKA - różna dla każdego systemu -->
+    <script>
+        // Sprawdź który szablon jest aktywny na podstawie URL
+        const currentPath = window.location.pathname;
+        let musicFile = '/static/tło.mp3'; // domyślna muzyka
+
+        // Wybierz muzykę w zależności od strony
+        if (currentPath.includes('cthulhu')) {
+            musicFile = '/static/tło4.mp3';
+        } else if (currentPath.includes('dnd5e')) {
+            musicFile = '/static/tło.mp3';
+        } else if (currentPath.includes('warhammer')) {
+            musicFile = '/static/tło2.mp3';
+        }
+
+        // Globalny obiekt audio (jeden dla całej sesji)
+        if (!window.bgMusicInstance || window.bgMusicInstance.src !== window.location.origin + musicFile) {
+            // Zatrzymaj starą muzykę jeśli gra
+            if (window.bgMusicInstance) {
+                window.bgMusicInstance.pause();
+            }
+
+            window.bgMusicInstance = new Audio(musicFile);
+            window.bgMusicInstance.loop = true;
+            window.bgMusicInstance.volume = 0.3;
+        }
+
+        const bgMusic = window.bgMusicInstance;
+
+        // Sprawdź czy muzyka już gra
+        if (sessionStorage.getItem('musicStarted') === 'true' && bgMusic.paused) {
+            bgMusic.play().catch(err => console.log('Nie można wznowić muzyki'));
+        }
+
+        // Uruchom po pierwszym kliknięciu
+        if (sessionStorage.getItem('musicStarted') !== 'true') {
+            window.addEventListener('load', function () {
+                document.body.addEventListener('click', function startMusic() {
+                    bgMusic.play()
+                        .then(() => {
+                            sessionStorage.setItem('musicStarted', 'true');
+                            console.log('Muzyka wystartowała');
+                        })
+                        .catch(err => console.log('Muzyka zablokowana'));
+                }, { once: true });
+            });
+        }
+    </script>
+    <!-- DICE ROLLER SIDEBAR -->
+    <div class="roller-sidebar" id="rollerSidebar">
+        <button class="sidebar-close" onclick="toggleRoller()">✕</button>
+        {% if 'cthulhu' in request.path %}
+        <iframe src="{{ url_for('roller_embedded_cthulhu') }}" class="roller-iframe"></iframe>
+        {% else %}
+        <iframe src="{{ url_for('roller_embedded') }}" class="roller-iframe"></iframe>
+        {% endif %}
+    </div>
+
+    <!-- PRZYCISK TOGGLE -->
+    <button class="roller-toggle" onclick="toggleRoller()">🎲 Roller</button>
+</body>
+
+</html>

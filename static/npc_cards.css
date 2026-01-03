@@ -1,0 +1,648 @@
+/* ===== NPC MANAGER CARDS - STYL GWENT/MAGIC ===== */
+
+.npc-container {
+    max-width: 1600px;
+    margin: 80px auto 40px;
+    padding: 20px;
+    position: relative;
+    z-index: 1000;
+}
+
+.npc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    position: relative;
+    z-index: 1001;
+}
+
+.npc-header h1 {
+    color: #FFD700;
+    font-size: 36px;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.npc-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* ===== PRZYCISKI NPC ===== */
+
+.npc-actions .btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.npc-actions .btn-save {
+    background: linear-gradient(135deg, #2c5f2d, #1a4a1a);
+    color: #FFD700;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.npc-actions .btn-save:hover {
+    background: linear-gradient(135deg, #3a7a3b, #2c5f2d);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(44, 95, 45, 0.6);
+    border-color: #FFD700;
+}
+
+.npc-actions .btn-save:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.npc-actions .btn-cancel {
+    background: linear-gradient(135deg, #5a3a1a, #3a2510);
+    color: #D4AF37;
+    border: 2px solid rgba(139, 69, 19, 0.6);
+}
+
+.npc-actions .btn-cancel:hover {
+    background: linear-gradient(135deg, #6a4a2a, #5a3a1a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(139, 69, 19, 0.6);
+    border-color: #D4AF37;
+    color: #FFD700;
+}
+
+.npc-actions .btn-cancel:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* ===== GRID KART ===== */
+
+.npc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+    position: relative;
+    z-index: 1000;
+}
+
+/* ===== KARTA NPC - PODSTAWA ===== */
+
+.npc-card {
+    background: linear-gradient(145deg, rgba(40, 40, 40, 0.98), rgba(20, 20, 20, 0.98));
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    z-index: 1000;
+}
+
+.npc-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 215, 0, 0.6) 50%,
+        transparent 100%);
+}
+
+.npc-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+/* Kolory dla systemów */
+.cthulhu-card {
+    border-color: rgba(44, 95, 45, 0.6);
+    background: linear-gradient(145deg, rgba(28, 60, 29, 0.95), rgba(20, 45, 21, 0.95));
+}
+
+.cthulhu-card::before {
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(44, 95, 45, 0.8) 50%,
+        transparent 100%);
+}
+
+.warhammer-card {
+    border-color: rgba(139, 69, 19, 0.6);
+    background: linear-gradient(145deg, rgba(101, 50, 14, 0.95), rgba(80, 40, 11, 0.95));
+}
+
+.warhammer-card::before {
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(139, 69, 19, 0.8) 50%,
+        transparent 100%);
+}
+
+.dnd-card {
+    border-color: rgba(114, 47, 55, 0.6);
+    background: linear-gradient(145deg, rgba(82, 34, 39, 0.95), rgba(62, 25, 29, 0.95));
+}
+
+.dnd-card::before {
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(114, 47, 55, 0.8) 50%,
+        transparent 100%);
+}
+
+/* ===== NAGŁÓWEK KARTY ===== */
+
+.npc-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    position: relative;
+    z-index: 1001;
+}
+
+.npc-name {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #FFD700;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.npc-name:focus {
+    outline: none;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 4px;
+}
+
+.delete-npc-btn {
+    background: rgba(200, 0, 0, 0.7);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 28px;
+}
+
+.delete-npc-btn:hover {
+    background: rgba(255, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+
+/* ===== CIAŁO KARTY ===== */
+
+.npc-card-body {
+    padding: 20px;
+    position: relative;
+    z-index: 1001;
+}
+
+.npc-field {
+    margin-bottom: 15px;
+}
+
+.npc-field label {
+    display: block;
+    color: rgba(255, 215, 0, 0.9);
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.npc-field input {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.npc-field input:focus {
+    outline: none;
+    border-color: rgba(255, 215, 0, 0.6);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* ===== CECHY (STATS GRID) ===== */
+
+.npc-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item label {
+    display: block;
+    color: rgba(255, 215, 0, 0.9);
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.stat-item input {
+    width: 100%;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 4px;
+    color: #FFD700;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.stat-item input:focus {
+    outline: none;
+    border-color: #FFD700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+/* ===== PUNKTY ===== */
+
+.npc-points {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 100, 100, 0.2);
+}
+
+.point-item {
+    text-align: center;
+}
+
+.point-item label {
+    display: block;
+    color: rgba(255, 100, 100, 0.9);
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.point-item input {
+    width: 100%;
+    padding: 6px;
+    background: rgba(100, 0, 0, 0.3);
+    border: 1px solid rgba(255, 100, 100, 0.4);
+    border-radius: 4px;
+    color: #ff6666;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.point-item input:focus {
+    outline: none;
+    border-color: #ff6666;
+}
+
+/* ===== UMIEJĘTNOŚCI ===== */
+
+.npc-skills-section {
+    margin: 20px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(100, 150, 255, 0.2);
+}
+
+.npc-skills-section h4 {
+    color: rgba(100, 150, 255, 0.9);
+    font-size: 14px;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.skill-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.skill-name-input {
+    flex: 1;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.skill-value-input {
+    width: 60px;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    border-radius: 4px;
+    color: #6696ff;
+    text-align: center;
+    font-weight: bold;
+}
+
+.skill-name-input:focus,
+.skill-value-input:focus {
+    outline: none;
+    border-color: rgba(100, 150, 255, 0.6);
+}
+
+/* ===== NOTATKI ===== */
+
+.npc-notes {
+    margin-top: 15px;
+}
+
+.npc-notes label {
+    display: block;
+    color: rgba(200, 200, 200, 0.9);
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.npc-notes textarea {
+    width: 100%;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(200, 200, 200, 0.3);
+    border-radius: 6px;
+    color: #ddd;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    box-sizing: border-box;
+}
+
+.npc-notes textarea:focus {
+    outline: none;
+    border-color: rgba(200, 200, 200, 0.5);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1200px) {
+    .npc-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    /* KONTENER I HEADER */
+    .npc-container {
+        margin: 60px auto 20px;
+        padding: 10px;
+    }
+
+    .npc-header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+    }
+
+    .npc-header h1 {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .npc-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .npc-actions .btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    /* GRID KART */
+    .npc-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 10px 0;
+    }
+
+    /* KARTA NPC */
+    .npc-card {
+        margin-bottom: 15px;
+    }
+
+    .npc-card:hover {
+        transform: translateY(-4px) scale(1.01);
+    }
+
+    /* NAGŁÓWEK KARTY */
+    .npc-card-header {
+        padding: 12px 15px;
+    }
+
+    .npc-name {
+        font-size: 20px;
+    }
+
+    .delete-npc-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    /* CIAŁO KARTY */
+    .npc-card-body {
+        padding: 15px;
+    }
+
+    .npc-field input {
+        padding: 10px;
+        font-size: 16px; /* Zapobiega auto-zoom na iOS */
+    }
+
+    /* CECHY - 3 KOLUMNY NA MOBILE */
+    .npc-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .stat-item label {
+        font-size: 10px;
+    }
+
+    .stat-item input {
+        padding: 8px 4px;
+        font-size: 16px;
+    }
+
+    /* PUNKTY - 2 KOLUMNY NA MOBILE */
+    .npc-points {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .point-item label {
+        font-size: 10px;
+    }
+
+    .point-item input {
+        padding: 8px 4px;
+        font-size: 14px;
+    }
+
+    /* UMIEJĘTNOŚCI */
+    .npc-skills-section {
+        padding: 10px;
+    }
+
+    .npc-skills-section h4 {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .skill-row {
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+    .skill-name-input {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .skill-value-input {
+        width: 55px;
+        padding: 8px 4px;
+        font-size: 14px;
+    }
+
+    /* NOTATKI */
+    .npc-notes label {
+        font-size: 11px;
+    }
+
+    .npc-notes textarea {
+        padding: 10px;
+        font-size: 14px;
+        min-height: 70px;
+    }
+}
+
+/* BARDZO MAŁE TELEFONY */
+@media (max-width: 480px) {
+    .npc-container {
+        margin: 50px auto 15px;
+        padding: 5px;
+    }
+
+    .npc-header {
+        padding: 12px 15px;
+    }
+
+    .npc-header h1 {
+        font-size: 24px;
+    }
+
+    .npc-actions .btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .npc-card-body {
+        padding: 12px;
+    }
+
+    /* CECHY - 2 KOLUMNY NA BARDZO MAŁYCH TELEFONACH */
+    .npc-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .stat-item label {
+        font-size: 9px;
+    }
+
+    .stat-item input {
+        padding: 6px 2px;
+        font-size: 14px;
+    }
+
+    /* PUNKTY - 2 KOLUMNY */
+    .npc-points {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .point-item label {
+        font-size: 9px;
+    }
+
+    .point-item input {
+        padding: 6px 2px;
+        font-size: 13px;
+    }
+
+    .skill-name-input,
+    .skill-value-input {
+        font-size: 13px;
+    }
+
+    .npc-notes textarea {
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Edytuj Kartę Postaci{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back2.jpg') }}');"></div>
+<div class="overlay2" style="background-color: rgba(20, 50, 40, 0.6);"></div>
+
+<div class="card-form-container-cthulhu">
+    <h1 class="header-text-cthulhu">Edytuj Kartę: {{ character.imie }}</h1>
+    
+    <form method="POST" class="character-form-cthulhu">
+        <!-- Wiersz 1 -->
+        <div class="form-row">
+            <div class="form-field">
+                <label>Imię</label>
+                <input type="text" name="imie" value="{{ character.imie }}" placeholder="Imię postaci">
+            </div>
+            <div class="form-field">
+                <label>Gracz</label>
+                <input type="text" name="gracz" value="{{ character.gracz }}" placeholder="Imię gracza">
+            </div>
+            <div class="form-field">
+                <label>Profesja</label>
+                <input type="text" name="profesja" value="{{ character.profesja }}" placeholder="Profesja">
+            </div>
+        </div>
+
+        <!-- Wiersz 2 -->
+        <div class="form-row">
+            <div class="form-field">
+                <label>Wiek</label>
+                <input type="text" name="wiek" value="{{ character.wiek }}" placeholder="Wiek">
+            </div>
+            <div class="form-field">
+                <label>Płeć</label>
+                <input type="text" name="plec" value="{{ character.plec }}" placeholder="Płeć">
+            </div>
+            <div class="form-field">
+                <label>Miejsce</label>
+                <input type="text" name="miejsce" value="{{ character.miejsce }}" placeholder="Miejsce urodzenia">
+            </div>
+        </div>
+
+       <!-- Wiersz 3 -->
+        <div class="form-row stats-row">
+            <div class="stat-group">
+                <div class="form-field-small">
+                    <label>S</label>
+                    <input type="number" name="s" value="{{ character.s }}" min="0">
+                </div>
+                <div class="form-field-small">
+                    <label>ZR</label>
+                    <input type="number" name="zr" value="{{ character.zr }}" min="0">
+                </div>
+                <div class="form-field-small">
+                    <label>Moc</label>
+                    <input type="number" name="moc" value="{{ character.moc }}" min="0">
+                </div>
+            </div>
+
+            <div class="stat-separator"></div>
+
+            <div class="stat-group">
+                <div class="form-field-small">
+                    <label>PW</label>
+                    <input type="number" name="pw1" value="{{ character.pw1 }}" min="0" style="width: 50px;">
+                </div>
+                <div class="form-field-small">
+                    <label>&nbsp;</label>
+                    <input type="number" name="pw2" value="{{ character.pw2 }}" min="0" style="width: 50px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Wiersz 4 -->
+        <div class="form-row stats-row">
+            <div class="stat-group">
+                <div class="form-field-small">
+                    <label>Kon</label>
+                    <input type="number" name="kon" value="{{ character.kon }}" min="0">
+                </div>
+                <div class="form-field-small">
+                    <label>Wyg</label>
+                    <input type="number" name="wyg" value="{{ character.wyg }}" min="0">
+                </div>
+                <div class="form-field-small">
+                    <label>Wyk</label>
+                    <input type="number" name="wyk" value="{{ character.wyk }}" min="0">
+                </div>
+            </div>
+
+            <div class="stat-separator"></div>
+
+            <div class="stat-group">
+                <div class="form-field-small">
+                    <label>Szczęście</label>
+                    <input type="number" name="szczescie" value="{{ character.szczescie }}" min="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Wiersz 5 -->
+        <div class="form-row stats-row">
+            <div class="stat-group">
+                <div class="form-field-small">
+                    <label>BC</label>
+                    <input type="number" name="bc" value="{{ character.bc }}" min="0">
+                </div>
+                <div class="form-field-small">
+                    <label>Int</label>
+                    <input type="number" name="intel" value="{{ character.intel }}" min="0">
+                </div>
+                <div class="form-field-small">
+                    <label>Ruch</label>
+                    <input type="number" name="ruch" value="{{ character.ruch }}" min="0">
+                </div>
+            </div>
+
+            <div class="stat-separator"></div>
+
+            <div class="stat-group">
+                <div class="form-field-small">
+                    <label>Poczytalność</label>
+                    <input type="number" name="poczytalnosc" value="{{ character.poczytalnosc }}" min="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Przyciski -->
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-save">Zapisz zmiany</button>
+            <a href="{{ url_for('umiejetnosci_cthulhu', character_id=character.id) }}" class="btn btn-skills-active">Umiejętności</a>
+            <a href="{{ url_for('bron_cthulhu', character_id=character.id) }}" class="btn btn-skills-active">Broń</a>
+            <a href="{{ url_for('drukuj_karte_cthulhu', character_id=character.id) }}" class="btn btn-secondary" target="_blank" style="background: #2c5f2d;">🖨️ Drukuj do PDF</a>
+            <a href="{{ url_for('karty_postaci') }}" class="btn btn-cancel">Anuluj</a>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

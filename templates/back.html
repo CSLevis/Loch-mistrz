@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .floating-image {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            background: url('image.jpg') center/cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-image" id="img"></div>
+
+    <script>
+        const img = document.getElementById('back.jpg');
+        let x = 100, y = 100;
+        let vx = 2, vy = 1.5;
+
+        function animate() {
+            x += vx;
+            y += vy;
+
+            if (x <= 0 || x >= window.innerWidth - 300) vx = -vx;
+            if (y <= 0 || y >= window.innerHeight - 200) vy = -vy;
+
+            img.style.left = x + 'px';
+            img.style.top = y + 'px';
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

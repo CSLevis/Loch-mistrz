@@ -1,0 +1,1073 @@
+.main {
+    box-shadow: 0 0 20px grey;
+    width: 960px;
+    margin: auto;
+    position: relative;  /* DODAJ - bez tego z-index nie działa */
+    z-index: 1;
+    background: white;   /* DODAJ - żeby treść była czytelna */
+}
+
+body {
+    font-family: sans-serif;
+    background: url("tło.gif") repeat;
+    padding: 40px 0;
+    /* usuń z-index z body - nie jest potrzebne */
+}
+
+.container {
+    /* container-type: inline-size; */
+    /* container-name: mainmenu; */
+}
+
+h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+        color: green;
+
+    }
+
+.floating-image {
+    position: fixed;
+    z-index: -2;
+    width: 130vw;
+    height: 130vh;
+    background: url("back.jpg") center/cover;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(115, 90, 40, 0.8);
+    z-index: -1;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+}
+
+.overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(140, 100, 20, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+    pointer-events: none;
+
+}
+/* Przyciski głównego menu - wspólne style */
+.image-button1, .image-button2, .image-button3, .image-button4 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    width: 470px;
+    height: 280px;
+    color: #949ca1;
+    font-size: 35px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-align: center;
+    padding: 10px;
+    opacity: 0.95;
+    background: url("button1.png") center/cover;
+    transition: all 0.2s ease;
+}
+
+/* Indywidualne pozycje przycisków głównego menu */
+.image-button1 { transform: translate(-100%, -100%); }
+.image-button2 { transform: translate(-100%, 0%); }
+.image-button3 { transform: translate(0%, -100%); }
+.image-button4 { transform: translate(0%, 0%); }
+
+/* Efekt hover dla wszystkich przycisków głównego menu */
+.image-button1:hover, .image-button2:hover, .image-button3:hover, .image-button4:hover {
+    opacity: 1;
+    color: white;
+}
+
+.image-button1:hover { transform: translate(-100%, -100%) scale(1.05); }
+.image-button2:hover { transform: translate(-100%, 0%) scale(1.05); }
+.image-button3:hover { transform: translate(0%, -100%) scale(1.05); }
+.image-button4:hover { transform: translate(0%, 0%) scale(1.05); }
+
+/* Kontener dice rollera */
+.overlay-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 0 auto;
+    width: max-content;
+    height: 100vh;
+    /* container-type: inline-size; */
+    /* container-name: roller; */
+}
+
+.overlay-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 105%;
+    height: auto;
+    min-height: 75%;
+    padding: 20px 25px;
+    margin: 0;
+    background-color: rgba(230, 187, 95, 0.9);
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.flex-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* Elementy dice rollera */
+.buttonrol {
+    position: relative;
+    display: flex;
+    width: 120px;
+    height: 120px;
+    border: none;
+    cursor: pointer;
+    margin: 20px 10px;
+    background: none;
+    z-index: 10; /* zwiększ drastycznie */
+    transition: transform 0.2s ease;
+    pointer-events: auto;
+}
+#b7 {
+    width: 150px;  /* większy niż standardowe 120px */
+    height: 150px;
+}
+
+.buttonrol img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.buttonrol:hover {
+    transform: scale(1.05);
+
+}
+/* ########################### ramki roller ###################################*/
+.display-box {
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    margin: 6px 10px;
+    color: white;
+    font-size: 30px;
+}
+
+.display-box2 {
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    margin: 6px 10px;
+    color: white;
+    font-size: 30px;
+
+}
+
+.display-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: fangsong;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    text-shadow:
+    -1px -1px 0 #76521e,  /* cień lewy górny */
+     1px -1px 0 #76521e,  /* cień prawy górny */
+    -1px  1px 0 #76521e,  /* cień lewy dolny */
+     1px  1px 0 #76521e;
+}
+
+/* ############################### header ######################################### */
+
+/* Nowy wrapper dla pionowego układu */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+/* Header nad kolumnami */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.header-left, .header-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style header text */
+.header-text {
+    font-family: fangsong;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    text-shadow:
+    -1px -1px 0 #76521e,  /* cień lewy górny */
+     1px -1px 0 #76521e,  /* cień prawy górny */
+    -1px  1px 0 #76521e,  /* cień lewy dolny */
+     1px  1px 0 #76521e;
+}
+
+.header-text {
+    margin-top: 80px;
+    font-family: fangsong;
+    color: white;
+    font-size: 58px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    text-shadow:
+    -1px -1px 0 #76521e,  /* cień lewy górny */
+     1px -1px 0 #76521e,  /* cień prawy górny */
+    -1px  1px 0 #76521e,  /* cień lewy dolny */
+     1px  1px 0 #76521e;
+}
+.header-text2 {
+    margin-top: 80px;
+    font-family: fangsong;
+    color: white;
+    font-size: 34px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    text-shadow:
+    -1px -1px 0 #76521e,  /* cień lewy górny */
+     1px -1px 0 #76521e,  /* cień prawy górny */
+    -1px  1px 0 #76521e,  /* cień lewy dolny */
+     1px  1px 0 #76521e;
+}
+/* STYLE DLA NAGŁÓWKA NAD STRZAŁKAMI */
+.number-control-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.number-label {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    margin-bottom: 5px;
+}
+
+.number-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    height: 60px; /* stała wysokość */
+}
+
+/* Strzałki */
+.arrow-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: all 0.2s ease;
+    width: 60px;
+    height: 60px;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.arrow-btn:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+/* Liczba */
+.number-display {
+    font-family: fangsong;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    text-shadow:
+    -1px -1px 0 #76521e,  /* cień lewy górny */
+     1px -1px 0 #76521e,  /* cień prawy górny */
+    -1px  1px 0 #76521e,  /* cień lewy dolny */
+     1px  1px 0 #76521e;
+    background: none;
+    line-height: 60px;
+    vertical-align: middle;
+    height: 60px;
+    display: inline-block;
+}
+
+/* ##################################### NOWA LINIJKA POD KOLUMNAMI ###################################### */
+
+/* STYLE DLA NOWEJ LINIJKI POD KOLUMNAMI */
+.bottom-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+    padding: 0 20px;
+}
+
+.custom-dice-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 80px;
+}
+
+.bottom-left, .bottom-center, .bottom-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+/* PRZYCISK PO LEWEJ */
+.action-btn {
+    background: linear-gradient(145deg, #8B4513, #A0522D);
+    border: 2px solid #5D4037;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.action-btn:hover {
+    background: linear-gradient(145deg, #A0522D, #8B4513);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+/* OKNO FORMULARZA PO ŚRODKU */
+.form-window {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(139, 69, 19, 0.3);
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    padding: 5px 8px;
+    backdrop-filter: blur(5px);
+    pointer-events: auto; /* DODAJ TO */
+    z-index: 998; /* DODAJ TO */
+}
+
+.custom-input {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #8B4513;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 24px;
+    width: 130px;
+    height: 130px;
+    outline: none;
+    pointer-events: auto;
+    z-index: 999;
+    text-align: center;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.custom-input:focus {
+    border-color: #A0522D;
+    box-shadow: 0 0 5px rgba(160, 82, 45, 0.5);
+}
+
+.submit-btn {
+    background: linear-gradient(145deg, #228B22, #32CD32);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: linear-gradient(145deg, #32CD32, #228B22);
+    transform: scale(1.05);
+}
+
+/* OKNO WYNIKOWE PO PRAWEJ */
+.result-window {
+    background: rgba(139, 69, 19, 0.3);
+    border: 2px solid #8B4513;
+    border-radius: 10px;
+    padding: 15px;
+    backdrop-filter: blur(5px);
+    min-width: 150px;
+    text-align: center;
+}
+
+.result-label {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.result-value {
+    color: #FFD700;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Menu użytkownika */
+.user-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(139, 69, 19, 0.9);
+    padding: 10px 20px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.user-menu a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.user-menu a:hover {
+    color: #FFD700;
+}
+
+.username {
+    color: #FFD700;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+/* Komunikaty flash */
+.flash-messages {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 999;
+    max-width: 300px;
+}
+
+.flash-message {
+    background: rgba(139, 69, 19, 0.95);
+    color: white;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+/* ROLLER SIDEBAR */
+.roller-sidebar {
+    position: fixed;
+    top: 0;
+    left: -420px;
+    width: 420px;
+    height: 100vh;
+    background: rgba(139, 69, 19, 0.95);
+    border-right: 3px solid #8B4513;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+    touch-action: pan-y;
+}
+
+.roller-sidebar.active {
+    left: 0;
+}
+
+.sidebar-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #FFD700;
+    font-size: 28px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    z-index: 10000;
+}
+
+.sidebar-close:hover {
+    color: white;
+    transform: scale(1.2);
+}
+
+.roller-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.roller-toggle {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    padding: 12px 20px;
+    background: linear-gradient(145deg, #8B4513, #A0522D);
+    color: white;
+    border: 2px solid #5D4037;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 9998;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.roller-toggle:hover {
+    background: linear-gradient(145deg, #A0522D, #8B4513);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.roller-toggle:active {
+    transform: translateY(0);
+}
+
+/* ===== MEDIA QUERIES - MOBILE ===== */
+
+@media (max-width: 768px) {
+    /* GŁÓWNE PRZYCISKI MENU - PIONOWO */
+    .image-button1, .image-button2, .image-button3, .image-button4 {
+        position: static !important;
+        width: 76.5vw;
+        max-width: 340px;
+        height: auto;
+        min-height: 170px;
+        aspect-ratio: 928 / 565;
+        font-size: 19px;
+        padding: 25px 17px;
+        margin: 13px 0;
+        transform: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left: auto !important;
+        top: auto !important;
+        box-sizing: border-box;
+    }
+
+    .image-button1:hover,
+    .image-button2:hover,
+    .image-button3:hover,
+    .image-button4:hover {
+        transform: scale(1.03) !important;
+    }
+    /* KONTENER ROLLERA */
+    .overlay-container {
+        padding: 10px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .overlay-bg {
+        width: 98%;
+        height: auto;
+        padding: 5px 15px 8px 15px;
+        margin: 15px auto;
+    }
+
+    .flex-container {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 5px;
+    }
+
+    .column {
+        gap: 2px;
+        width: 50%;
+        align-items: center;
+    }
+
+    /* ELEMENTY ROLLERA - RESPONSIVE */
+    .buttonrol {
+        width: 70px;
+        height: 70px;
+        margin: 2px 3px;
+    }
+
+    #b7 {
+        width: 85px;
+        height: 85px;
+    }
+
+    .display-box {
+        width: 75px;
+        height: 75px;
+        margin: 2px 3px;
+    }
+
+    .display-box2 {
+        width: 75px;
+        height: 75px;
+        margin: 2px 3px;
+    }
+
+    .display-content {
+        font-size: 26px;
+    }
+
+    /* HEADER ROLLERA */
+    .header-row {
+        flex-direction: row !important;
+        gap: 25px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .header-left {
+        flex: 0 0 auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+    }
+
+    .header-right {
+        flex: 0 0 auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+    }
+
+    .header-text {
+        font-size: 30px !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    .header-text2 {
+        font-size: 13px !important;
+        margin-top: 0 !important;
+        margin-bottom: 4px !important;
+        margin-right: 0 !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+    }
+
+    .number-control-section {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    /* KONTROLKI LICZB */
+    .number-controls {
+        gap: 10px;
+        height: 50px;
+    }
+
+    .arrow-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .number-display {
+        font-size: 34px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .number-label {
+        font-size: 13px;
+    }
+
+    /* DOLNA SEKCJA ROLLERA */
+    .bottom-row {
+        justify-content: center;
+        padding: 0 10px;
+        margin-top: 5px;
+    }
+
+    .custom-dice-row {
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 5px;
+        align-items: center;
+    }
+
+    .bottom-left, .bottom-center, .bottom-right {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .form-window {
+        flex-direction: column;
+        padding: 5px 8px;
+        gap: 5px;
+        width: auto;
+        box-sizing: border-box;
+    }
+
+    .custom-input {
+        width: 65px;
+        height: 65px;
+        font-size: 18px;
+        padding: 4px;
+        box-sizing: border-box;
+        line-height: normal;
+    }
+
+    .result-window {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .action-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    /* MENU UŻYTKOWNIKA */
+    .user-menu {
+        top: 10px;
+        right: 10px;
+        left: auto;
+        padding: 8px 12px;
+        font-size: 14px;
+        max-width: calc(100% - 20px);
+    }
+
+    .user-menu a {
+        margin: 0 5px;
+        font-size: 13px;
+    }
+
+    .username {
+        margin-right: 8px;
+        font-size: 13px;
+    }
+
+    /* KOMUNIKATY FLASH */
+    .flash-messages {
+        top: 60px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .flash-message {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    /* ROLLER SIDEBAR - MOBILE */
+    .roller-sidebar {
+        left: -100%;
+        width: 85vw;
+        max-width: 350px;
+    }
+
+    .roller-sidebar.active {
+        left: 0;
+    }
+
+    .sidebar-close {
+        top: 10px;
+        right: 10px;
+        font-size: 32px;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .roller-toggle {
+        left: 10px;
+        bottom: 10px;
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+
+/* @media dla globalnych elementów (body, floating-image, itp.) */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .container {
+        position: static !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 80px 15px 30px;
+        min-height: 100vh;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* TŁO - MOBILE */
+    .floating-image {
+        width: 150vw;
+        height: 150vh;
+        position: fixed;
+        z-index: -2;
+    }
+
+    .overlay2 {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+    }
+
+    /* MAIN - nie może być nadpisane */
+    .main {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+}
+
+/* BARDZO MAŁE TELEFONY - @media queries */
+@media (max-width: 480px) {
+    /* GŁÓWNE PRZYCISKI MENU */
+    .image-button1, .image-button2, .image-button3, .image-button4 {
+        width: 78vw;
+        max-width: 289px;
+        height: auto;
+        min-height: 153px;
+        aspect-ratio: 928 / 565;
+        font-size: 15px;
+        padding: 21px 13px;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+
+    /* KONTENER */
+    .container {
+        padding: 70px 10px 20px;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    /* ROLLER */
+    .overlay-bg {
+        width: 96%;
+        height: auto;
+        padding: 4px 12px 6px 12px;
+        margin: 12px auto;
+    }
+
+    .flex-container {
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .column {
+        gap: 6px;
+        width: 50%;
+    }
+
+    .buttonrol {
+        width: 60px;
+        height: 60px;
+        margin: 6px 2px;
+    }
+
+    #b7 {
+        width: 75px;
+        height: 75px;
+    }
+
+    .display-box {
+        width: 65px;
+        height: 65px;
+        margin: 6px 2px;
+    }
+
+    .display-box2 {
+        width: 65px;
+        height: 65px;
+        margin: 6px 2px;
+    }
+
+    .display-content {
+        font-size: 20px;
+    }
+
+    .header-row {
+        flex-direction: row !important;
+        gap: 20px !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .header-left {
+        flex: 0 0 auto !important;
+        justify-content: flex-start !important;
+    }
+
+    .header-right {
+        flex: 0 0 auto !important;
+        justify-content: flex-end !important;
+    }
+
+    .header-text {
+        font-size: 22px !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    .header-text2 {
+        font-size: 11px !important;
+        margin-top: 0 !important;
+        margin-bottom: 3px !important;
+        margin-right: 0 !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+    }
+
+    .number-control-section {
+        flex-direction: column !important;
+        gap: 3px !important;
+    }
+
+    .number-controls {
+        gap: 8px;
+        height: 45px;
+    }
+
+    .arrow-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .number-display {
+        font-size: 28px;
+        height: 45px;
+        line-height: 45px;
+    }
+
+    .roller-sidebar {
+        width: 92vw;
+    }
+
+    .custom-dice-row {
+        gap: 8px;
+        margin-bottom: 35px;
+    }
+
+    .custom-input {
+        width: 55px;
+        height: 55px;
+        font-size: 14px;
+        padding: 4px;
+        box-sizing: border-box;
+        line-height: normal;
+    }
+}

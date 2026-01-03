@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Biegłości i Zdolności - {{ character.imie }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="overlay2"></div>
+
+<div class="card-form-container-dnd5e">
+    <h1 class="header-text-dnd5e">Biegłości i Zdolności: {{ character.imie }}</h1>
+
+    <form method="POST" class="character-form-dnd5e">
+
+        <!-- SEKCJA: BIEGŁOŚCI -->
+        <div class="dnd5e-section">
+            <div class="section-title-dnd5e">🎯 Biegłości (20)</div>
+            <div class="skills-section">
+                {% for i in range(20) %}
+                <div class="skill-row">
+                    <input type="text" name="bieglosc_nazwa_{{ i }}" placeholder="Nazwa biegłości" class="skill-input-name" value="{{ bieglosci['bieglosc_' ~ (i+1) ~ '_nazwa'] if bieglosci else '' }}">
+                    <input type="text" name="bieglosc_opis_{{ i }}" placeholder="Opis" class="skill-input-desc" value="{{ bieglosci['bieglosc_' ~ (i+1) ~ '_opis'] if bieglosci else '' }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- SEKCJA: JĘZYKI -->
+        <div class="dnd5e-section">
+            <div class="section-title-dnd5e">📚 Języki (8)</div>
+            <div class="skills-section">
+                {% for i in range(8) %}
+                <div class="skill-row">
+                    <input type="text" name="jezyk_nazwa_{{ i }}" placeholder="Nazwa języka" class="skill-input-name" value="{{ bieglosci['jezyk_' ~ (i+1) ~ '_nazwa'] if bieglosci else '' }}">
+                    <input type="text" name="jezyk_opis_{{ i }}" placeholder="Opis" class="skill-input-desc" value="{{ bieglosci['jezyk_' ~ (i+1) ~ '_opis'] if bieglosci else '' }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- SEKCJA: ZDOLNOŚCI -->
+        <div class="dnd5e-section">
+            <div class="section-title-dnd5e">⚔️ Zdolności (26)</div>
+            <div class="skills-section">
+                {% for i in range(26) %}
+                <div class="skill-row">
+                    <input type="text" name="zdolnosc_nazwa_{{ i }}" placeholder="Nazwa zdolności" class="skill-input-name" value="{{ bieglosci['zdolnosc_' ~ (i+1) ~ '_nazwa'] if bieglosci else '' }}">
+                    <input type="text" name="zdolnosc_opis_{{ i }}" placeholder="Opis" class="skill-input-desc" value="{{ bieglosci['zdolnosc_' ~ (i+1) ~ '_opis'] if bieglosci else '' }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- SEKCJA: KORZYŚCI -->
+        <div class="dnd5e-section">
+            <div class="section-title-dnd5e">✨ Korzyści (10)</div>
+            <div class="skills-section">
+                {% for i in range(10) %}
+                <div class="skill-row">
+                    <input type="text" name="korzysci_nazwa_{{ i }}" placeholder="Nazwa korzyści" class="skill-input-name" value="{{ bieglosci['korzysci_' ~ (i+1) ~ '_nazwa'] if bieglosci else '' }}">
+                    <input type="text" name="korzysci_opis_{{ i }}" placeholder="Opis" class="skill-input-desc" value="{{ bieglosci['korzysci_' ~ (i+1) ~ '_opis'] if bieglosci else '' }}">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- PRZYCISKI -->
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-save">Zapisz biegłości</button>
+            <button type="button" class="btn btn-magic" onclick="window.location.href='{{ url_for('magia_dnd5e', character_id=character.id) }}'">
+                ✨ Magia
+            </button>
+            <button type="button" class="btn btn-equipment" onclick="window.location.href='{{ url_for('ekwipunek_dnd5e', character_id=character.id) }}'">
+                🎒 Ekwipunek
+            </button>
+            <a href="{{ url_for('edytuj_karte_dnd5e', character_id=character.id) }}" class="btn btn-cancel">Wróć</a>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

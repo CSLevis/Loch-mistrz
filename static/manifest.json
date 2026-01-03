@@ -1,0 +1,26 @@
+{
+    "name": "RPG Lochmistrz",
+    "short_name": "Lochmistrz",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#2c3e50",
+    "theme_color": "#2c3e50",
+    "description": "Twoje centrum zarządzania RPG - Warhammer, D&D 5e, Cthulhu i Trader Manager.",
+    "icons": [
+        {
+            "src": "/static/favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/static/d20a.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/static/d20a.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}

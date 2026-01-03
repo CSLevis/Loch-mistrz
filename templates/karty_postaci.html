@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Karty Postaci{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img"></div>
+<div class="overlay2"></div>
+
+<div class="cards-container">
+    <div class="cards-header">
+        <h1 class="header-text">Karty Postaci</h1>
+        <a href="{{ url_for('wybierz_system') }}" class="btn-new-card">+ Nowa Karta</a>
+    </div>
+
+    <!-- Sekcja Warhammer -->
+    <h2 class="system-title">Warhammer Fantasy</h2>
+    {% if warhammer_cards %}
+        <div class="cards-grid">
+            {% for character in warhammer_cards %}
+            <div class="character-card">
+                <div class="card-header">
+                    <h3>{{ character.imie or 'Bez imienia' }}</h3>
+                    <span class="card-profession">{{ character.profesja or 'Brak profesji' }}</span>
+                </div>
+
+                <div class="card-info">
+                    <p><strong>Gracz:</strong> {{ character.gracz or '-' }}</p>
+                    <p><strong>Wiek:</strong> {{ character.wiek or '-' }} | <strong>Płeć:</strong> {{ character.plec or '-' }}</p>
+                </div>
+
+                <div class="card-stats">
+                    <span>S: {{ character.s }}</span>
+                    <span>ZR: {{ character.zr }}</span>
+                    <span>Kon: {{ character.kon }}</span>
+                    <span>Int: {{ character.intel }}</span>
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}" class="btn btn-create">Edytuj</a>
+                    <form method="POST" action="{{ url_for('usun_karte_warhammer', character_id=character.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-create" onclick="return confirm('Czy na pewno usunąć tę kartę?')">Usuń</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-cards-info">Brak kart Warhammer</p>
+    {% endif %}
+
+    <!-- Sekcja D&D 5e -->
+    <h2 class="system-title">D&D 5e</h2>
+    {% if dnd5e_cards %}
+        <div class="cards-grid">
+            {% for character in dnd5e_cards %}
+            <div class="character-card">
+                <div class="card-header">
+                    <h3>{{ character.imie or 'Bez imienia' }}</h3>
+                    <span class="card-profession">{{ character.klasa or 'Brak klasy' }}</span>
+                </div>
+                <div class="card-info">
+                    <p><strong>Gracz:</strong> {{ character.gracz or '-' }}</p>
+                    <p><strong>Poziom:</strong> {{ character.poziom or '-' }} | <strong>Rasa:</strong> {{ character.rasa or '-' }}</p>
+                </div>
+                <div class="card-stats">
+                    <span>Siła: {{ character.sila }}</span>
+                    <span>Zręczność: {{ character.zrecznosc }}</span>
+                    <span>KP: {{ character.klasa_pancerza }}</span>
+                </div>
+                <div class="card-actions">
+                    <a href="{{ url_for('edytuj_karte_dnd5e', character_id=character.id) }}" class="btn btn-create">Edytuj</a>
+                    <form method="POST" action="{{ url_for('usun_karte_dnd5e', character_id=character.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-create" onclick="return confirm('Czy na pewno usunąć tę kartę?')">Usuń</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-cards-info">Brak kart D&D 5e</p>
+    {% endif %}
+
+    <!-- Sekcja Call of Cthulhu -->
+    <h2 class="system-title">Call of Cthulhu</h2>
+    {% if cthulhu_cards %}
+        <div class="cards-grid">
+            {% for character in cthulhu_cards %}
+            <div class="character-card">
+                <div class="card-header">
+                    <h3>{{ character.imie or 'Bez imienia' }}</h3>
+                    <span class="card-profession">{{ character.zawod or 'Brak zawodu' }}</span>
+                </div>
+
+                <div class="card-info">
+                    <p><strong>Gracz:</strong> {{ character.gracz or '-' }}</p>
+                    <p><strong>Wiek:</strong> {{ character.wiek or '-' }}</p>
+                </div>
+
+                <div class="card-stats">
+                    <span>Siła: {{ character.sila }}</span>
+                    <span>Int: {{ character.inteligencja }}</span>
+                    <span>Poczytalność: {{ character.poczytalnosc }}</span>
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ url_for('edytuj_karte_cthulhu', character_id=character.id) }}" class="btn btn-create">Edytuj</a>
+                    <form method="POST" action="{{ url_for('usun_karte_cthulhu', character_id=character.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-create" onclick="return confirm('Czy na pewno usunąć tę kartę?')">Usuń</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-cards-info">Brak kart Cthulhu</p>
+    {% endif %}
+
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

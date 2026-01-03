@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block title %}Nowa Karta Warhammer{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="overlay2"></div>
+
+<div class="card-form-container-warhammer">
+    <h1 class="header-text-warhammer">Nowa Karta Warhammer</h1>
+
+    <form method="POST" class="character-form-warhammer">
+
+        <!-- SEKCJA BOHATER -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Bohater</h2>
+            <div class="warhammer-field">
+                <label>Imię:</label>
+                <input type="text" name="imie" placeholder="Imię postaci">
+            </div>
+            <div class="warhammer-field">
+                <label>Rasa:</label>
+                <input type="text" name="rasa" placeholder="np. Człowiek, Elf, Krasnolud">
+            </div>
+            <div class="warhammer-field">
+                <label>Obecna profesja:</label>
+                <input type="text" name="profesja" placeholder="Obecna profesja">
+            </div>
+            <div class="warhammer-field">
+                <label>Poprzednie profesje:</label>
+                <input type="text" name="poprzednie_profesje" placeholder="Poprzednie profesje">
+            </div>
+        </div>
+
+        <!-- SEKCJA OPIS BOHATERA -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Opis Bohatera</h2>
+            <div class="warhammer-row">
+                <div class="warhammer-field">
+                    <label>Wiek:</label>
+                    <input type="text" name="wiek" placeholder="np. 25 lat">
+                </div>
+                <div class="warhammer-field">
+                    <label>Płeć:</label>
+                    <input type="text" name="plec" placeholder="M/K">
+                </div>
+            </div>
+            <div class="warhammer-row">
+                <div class="warhammer-field">
+                    <label>Oczy:</label>
+                    <input type="text" name="oczy" placeholder="Kolor oczu">
+                </div>
+                <div class="warhammer-field">
+                    <label>Waga:</label>
+                    <input type="text" name="waga" placeholder="np. 75 kg">
+                </div>
+            </div>
+            <div class="warhammer-row">
+                <div class="warhammer-field">
+                    <label>Włosy:</label>
+                    <input type="text" name="wlosy" placeholder="Kolor włosów">
+                </div>
+                <div class="warhammer-field">
+                    <label>Wzrost:</label>
+                    <input type="text" name="wzrost" placeholder="np. 180 cm">
+                </div>
+            </div>
+            <div class="warhammer-field">
+                <label>Znak gwiezdny:</label>
+                <input type="text" name="znak_gwiezdny" placeholder="Znak zodiaku">
+            </div>
+            <div class="warhammer-field">
+                <label>Rodzeństwo:</label>
+                <input type="text" name="rodzienstwo" placeholder="Informacje o rodzeństwie">
+            </div>
+            <div class="warhammer-field">
+                <label>Miejsce urodzenia:</label>
+                <input type="text" name="miejsce" placeholder="Miejsce urodzenia">
+            </div>
+            <div class="warhammer-field">
+                <label>Znaki szczególne:</label>
+                <input type="text" name="znaki_szczegolne" placeholder="Cechy szczególne">
+            </div>
+        </div>
+
+        <!-- SEKCJA CECHY -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Cechy</h2>
+            <table class="warhammer-stats-table">
+                <tr>
+                    <td class="stat-label">WW</td>
+                    <td><input type="number" name="ww" value="0" min="0"></td>
+                    <td class="stat-label">US</td>
+                    <td><input type="number" name="us" value="0" min="0"></td>
+                    <td class="stat-label">K</td>
+                    <td><input type="number" name="k" value="0" min="0"></td>
+                    <td class="stat-label">Odp</td>
+                    <td><input type="number" name="odp" value="0" min="0"></td>
+                    <td class="stat-label">Zr</td>
+                    <td><input type="number" name="zr" value="0" min="0"></td>
+                    <td class="stat-label">Int</td>
+                    <td><input type="number" name="int" value="0" min="0"></td>
+                    <td class="stat-label">SW</td>
+                    <td><input type="number" name="sw" value="0" min="0"></td>
+                    <td class="stat-label">Ogd</td>
+                    <td><input type="number" name="ogd" value="0" min="0"></td>
+                </tr>
+            </table>
+            <table class="warhammer-stats-table">
+                <tr>
+                    <td class="stat-label">A</td>
+                    <td><input type="number" name="a" value="0" min="0"></td>
+                    <td class="stat-label">Żyw</td>
+                    <td><input type="number" name="zyw" value="0" min="0"></td>
+                    <td class="stat-label">S</td>
+                    <td><input type="number" name="s" value="0" min="0"></td>
+                    <td class="stat-label">Wt</td>
+                    <td><input type="number" name="wt" value="0" min="0"></td>
+                    <td class="stat-label">Sz</td>
+                    <td><input type="number" name="sz" value="0" min="0"></td>
+                    <td class="stat-label">Mag</td>
+                    <td><input type="number" name="mag" value="0" min="0"></td>
+                    <td class="stat-label">PO</td>
+                    <td><input type="number" name="po" value="0" min="0"></td>
+                    <td class="stat-label">PP</td>
+                    <td><input type="number" name="pp" value="0" min="0"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SEKCJA PUNKTY DOŚWIADCZENIA -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Punkty Doświadczenia</h2>
+            <div class="warhammer-row">
+                <div class="warhammer-field">
+                    <label>Wolne:</label>
+                    <input type="number" name="doswiadczenie_wolne" value="0" min="0">
+                </div>
+                <div class="warhammer-field">
+                    <label>Wydane:</label>
+                    <input type="number" name="doswiadczenie_wydane" value="0" min="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKCJA RUCH -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Ruch</h2>
+            <div class="warhammer-row three-cols">
+                <div class="warhammer-field">
+                    <label>Ruch:</label>
+                    <input type="number" name="ruch" value="0" min="0">
+                </div>
+                <div class="warhammer-field">
+                    <label>Szarża:</label>
+                    <input type="number" name="szarza" value="0" min="0">
+                </div>
+                <div class="warhammer-field">
+                    <label>Bieg:</label>
+                    <input type="number" name="bieg" value="0" min="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- PRZYCISKI -->
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-save">Zapisz</button>
+            <button type="button" class="btn btn-weapon" disabled>Broń</button>
+            <button type="button" class="btn btn-skills" disabled>Umiejętności</button>
+            <button type="button" class="btn btn-weapon" disabled>Ekwipunek</button>
+            <a href="{{ url_for('wybierz_system') }}" class="btn btn-cancel">Anuluj</a>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

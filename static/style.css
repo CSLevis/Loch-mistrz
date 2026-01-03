@@ -1,0 +1,256 @@
+.main {
+    box-shadow: 0 0 20px grey;
+    width: 960px;
+    margin: auto;
+    position: relative;  /* DODAJ - bez tego z-index nie działa */
+    z-index: 1;
+    background: white;   /* DODAJ - żeby treść była czytelna */
+}
+
+body {
+    font-family: sans-serif;
+    background: url("tło.gif") repeat;
+    padding: 40px 0;
+    /* usuń z-index z body - nie jest potrzebne */
+}
+
+h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+        color: green;
+
+    }
+
+.floating-image {
+    position: fixed;
+    z-index: -2;
+    width: 130vw;
+    height: 130vh;
+    background: url("back.jpg") center/cover;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(119, 109, 30, 0.9);
+    z-index: -1;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+}
+
+.overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(101, 67, 33, 0.4);
+    backdrop-filter: blur(5px);
+    z-index: 0;
+    pointer-events: none;
+
+}
+
+/* Wspólne style */
+.image-button1, .image-button2, .image-button3, .image-button4 {
+    position: fixed;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    width: 470px;
+    height: 280px;
+    color: white;
+    font-weight: bold;
+    padding 10px;
+    opacity: 0.95;
+
+
+    color: white;              /* kolor tekstu */
+    font-size: 35px;           /* rozmiar czcionki */
+    font-weight: bold;         /* pogrubienie */
+    font-family: Arial, sans-serif;  /* czcionka */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);  /* cień tekstu */
+    text-align: center;
+}
+/* Indywidualne pozycje i grafiki */
+.image-button1 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-100%, -100%);
+    background: url("button1.png") center/cover;
+}
+
+.image-button1:hover {
+    opacity: 1;
+    color: #919ca2;
+    transform: translate(-100%, -100%) scale(1.05);
+}
+
+.image-button2 {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-100%, 0%);
+    background: url("button1.png") center/cover;
+}
+
+.image-button2:hover {
+    transform: translate(-100%, 0%) scale(1.05);
+    opacity: 1;
+    color: #919ca2;
+}
+
+.image-button3 {
+    top: 50%;
+    left: 50%;
+    transform: translate(0%, -100%);
+    background: url("button1.png") center/cover;
+}
+
+.image-button3:hover {
+    transform: translate(0%, -100%) scale(1.05);
+    opacity: 1;
+    color: #919ca2;
+}
+
+.image-button4 {
+    top: 50%;
+    left: 50%;
+    transform: translate(0%, 0%);
+    background: url("button1.png") center/cover;
+}
+
+.image-button4:hover {
+    transform: translate(0%, 0%) scale(1.05);
+    opacity: 1;
+    color: #919ca2;
+}
+
+
+.overlay-container {
+    position: relative;   /* konieczne dla overlay-bg */
+    display: flex;        /* używamy flex do centrowania */
+    justify-content: center; /* poziome centrowanie wszystkich kolumn */
+    align-items: center;     /* ZMIENIONE: pionowe centrowanie kolumn */
+    padding: 10px;
+    margin: 0 auto;       /* dodatkowe centrowanie kontenera w body */
+    width: max-content;   /* dopasowanie szerokości do zawartości */
+    height: 100vh;        /* DODANE: pełna wysokość ekranu dla lepszego centrowania */
+}
+
+.overlay-bg {
+    position: absolute;
+    top: 50%;             /* DODANE: centrowanie tła */
+    left: 50%;            /* DODANE: centrowanie tła */
+    transform: translate(-50%, -50%); /* DODANE: centrowanie tła */
+    width: 100%;
+    height: auto;         /* ZMIENIONE: wysokość dopasowana do zawartości */
+    min-height: 80%;      /* DODANE: minimalna wysokość tła */
+    background-color: rgba(139, 69, 19, 0.9);
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.flex-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;  /* nad tłem */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* Przyciski */
+.buttonrol {
+    position: relative;
+    display: flex;
+    width: 120px;
+    height: 120px;
+    border: none;
+    cursor: pointer;
+    margin: 20px;
+    background: none;
+    z-index: 10;
+}
+.buttonrol img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Ramki */
+.display-box {
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+.display-content {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;       /* kontener wypełnia cały ekran */
+        padding: 0 10px;   /* opcjonalny odstęp od krawędzi */
+        box-sizing: border-box;
+    }
+
+    .column {
+        flex: 1 1 45%;     /* każda kolumna ok. 45% szerokości */
+        max-width: 45%;    /* ograniczenie szerokości */
+        box-sizing: border-box;
+        gap: 1px;
+    }
+
+    .buttonrol, .display-box {
+        width: 50%;       /* zajmują całą szerokość kolumny */
+        height: auto;      /* wysokość dopasowana do szerokości */
+        aspect-ratio: 1;   /* wymusza proporcje kwadratu (jeśli grafika jest kwadratowa) */
+    }
+
+    .buttonrol img {
+        width: 50%;
+        height: 50%;
+        object-fit: contain; /* grafika dopasowuje się do przycisku */
+    }
+
+    .display-box {
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .image-button1, .image-button2, .image-button3, .image-button4 {
+        width: 200px;
+        height: 120px;
+        font-size: 25px;
+    }
+
+    .floating-image {
+        width: 150vw;   /* zwiększ na telefonie - mniejszy ekran potrzebuje więcej marginesu */
+        height: 150vh;
+    }
+}

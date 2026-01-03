@@ -1,0 +1,446 @@
+/* ===== TRADER MANAGER CSS ===== */
+
+.card-form-container-trader {
+    max-width: 1600px;
+    margin: 50px auto;
+    padding: 40px;
+    background: rgba(150, 88, 97, 0.95);
+    border-radius: 10px;
+    position: relative;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.header-text-trader {
+    font-family: fangsong;
+    color: #FFD700;
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow:
+        -1px -1px 0 #1a3a5a,
+        1px -1px 0 #1a3a5a,
+        -1px 1px 0 #1a3a5a,
+        1px 1px 0 #1a3a5a;
+}
+
+.trader-form {
+    background: rgba(192, 162, 185, 0.95);
+    padding: 30px;
+    border-radius: 8px;
+    border: 2px solid rgba(100, 50, 60, 0.8);
+}
+
+.trader-container {
+    background: linear-gradient(135deg, rgba(30, 20, 15, 0.95), rgba(50, 30, 25, 0.95));
+    border: 2px solid rgba(150, 88, 97, 0.95);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.trader-header {
+    background: linear-gradient(145deg, rgba(150, 88, 97, 0.95), rgba(180, 110, 120, 0.95));
+    padding: 20px;
+    border-radius: 6px;
+    border: 2px solid rgba(100, 50, 60, 0.8);
+    margin-bottom: 20px;
+}
+
+.trader-header h2 {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 0 0 15px 0;
+}
+
+.trader-name-input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid rgba(100, 50, 60, 0.8);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    box-sizing: border-box;
+}
+
+.trader-name-input:focus {
+    outline: none;
+    border-color: #FFD700;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.trader-section {
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(150, 88, 97, 0.5);
+}
+
+.section-title {
+    background: linear-gradient(145deg, rgba(150, 88, 97, 0.95), rgba(180, 110, 120, 0.95));
+    color: white;
+    padding: 15px 20px;
+    border-radius: 6px;
+    border: 2px solid rgba(100, 50, 60, 0.8);
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
+}
+
+.trader-section-title {
+    background: linear-gradient(145deg, rgba(150, 88, 97, 0.95), rgba(180, 110, 120, 0.95));
+    color: white;
+    padding: 15px 20px;
+    border-radius: 6px;
+    border: 2px solid rgba(100, 50, 60, 0.8);
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
+}
+
+.trader-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.trader-table thead {
+    background: linear-gradient(145deg, rgba(100, 50, 60, 0.9), rgba(120, 60, 70, 0.9));
+}
+
+.trader-table th {
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.trader-table th:last-child {
+    border-right: none;
+}
+
+.trader-table td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(150, 88, 97, 0.3);
+}
+
+.trader-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.trader-input,
+.trader-number {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid rgba(100, 50, 60, 0.6);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.trader-input:focus,
+.trader-number:focus {
+    outline: none;
+    border-color: #FFD700;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+}
+
+.trader-number[readonly] {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.5);
+    font-weight: bold;
+    cursor: not-allowed;
+}
+
+.trader-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trader-item-row {
+    display: grid;
+    grid-template-columns: 1.5fr 0.7fr 0.7fr 0.8fr 0.8fr 0.8fr 0.8fr;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(150, 88, 97, 0.5);
+    border-radius: 5px;
+    align-items: center;
+}
+
+.trader-item-input {
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(150, 88, 97, 0.7);
+    border-radius: 3px;
+    font-size: 12px;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+.trader-item-input:focus {
+    outline: none;
+    border-color: rgba(150, 88, 97, 0.95);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 5px rgba(150, 88, 97, 0.4);
+}
+
+.trader-item-result {
+    padding: 8px 10px;
+    background: rgba(255, 215, 0, 0.15);
+    border: 1px solid rgba(255, 215, 0, 0.5);
+    border-radius: 3px;
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+}
+
+.trader-item-result.disabled {
+    background: rgba(200, 200, 200, 0.15);
+    border-color: rgba(200, 200, 200, 0.5);
+    color: #666;
+}
+
+.trader-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 3px;
+    text-align: center;
+}
+
+.trader-column-header {
+    display: grid;
+    grid-template-columns: 1.5fr 0.7fr 0.7fr 0.8fr 0.8fr 0.8fr 0.8fr;
+    gap: 8px;
+    padding: 10px;
+    background: linear-gradient(145deg, rgba(150, 88, 97, 0.95), rgba(180, 110, 120, 0.95));
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.trader-column-header-item {
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== PRZYCISKI TRADER ===== */
+
+.trader-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(150, 88, 97, 0.6);
+    flex-wrap: wrap;
+}
+
+.btn-trader-save {
+    background: linear-gradient(145deg, #228B22, #32CD32);
+    border: 2px solid #1a6b1a;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+}
+
+.btn-trader-save:hover {
+    background: linear-gradient(145deg, #32CD32, #228B22);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-trader-back {
+    background: linear-gradient(145deg, #DC143C, #FF6347);
+    border: 2px solid #8B0000;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+}
+
+.btn-trader-back:hover {
+    background: linear-gradient(145deg, #FF6347, #DC143C);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-trader-delete {
+    background: linear-gradient(145deg, #8B0000, #DC143C);
+    border: 2px solid #4B0000;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+}
+
+.btn-trader-delete:hover {
+    background: linear-gradient(145deg, #DC143C, #8B0000);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-new-trader {
+    background: linear-gradient(145deg, #8B4513, #A0522D);
+    border: 2px solid #5D4037;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.btn-new-trader:hover {
+    background: linear-gradient(145deg, #A0522D, #8B4513);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #FFD700;
+}
+
+/* ===== RESPONSYWNOŚĆ ===== */
+
+@media (max-width: 1200px) {
+
+    .trader-item-row,
+    .trader-column-header {
+        grid-template-columns: 1fr 0.6fr 0.6fr 0.7fr 0.7fr 0.7fr 0.7fr;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .trader-item-row,
+    .trader-column-header {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .trader-item-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Responsive Trader Table */
+    .trader-table,
+    .trader-table tbody,
+    .trader-table tr,
+    .trader-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .trader-table thead {
+        display: none;
+    }
+
+    .trader-table tr {
+        margin-bottom: 25px;
+        border: 2px solid rgba(100, 50, 60, 0.8);
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.2);
+        /* Slightly darker background for cards */
+        padding: 15px;
+    }
+
+    .trader-table td {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 5px;
+        border-bottom: 1px solid rgba(150, 88, 97, 0.3);
+        min-height: auto;
+    }
+
+    .trader-table td:last-child {
+        border-bottom: none;
+    }
+
+    .trader-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #FFD700;
+        margin-bottom: 8px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .trader-input,
+    .trader-number {
+        width: 100%;
+    }
+
+    .sold-nazwa-display,
+    .sold-ilosc-display,
+    .sold-wartosc-display {
+        color: white;
+        font-weight: bold;
+        width: 100%;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        border: 1px solid rgba(150, 88, 97, 0.5);
+        box-sizing: border-box;
+    }
+
+    .trader-section h2 {
+        font-size: 24px;
+        /* Slightly smaller title on mobile */
+    }
+}

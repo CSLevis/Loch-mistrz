@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Nowa Karta Trader Manager{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='tmanager.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');">
+</div>
+<div class="overlay2"></div>
+
+<div class="card-form-container-trader">
+    <h1 class="header-text-trader">💰 Nowa Karta Trader Manager</h1>
+
+    <form method="POST" id="traderForm" class="trader-form">
+        <!-- Nazwa postaci -->
+        <div style="margin-bottom: 30px;">
+            <label style="display: block; margin-bottom: 10px; font-size: 18px; color: #FFD700;">Nazwa Trader'a:</label>
+            <input type="text" name="nazwa_postaci" placeholder="Wpisz nazwę trader'a" required
+                style="width: 100%; padding: 10px; font-size: 16px; border: 2px solid #8B4513; border-radius: 5px;">
+        </div>
+
+        <!-- SEKCJA 1: ZAKUP TOWARÓW -->
+        <div class="trader-section">
+            <h2 class="section-title">📦 Sekcja Zakupu Towarów</h2>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">Wpisz towary, które kupiłeś wraz z ich
+                ilością, ceną zakupu i wartością rynkową.</p>
+
+            <table class="trader-table">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Nazwa Towaru</th>
+                        <th style="width: 15%;">Ilość Jednostek</th>
+                        <th style="width: 15%;">Cena Zakupu (za szt.)</th>
+                        <th style="width: 15%;">Wartość Rynkowa (za szt.)</th>
+                        <th style="width: 12.5%;">Suma Ceny</th>
+                        <th style="width: 12.5%;">Suma Wartości</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(30) %}
+                    <tr class="bought-row" data-index="{{ i }}">
+                        <td data-label="Nazwa Towaru"><input type="text" name="bought_nazwa_{{ i }}"
+                                class="trader-input bought-nazwa" placeholder="Nazwa towaru"></td>
+                        <td data-label="Ilość Jednostek"><input type="number" name="bought_ilosc_{{ i }}"
+                                class="trader-number bought-ilosc" value="0" min="0" step="1"></td>
+                        <td data-label="Cena Zakupu"><input type="number" name="bought_cena_{{ i }}"
+                                class="trader-number bought-cena" value="0" min="0" step="0.01"></td>
+                        <td data-label="Wartość Rynkowa"><input type="number" name="bought_wartosc_{{ i }}"
+                                class="trader-number bought-wartosc" value="0" min="0" step="0.01"></td>
+                        <td data-label="Suma Ceny"><input type="number" name="bought_suma_ceny_{{ i }}"
+                                class="trader-number bought-suma-ceny" value="0" readonly></td>
+                        <td data-label="Suma Wartości"><input type="number" name="bought_suma_wartosci_{{ i }}"
+                                class="trader-number bought-suma-wartosci" value="0" readonly></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SEKCJA 2: SPRZEDAŻ TOWARÓW -->
+        <div class="trader-section" style="margin-top: 40px;">
+            <h2 class="section-title">💵 Sekcja Sprzedaży Towarów</h2>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">Towary z sekcji zakupu pojawią się tutaj
+                automatycznie. Wpisz ilość sprzedaży i cenę sprzedaży.</p>
+
+            <table class="trader-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Nazwa Towaru</th>
+                        <th style="width: 12%;">Ilość Kupiona</th>
+                        <th style="width: 12%;">Ilość Sprzedana</th>
+                        <th style="width: 13%;">Cena Sprzedaży (za szt.)</th>
+                        <th style="width: 13%;">Przychód (ilość × cena)</th>
+                        <th style="width: 13%;">Zysk Netto</th>
+                        <th style="width: 12%;">Wartość Rynkowa</th>
+                    </tr>
+                </thead>
+                <tbody id="soldTableBody">
+                    {% for i in range(30) %}
+                    <tr class="sold-row" data-index="{{ i }}" style="display: none;">
+                        <td class="sold-nazwa-display" data-label="Nazwa Towaru"></td>
+                        <td class="sold-ilosc-display" data-label="Ilość Kupiona">0</td>
+                        <td data-label="Ilość Sprzedana"><input type="number" name="sold_ilosc_{{ i }}"
+                                class="trader-number sold-ilosc" value="0" min="0" step="1"></td>
+                        <td data-label="Cena Sprzedaży"><input type="number" name="sold_cena_{{ i }}"
+                                class="trader-number sold-cena" value="0" min="0" step="0.01"></td>
+                        <td data-label="Przychód"><input type="number" name="sold_suma_ceny_{{ i }}"
+                                class="trader-number sold-suma-ceny" value="0" readonly></td>
+                        <td data-label="Zysk Netto"><input type="number" name="sold_suma_wartosci_{{ i }}"
+                                class="trader-number sold-zysk" value="0" readonly></td>
+                        <td class="sold-wartosc-display" data-label="Wartość Rynkowa">0</td>
+                        <input type="hidden" name="sold_nazwa_{{ i }}" class="sold-nazwa-hidden">
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Przyciski -->
+        <div class="form-buttons" style="margin-top: 30px;">
+            <button type="submit" class="btn btn-save">💾 Zapisz Kartę</button>
+            <a href="{{ url_for('karty_traderow') }}" class="btn btn-cancel">← Anuluj</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Automatyczne przeliczanie dla sekcji zakupu
+    document.querySelectorAll('.bought-row').forEach((row, index) => {
+        const nazwaInput = row.querySelector('.bought-nazwa');
+        const iloscInput = row.querySelector('.bought-ilosc');
+        const cenaInput = row.querySelector('.bought-cena');
+        const wartoscInput = row.querySelector('.bought-wartosc');
+        const sumaCenyInput = row.querySelector('.bought-suma-ceny');
+        const sumaWartosciInput = row.querySelector('.bought-suma-wartosci');
+
+        const soldRow = document.querySelector(`.sold-row[data-index="${index}"]`);
+        const soldNazwaDisplay = soldRow.querySelector('.sold-nazwa-display');
+        const soldIloscDisplay = soldRow.querySelector('.sold-ilosc-display');
+        const soldWartoscDisplay = soldRow.querySelector('.sold-wartosc-display');
+        const soldNazwaHidden = soldRow.querySelector('.sold-nazwa-hidden');
+
+        function updateBoughtCalculations() {
+            const ilosc = parseFloat(iloscInput.value) || 0;
+            const cena = parseFloat(cenaInput.value) || 0;
+            const wartosc = parseFloat(wartoscInput.value) || 0;
+
+            sumaCenyInput.value = (ilosc * cena).toFixed(2);
+            sumaWartosciInput.value = (ilosc * wartosc).toFixed(2);
+
+            // Aktualizuj sekcję sprzedaży
+            if (nazwaInput.value.trim() !== '') {
+                soldRow.style.display = '';
+                soldNazwaDisplay.textContent = nazwaInput.value;
+                soldNazwaHidden.value = nazwaInput.value;
+                soldIloscDisplay.textContent = ilosc;
+                soldWartoscDisplay.textContent = (ilosc * wartosc).toFixed(2);
+            } else {
+                soldRow.style.display = 'none';
+            }
+
+            updateSoldCalculations(index);
+        }
+
+        nazwaInput.addEventListener('input', updateBoughtCalculations);
+        iloscInput.addEventListener('input', updateBoughtCalculations);
+        cenaInput.addEventListener('input', updateBoughtCalculations);
+        wartoscInput.addEventListener('input', updateBoughtCalculations);
+    });
+
+    // Automatyczne przeliczanie dla sekcji sprzedaży
+    function updateSoldCalculations(index) {
+        const soldRow = document.querySelector(`.sold-row[data-index="${index}"]`);
+        const boughtRow = document.querySelector(`.bought-row[data-index="${index}"]`);
+
+        const iloscSprzedana = parseFloat(soldRow.querySelector('.sold-ilosc').value) || 0;
+        const cenaSprzedazy = parseFloat(soldRow.querySelector('.sold-cena').value) || 0;
+        const iloscKupiona = parseFloat(boughtRow.querySelector('.bought-ilosc').value) || 0;
+        const cenaZakupu = parseFloat(boughtRow.querySelector('.bought-cena').value) || 0;
+        const wartoscRynkowa = parseFloat(boughtRow.querySelector('.bought-wartosc').value) || 0;
+
+        const przychod = iloscSprzedana * cenaSprzedazy;
+        const zyskNetto = przychod - (iloscSprzedana * cenaZakupu);
+
+        soldRow.querySelector('.sold-suma-ceny').value = przychod.toFixed(2);
+        soldRow.querySelector('.sold-zysk').value = zyskNetto.toFixed(2);
+    }
+
+    document.querySelectorAll('.sold-row').forEach((row, index) => {
+        const iloscInput = row.querySelector('.sold-ilosc');
+        const cenaInput = row.querySelector('.sold-cena');
+
+        iloscInput.addEventListener('input', () => updateSoldCalculations(index));
+        cenaInput.addEventListener('input', () => updateSoldCalculations(index));
+    });
+</script>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

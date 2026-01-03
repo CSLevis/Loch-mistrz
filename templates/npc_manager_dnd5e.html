@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block title %}NPC Manager - D&D 5e{% endblock %}
+
+{% block content %}
+<style>
+.main {
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    position: static !important;
+    z-index: auto !important;
+}
+body {
+    overflow-x: hidden;
+}
+.floating-image {
+    position: fixed !important;
+    z-index: -10 !important;
+    pointer-events: none !important;
+    filter: blur(10px) !important;
+}
+.overlay2 {
+    position: fixed !important;
+    z-index: -9 !important;
+    pointer-events: none !important;
+    background-color: rgba(35, 45, 40, 0.7) !important;
+}
+.npc-container,
+.npc-header,
+.npc-grid,
+.npc-card {
+    z-index: 1 !important;
+    position: relative !important;
+}
+/* Upewnij się że menu i sidebar są nad kartami */
+.user-menu {
+    z-index: 10000 !important;
+}
+.roller-sidebar {
+    z-index: 10001 !important;
+}
+.roller-toggle {
+    z-index: 10002 !important;
+}
+</style>
+<script>
+// Wyłącz animację tła na tej stronie
+document.addEventListener('DOMContentLoaded', function() {
+    const img = document.getElementById('img');
+    if (img) {
+        img.style.animation = 'none';
+    }
+});
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='npc_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="overlay2"></div>
+
+<div class="npc-container">
+    <div class="npc-header">
+        <h1>🐉 Bohaterowie Niezależni - D&D 5e</h1>
+        <div class="npc-actions">
+            <button onclick="createNewNPC()" class="btn btn-save">+ Dodaj Nowego NPC</button>
+            <a href="{{ url_for('npc_manager') }}" class="btn btn-cancel">← Powrót</a>
+        </div>
+    </div>
+
+    <div class="npc-grid" id="npcGrid">
+        {% for npc in npcs %}
+        <div class="npc-card dnd-card" data-npc-id="{{ npc.id }}">
+            <div class="npc-card-header">
+                <input type="text" class="npc-name" value="{{ npc.imie }}"
+                       onblur="updateNPC({{ npc.id }}, 'imie', this.value)" placeholder="Imię NPC">
+                <button class="delete-npc-btn" onclick="deleteNPC({{ npc.id }})" title="Usuń NPC">×</button>
+            </div>
+
+            <div class="npc-card-body">
+                <div style="margin: 0 0 15px 0; padding: 10px; background: rgba(0, 0, 0, 0.3); border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.2);">
+                    <label style="display: block; color: rgba(255, 215, 0, 0.9); font-size: 12px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;">Klasa:</label>
+                    <input type="text" value="{{ npc.profesja or '' }}" style="width: 100%; padding: 8px 12px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 6px; color: #fff; font-size: 16px; box-sizing: border-box;"
+                           onblur="updateNPC({{ npc.id }}, 'profesja', this.value)" placeholder="Klasa postaci">
+                </div>
+
+                <div class="npc-stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-item">
+                        <label>Siła</label>
+                        <input type="number" value="{{ npc.sila }}"
+                               onblur="updateNPC({{ npc.id }}, 'sila', this.value)">
+                    </div>
+                    <div class="stat-item">
+                        <label>Zręczność</label>
+                        <input type="number" value="{{ npc.zrecznosc }}"
+                               onblur="updateNPC({{ npc.id }}, 'zrecznosc', this.value)">
+                    </div>
+                    <div class="stat-item">
+                        <label>Kondycja</label>
+                        <input type="number" value="{{ npc.kondycja }}"
+                               onblur="updateNPC({{ npc.id }}, 'kondycja', this.value)">
+                    </div>
+                    <div class="stat-item">
+                        <label>Inteligencja</label>
+                        <input type="number" value="{{ npc.inteligencja }}"
+                               onblur="updateNPC({{ npc.id }}, 'inteligencja', this.value)">
+                    </div>
+                    <div class="stat-item">
+                        <label>Mądrość</label>
+                        <input type="number" value="{{ npc.madrosc }}"
+                               onblur="updateNPC({{ npc.id }}, 'madrosc', this.value)">
+                    </div>
+                    <div class="stat-item">
+                        <label>Charyzma</label>
+                        <input type="number" value="{{ npc.charyzma }}"
+                               onblur="updateNPC({{ npc.id }}, 'charyzma', this.value)">
+                    </div>
+                </div>
+
+                <div class="npc-points" style="grid-template-columns: repeat(5, 1fr);">
+                    <div class="point-item">
+                        <label>PŻ Max</label>
+                        <input type="number" value="{{ npc.punkty_zycia_max }}"
+                               onblur="updateNPC({{ npc.id }}, 'punkty_zycia_max', this.value)">
+                    </div>
+                    <div class="point-item">
+                        <label>KP</label>
+                        <input type="number" value="{{ npc.klasa_pancerza }}"
+                               onblur="updateNPC({{ npc.id }}, 'klasa_pancerza', this.value)">
+                    </div>
+                    <div class="point-item">
+                        <label>Inicjatywa</label>
+                        <input type="text" value="{{ npc.inicjatywa or '+0' }}"
+                               onblur="updateNPC({{ npc.id }}, 'inicjatywa', this.value)">
+                    </div>
+                    <div class="point-item">
+                        <label>Szybkość</label>
+                        <input type="number" value="{{ npc.szybkosc }}"
+                               onblur="updateNPC({{ npc.id }}, 'szybkosc', this.value)">
+                    </div>
+                    <div class="point-item">
+                        <label>Bonus Bieg.</label>
+                        <input type="text" value="{{ npc.bonus_bieglosci or '+2' }}"
+                               onblur="updateNPC({{ npc.id }}, 'bonus_bieglosci', this.value)">
+                    </div>
+                </div>
+
+                <div class="npc-skills-section">
+                    <h4>Kluczowe Umiejętności</h4>
+                    {% for i in range(1, 7) %}
+                    <div class="skill-row">
+                        <input type="text" placeholder="Nazwa" class="skill-name-input"
+                               value="{{ npc['skill_' ~ i ~ '_name'] or '' }}"
+                               onblur="updateNPC({{ npc.id }}, 'skill_{{ i }}_name', this.value)">
+                        <input type="text" placeholder="+0" class="skill-value-input"
+                               value="{{ npc['skill_' ~ i ~ '_value'] or '' }}"
+                               onblur="updateNPC({{ npc.id }}, 'skill_{{ i }}_value', this.value)">
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="npc-notes">
+                    <label>Notatki:</label>
+                    <textarea rows="4" placeholder="Notatki o postaci..."
+                              onblur="updateNPC({{ npc.id }}, 'notatki', this.value)">{{ npc.notatki or '' }}</textarea>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function createNewNPC() {
+    fetch("{{ url_for('npc_manager_dnd5e') }}", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=create&imie=Nowy NPC'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+function updateNPC(npcId, field, value) {
+    const formData = new FormData();
+    formData.append('action', 'update');
+    formData.append('npc_id', npcId);
+    formData.append(field, value);
+
+    fetch("{{ url_for('npc_manager_dnd5e') }}", {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert('Błąd podczas zapisywania!');
+        }
+    });
+}
+
+function deleteNPC(npcId) {
+    if (!confirm('Czy na pewno chcesz usunąć tego NPC?')) return;
+
+    const formData = new FormData();
+    formData.append('action', 'delete');
+    formData.append('npc_id', npcId);
+
+    fetch("{{ url_for('npc_manager_dnd5e') }}", {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+</script>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

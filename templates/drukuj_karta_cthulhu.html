@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drukuj Kartę - {{ character.imie }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+    <style>
+        /* Style specjalne dla drukowania */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .print-section {
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            .page-break {
+                page-break-after: always;
+            }
+        }
+
+        body {
+            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+
+        .print-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .print-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #2c5f2d;
+            padding-bottom: 15px;
+        }
+
+        .print-header h1 {
+            margin: 0;
+            color: #2c5f2d;
+            font-size: 32px;
+        }
+
+        .print-header h2 {
+            margin: 5px 0 0 0;
+            color: #555;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .print-section {
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .print-section h3 {
+            margin: 0 0 20px 0;
+            color: #2c5f2d;
+            font-size: 24px;
+            border-bottom: 2px solid #2c5f2d;
+            padding-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-item label {
+            font-weight: bold;
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .info-item span {
+            font-size: 16px;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .skill-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .skill-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #666;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .skill-checkbox.checked {
+            background: #2c5f2d;
+        }
+
+        .skill-name {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .skill-value {
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 4px 8px;
+            border-radius: 3px;
+            background: white;
+        }
+
+        .weapons-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .weapons-table th {
+            background: #2c5f2d;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #1f4420;
+        }
+
+        .weapons-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        .weapons-table tr:nth-child(even) td {
+            background: #f5f5f5;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 30px;
+            background: #2c5f2d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #3d7f3e;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Drukuj do PDF</button>
+
+    <div class="print-container">
+        <!-- Nagłówek -->
+        <div class="print-header">
+            <h1>{{ character.imie }}</h1>
+            <h2>Karta Postaci - Call of Cthulhu</h2>
+        </div>
+
+        <!-- Sekcja 1: Podstawowe Informacje -->
+        <div class="print-section">
+            <h3>📋 Podstawowe Informacje</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Imię</label>
+                    <span>{{ character.imie or '-' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Gracz</label>
+                    <span>{{ character.gracz or '-' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Zawód</label>
+                    <span>{{ character.zawod or '-' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Wiek</label>
+                    <span>{{ character.wiek or '-' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Miejsce Zamieszkania</label>
+                    <span>{{ character.miejsce_zamieszkania or '-' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Miejsce Urodzenia</label>
+                    <span>{{ character.miejsce_urodzenia or '-' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sekcja 2: Cechy -->
+        <div class="print-section">
+            <h3>💪 Cechy</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>SIŁA (STR)</label>
+                    <span>{{ character.sila or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>KONDYCJA (CON)</label>
+                    <span>{{ character.kondycja or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>MĄDROŚĆ (POW)</label>
+                    <span>{{ character.madrosc or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>ZRĘCZNOŚĆ (DEX)</label>
+                    <span>{{ character.zrecznosc or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>WYGLĄD (APP)</label>
+                    <span>{{ character.wyglad or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>INTELIGENCJA (INT)</label>
+                    <span>{{ character.inteligencja or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>ROZMIAR (SIZ)</label>
+                    <span>{{ character.rozmiar or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>WYKSZTAŁCENIE (EDU)</label>
+                    <span>{{ character.wyksztalcenie or '0' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sekcja 3: Punkty -->
+        <div class="print-section">
+            <h3>❤️ Punkty</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Punkty Życia</label>
+                    <span>{{ character.punkty_zycia or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Punkty Magii</label>
+                    <span>{{ character.punkty_magii or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Poczytalność (SAN)</label>
+                    <span>{{ character.poczytalnosc or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Szczęście (LUCK)</label>
+                    <span>{{ character.szczescie or '0' }}</span>
+                </div>
+                <div class="info-item">
+                    <label>Szybkość Ruchu</label>
+                    <span>{{ character.szybkosc_ruchu or '0' }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Sekcja 4: Umiejętności -->
+        {% if skills %}
+        <div class="print-section">
+            <h3>🎯 Umiejętności</h3>
+            <div class="skills-grid">
+                <!-- Umiejętności podstawowe -->
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.accounting_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Księgowość</div>
+                    <div class="skill-value">{{ skills.accounting or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.anthropology_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Antropologia</div>
+                    <div class="skill-value">{{ skills.anthropology or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.appraise_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Szacowanie</div>
+                    <div class="skill-value">{{ skills.appraise or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.archaeology_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Archeologia</div>
+                    <div class="skill-value">{{ skills.archaeology or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.charm_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Urok osobisty</div>
+                    <div class="skill-value">{{ skills.charm or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.climb_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Wspinaczka</div>
+                    <div class="skill-value">{{ skills.climb or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.credit_rating_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Poziom Zamożności</div>
+                    <div class="skill-value">{{ skills.credit_rating or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.cthulhu_mythos_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Mity Cthulhu</div>
+                    <div class="skill-value">{{ skills.cthulhu_mythos or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.disguise_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Charakteryzacja</div>
+                    <div class="skill-value">{{ skills.disguise or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.dodge_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Unik</div>
+                    <div class="skill-value">{{ skills.dodge or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.drive_auto_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Prowadzenie pojazdów</div>
+                    <div class="skill-value">{{ skills.drive_auto or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.elec_repair_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Naprawa elektryczna</div>
+                    <div class="skill-value">{{ skills.elec_repair or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.fast_talk_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Gadanina</div>
+                    <div class="skill-value">{{ skills.fast_talk or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.fighting_brawl_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Walka wręcz</div>
+                    <div class="skill-value">{{ skills.fighting_brawl or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.first_aid_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Pierwsza pomoc</div>
+                    <div class="skill-value">{{ skills.first_aid or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.history_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Historia</div>
+                    <div class="skill-value">{{ skills.history or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.intimidate_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Zastraszanie</div>
+                    <div class="skill-value">{{ skills.intimidate or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.jump_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Skakanie</div>
+                    <div class="skill-value">{{ skills.jump or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.law_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Prawo</div>
+                    <div class="skill-value">{{ skills.law or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.library_use_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Korzystanie z biblioteki</div>
+                    <div class="skill-value">{{ skills.library_use or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.listen_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Nasłuchiwanie</div>
+                    <div class="skill-value">{{ skills.listen or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.locksmith_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Ślusarstwo</div>
+                    <div class="skill-value">{{ skills.locksmith or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.mech_repair_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Naprawa mechaniczna</div>
+                    <div class="skill-value">{{ skills.mech_repair or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.medicine_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Medycyna</div>
+                    <div class="skill-value">{{ skills.medicine or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.natural_world_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Świat natury</div>
+                    <div class="skill-value">{{ skills.natural_world or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.navigate_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Nawigacja</div>
+                    <div class="skill-value">{{ skills.navigate or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.occult_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Okultyzm</div>
+                    <div class="skill-value">{{ skills.occult or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.persuade_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Perswazja</div>
+                    <div class="skill-value">{{ skills.persuade or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.psychology_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Psychologia</div>
+                    <div class="skill-value">{{ skills.psychology or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.ride_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Jeździectwo</div>
+                    <div class="skill-value">{{ skills.ride or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.sleight_of_hand_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Zwinne palce</div>
+                    <div class="skill-value">{{ skills.sleight_of_hand or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.spot_hidden_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Spostrzegawczość</div>
+                    <div class="skill-value">{{ skills.spot_hidden or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.stealth_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Skradanie</div>
+                    <div class="skill-value">{{ skills.stealth or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.survival_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Przetrwanie</div>
+                    <div class="skill-value">{{ skills.survival or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.swim_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Pływanie</div>
+                    <div class="skill-value">{{ skills.swim or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.throw_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Rzucanie</div>
+                    <div class="skill-value">{{ skills.throw or '0' }}</div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-checkbox {% if skills.track_check %}checked{% endif %}"></div>
+                    <div class="skill-name">Tropienie</div>
+                    <div class="skill-value">{{ skills.track or '0' }}</div>
+                </div>
+
+                <!-- Umiejętności niestandardowe -->
+                {% if skills.custom_skill_1 %}
+                <div class="skill-row">
+                    <div class="skill-checkbox"></div>
+                    <div class="skill-name">{{ skills.custom_skill_1 }}</div>
+                    <div class="skill-value">{{ skills.custom_skill_1_val or '0' }}</div>
+                </div>
+                {% endif %}
+                {% if skills.custom_skill_2 %}
+                <div class="skill-row">
+                    <div class="skill-checkbox"></div>
+                    <div class="skill-name">{{ skills.custom_skill_2 }}</div>
+                    <div class="skill-value">{{ skills.custom_skill_2_val or '0' }}</div>
+                </div>
+                {% endif %}
+                {% if skills.custom_skill_3 %}
+                <div class="skill-row">
+                    <div class="skill-checkbox"></div>
+                    <div class="skill-name">{{ skills.custom_skill_3 }}</div>
+                    <div class="skill-value">{{ skills.custom_skill_3_val or '0' }}</div>
+                </div>
+                {% endif %}
+                {% if skills.custom_skill_4 %}
+                <div class="skill-row">
+                    <div class="skill-checkbox"></div>
+                    <div class="skill-name">{{ skills.custom_skill_4 }}</div>
+                    <div class="skill-value">{{ skills.custom_skill_4_val or '0' }}</div>
+                </div>
+                {% endif %}
+                {% if skills.custom_skill_5 %}
+                <div class="skill-row">
+                    <div class="skill-checkbox"></div>
+                    <div class="skill-name">{{ skills.custom_skill_5 }}</div>
+                    <div class="skill-value">{{ skills.custom_skill_5_val or '0' }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="page-break"></div>
+
+        <!-- Sekcja 5: Broń -->
+        <div class="print-section">
+            <h3>⚔️ Broń i Wyposażenie Bojowe</h3>
+            {% if bron %}
+            <table class="weapons-table">
+                <thead>
+                    <tr>
+                        <th>Nazwa Broni</th>
+                        <th>Normal</th>
+                        <th>Hard</th>
+                        <th>Extreme</th>
+                        <th>Obrażenia</th>
+                        <th>Zasięg</th>
+                        <th>Ataki</th>
+                        <th>Amunicja</th>
+                        <th>Usterka</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for weapon in bron %}
+                    <tr>
+                        <td>{{ weapon.nazwa_broni }}</td>
+                        <td>{{ weapon.normal }}</td>
+                        <td>{{ weapon.hard }}</td>
+                        <td>{{ weapon.extreme }}</td>
+                        <td>{{ weapon.obrazenia }}</td>
+                        <td>{{ weapon.zasieg }}</td>
+                        <td>{{ weapon.ataki }}</td>
+                        <td>{{ weapon.amunicja }}</td>
+                        <td>{{ weapon.usterka }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #999; padding: 20px;">Brak broni</p>
+            {% endif %}
+        </div>
+
+        <!-- Sekcja 6: Notatki -->
+        <div class="print-section">
+            <h3>📝 Historia i Notatki</h3>
+            <div class="info-item">
+                <label>Historia Postaci</label>
+                <span style="min-height: 60px; white-space: pre-wrap;">{{ character.historia or '-' }}</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

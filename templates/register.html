@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Rejestracja{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='login_styles.css') }}">
+
+<div class="floating-image" id="img"></div>
+<div class="overlay2"></div>
+
+<div class="login-container">
+    <h2>Rejestracja</h2>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Nazwa użytkownika:</label>
+            <input type="text" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label>Hasło:</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <!-- NOWE POLE -->
+        <div class="form-group">
+            <label>Powtórz hasło:</label>
+            <input type="password" name="password2" required>
+        </div>
+
+        <!-- WYMAGANIA HASŁA -->
+        <div class="password-requirements">
+            <p><strong>Wymagania hasła:</strong></p>
+            <ul>
+                <li>Min. 8 znaków</li>
+                <li>Małe i DUŻE litery</li>
+                <li>Cyfry</li>
+                <li>Znak specjalny (!@#$%)</li>
+            </ul>
+        </div>
+
+        <button type="submit">Zarejestruj się</button>
+    </form>
+
+    <p>Masz już konto? <a href="{{ url_for('login') }}">Zaloguj się</a></p>
+</div>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

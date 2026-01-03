@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+{% block title %}Edytuj Kartę Warhammer - {{ character.imie }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="overlay2"></div>
+
+<div class="card-form-container-warhammer">
+    <h1 class="header-text-warhammer">Edytuj Kartę: {{ character.imie }}</h1>
+
+    <form method="POST" class="character-form-warhammer">
+
+        <!-- SEKCJA BOHATER -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Bohater</h2>
+            <div class="warhammer-field">
+                <label>Imię:</label>
+                <input type="text" name="imie" value="{{ character.imie }}" placeholder="Imię postaci">
+            </div>
+            <div class="warhammer-field">
+                <label>Rasa:</label>
+                <input type="text" name="rasa" value="{{ character.rasa or '' }}" placeholder="np. Człowiek, Elf, Krasnolud">
+            </div>
+            <div class="warhammer-field">
+                <label>Obecna profesja:</label>
+                <input type="text" name="profesja" value="{{ character.profesja }}" placeholder="Obecna profesja">
+            </div>
+            <div class="warhammer-field">
+                <label>Poprzednie profesje:</label>
+                <input type="text" name="poprzednie_profesje" value="{{ character.poprzednie_profesje or '' }}" placeholder="Poprzednie profesje">
+            </div>
+        </div>
+
+        <!-- SEKCJA OPIS BOHATERA -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Opis Bohatera</h2>
+            <div class="warhammer-row">
+                <div class="warhammer-field">
+                    <label>Wiek:</label>
+                    <input type="text" name="wiek" value="{{ character.wiek }}" placeholder="np. 25 lat">
+                </div>
+                <div class="warhammer-field">
+                    <label>Płeć:</label>
+                    <input type="text" name="plec" value="{{ character.plec }}" placeholder="M/K">
+                </div>
+            </div>
+            <div class="warhammer-row">
+                <div class="warhammer-field">
+                    <label>Oczy:</label>
+                    <input type="text" name="oczy" value="{{ character.oczy or '' }}" placeholder="Kolor oczu">
+                </div>
+                <div class="warhammer-field">
+                    <label>Waga:</label>
+                    <input type="text" name="waga" value="{{ character.waga or '' }}" placeholder="np. 75 kg">
+                </div>
+            </div>
+            <div class="warhammer-row">
+                <div class="warhammer-field">
+                    <label>Włosy:</label>
+                    <input type="text" name="wlosy" value="{{ character.wlosy or '' }}" placeholder="Kolor włosów">
+                </div>
+                <div class="warhammer-field">
+                    <label>Wzrost:</label>
+                    <input type="text" name="wzrost" value="{{ character.wzrost or '' }}" placeholder="np. 180 cm">
+                </div>
+            </div>
+            <div class="warhammer-field">
+                <label>Znak gwiezdny:</label>
+                <input type="text" name="znak_gwiezdny" value="{{ character.znak_gwiezdny or '' }}" placeholder="Znak zodiaku">
+            </div>
+            <div class="warhammer-field">
+                <label>Rodzeństwo:</label>
+                <input type="text" name="rodzienstwo" value="{{ character.rodzienstwo or '' }}" placeholder="Informacje o rodzeństwie">
+            </div>
+            <div class="warhammer-field">
+                <label>Miejsce urodzenia:</label>
+                <input type="text" name="miejsce" value="{{ character.miejsce }}" placeholder="Miejsce urodzenia">
+            </div>
+            <div class="warhammer-field">
+                <label>Znaki szczególne:</label>
+                <input type="text" name="znaki_szczegolne" value="{{ character.znaki_szczegolne or '' }}" placeholder="Cechy szczególne">
+            </div>
+        </div>
+
+        <!-- SEKCJA CECHY -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Cechy</h2>
+            <div class="cechy-grid">
+                <!-- WW -->
+                <div class="cecha-box">
+                    <div class="cecha-label">WW</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="ww" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="ww_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="ww_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- US -->
+                <div class="cecha-box">
+                    <div class="cecha-label">US</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="us" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="us_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="us_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- K -->
+                <div class="cecha-box">
+                    <div class="cecha-label">K</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="k" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="k_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="k_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Odp -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Odp</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="odp" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="odp_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="odp_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Zr -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Zr</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="zr" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="zr_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="zr_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Int -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Int</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="int" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="int_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="int_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- SW -->
+                <div class="cecha-box">
+                    <div class="cecha-label">SW</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="sw" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="sw_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="sw_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Ogd -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Ogd</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="ogd" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="ogd_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="ogd_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- A -->
+                <div class="cecha-box">
+                    <div class="cecha-label">A</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="a" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="a_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="a_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Żyw -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Żyw</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="zyw" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="zyw_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="zyw_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- S -->
+                <div class="cecha-box">
+                    <div class="cecha-label">S</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="s" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="s_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="s_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Wt -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Wt</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="wt" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="wt_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="wt_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Sz -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Sz</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="sz" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="sz_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="sz_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Mag -->
+                <div class="cecha-box">
+                    <div class="cecha-label">Mag</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="mag" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="mag_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="mag_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- PO -->
+                <div class="cecha-box">
+                    <div class="cecha-label">PO</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="po" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="po_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="po_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- PP -->
+                <div class="cecha-box">
+                    <div class="cecha-label">PP</div>
+                    <div class="cecha-fields">
+                        <input type="number" name="pp" value="0" min="0" class="cecha-input" placeholder="0">
+                        <div class="cecha-modifier-label">+<input type="number" name="pp_plus5" value="0" min="0" class="cecha-input" placeholder="0"></div>
+                        <input type="number" name="pp_plus10" value="0" min="0" class="cecha-input" placeholder="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKCJA RUCH -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Ruch</h2>
+            <div class="warhammer-row three-cols">
+                <div class="warhammer-field">
+                    <label>Ruch:</label>
+                    <input type="number" name="ruch" value="{{ character.ruch or 0 }}" min="0">
+                </div>
+                <div class="warhammer-field">
+                    <label>Szarża:</label>
+                    <input type="number" name="szarza" value="{{ character.szarza or 0 }}" min="0">
+                </div>
+                <div class="warhammer-field">
+                    <label>Bieg:</label>
+                    <input type="number" name="bieg" value="{{ character.bieg or 0 }}" min="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- PRZYCISKI -->
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-save">Zapisz zmiany</button>
+            <a href="{{ url_for('bron_warhammer', character_id=character.id) }}" class="btn btn-skills-active">Broń</a>
+            <a href="{{ url_for('umiejetnosci_warhammer', character_id=character.id) }}" class="btn btn-skills-active">Umiejętności</a>
+            <a href="{{ url_for('ekwipunek_warhammer', character_id=character.id) }}" class="btn btn-skills-active">Ekwipunek</a>
+            <a href="{{ url_for('drukuj_karte_warhammer', character_id=character.id) }}" class="btn btn-secondary" target="_blank" style="background: #8B4513;">🖨️ Drukuj do PDF</a>
+            <a href="{{ url_for('karty_postaci') }}" class="btn btn-cancel">Anuluj</a>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

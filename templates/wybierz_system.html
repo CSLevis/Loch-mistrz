@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Wybierz System{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img"></div>
+<div class="overlay2"></div>
+
+<div class="system-selector-container">
+    <h1 class="header-text">Wybierz System Gry</h1>
+    
+    <div class="systems-grid">
+        <a href="{{ url_for('nowa_karta_warhammer') }}" class="system-card">
+            <h2>Warhammer Fantasy</h2>
+            <p>Mroczny świat fantasy</p>
+        </a>
+        
+        <a href="{{ url_for('nowa_karta_dnd5e') }}" class="system-card">
+            <h2>D&D 5e</h2>
+            <p>Dungeons & Dragons 5. edycja</p>
+        </a>
+
+        <a href="{{ url_for('nowa_karta_cthulhu') }}" class="system-card">
+            <h2>Zew Cthulhu</h2>
+            <p>Zew Cthulhu</p>
+        </a>
+
+    </div>
+    
+    <a href="{{ url_for('karty_postaci') }}" class="btn btn-create">Anuluj</a>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

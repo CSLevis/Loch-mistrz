@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Broń - {{ character.imie }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back2.jpg') }}');"></div>
+<div class="overlay-cthulhu"></div>
+
+<div class="card-form-container-cthulhu">
+    <h1 class="header-text-cthulhu">Broń: {{ character.imie }}</h1>
+    
+    <form method="POST" class="weapons-form">
+        <table class="weapons-table">
+            <colgroup>
+                <col style="width: 15%;">
+                <col style="width: 8%;">
+                <col style="width: 8%;">
+                <col style="width: 8%;">
+                <col style="width: 12%;">
+                <col style="width: 10%;">
+                <col style="width: 7%;">
+                <col style="width: 12%;">
+                <col style="width: 10%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Broń</th>
+                    <th>Zwykły %</th>
+                    <th>Wymagający %</th>
+                    <th>Ekstrem. %</th>
+                    <th>Obrażenia</th>
+                    <th>Zasięg</th>
+                    <th>Ataki</th>
+                    <th>Amunicja</th>
+                    <th>Zawodność %</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(1, 11) %}
+                {% set weapon = bron | selectattr('bron_index', 'equalto', i-1) | first %}
+                <tr>
+                    <td><input type="text" name="weapon_name_{{ i }}" class="weapon-input" placeholder="Nazwa broni" value="{{ weapon.nazwa_broni if weapon else '' }}"></td>
+                    <td><input type="number" name="weapon_normal_{{ i }}" class="weapon-number" value="{{ weapon.normal if weapon else '0' }}"></td>
+                    <td><input type="number" name="weapon_hard_{{ i }}" class="weapon-number" value="{{ weapon.hard if weapon else '0' }}"></td>
+                    <td><input type="number" name="weapon_extreme_{{ i }}" class="weapon-number" value="{{ weapon.extreme if weapon else '0' }}"></td>
+                    <td><input type="text" name="weapon_damage_{{ i }}" class="weapon-input" placeholder="np. 1k6" value="{{ weapon.szkody if weapon else '' }}"></td>
+                    <td><input type="text" name="weapon_range_{{ i }}" class="weapon-input" placeholder="np. 15m" value="{{ weapon.zasieg if weapon else '' }}"></td>
+                    <td><input type="number" name="weapon_attacks_{{ i }}" class="weapon-number" value="{{ weapon.attacks if weapon else '1' }}"></td>
+                    <td><input type="text" name="weapon_ammo_{{ i }}" class="weapon-input" placeholder="np. 9mm" value="{{ weapon.ammo if weapon else '' }}"></td>
+                    <td><input type="number" name="weapon_malfunction_{{ i }}" class="weapon-number" value="{{ weapon.malfunction if weapon else '0' }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-save">Zapisz broń</button>
+            <a href="{{ url_for('edytuj_karte_cthulhu', character_id=character.id) }}" class="btn btn-cancel">Powrót do karty</a>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

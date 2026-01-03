@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Drukuj Kartę - {{ character.imie }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+    <style>
+        @media print {
+            @page { size: A4 portrait; margin: 10mm; }
+            body { margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            .print-section { page-break-inside: avoid; margin-bottom: 20px; }
+            .page-break { page-break-after: always; }
+        }
+        body { background: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; padding: 20px; }
+        .print-container { max-width: 800px; margin: 0 auto; }
+        .print-header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #8B4513; padding-bottom: 15px; }
+        .print-header h1 { margin: 0; color: #8B4513; font-size: 32px; }
+        .print-header h2 { margin: 5px 0 0 0; color: #555; font-size: 20px; font-weight: normal; }
+        .print-section { background: #f9f9f9; border: 2px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 25px; }
+        .print-section h3 { margin: 0 0 20px 0; color: #8B4513; font-size: 24px; border-bottom: 2px solid #8B4513; padding-bottom: 10px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .info-item { display: flex; flex-direction: column; }
+        .info-item label { font-weight: bold; color: #666; font-size: 12px; margin-bottom: 5px; }
+        .info-item span { font-size: 16px; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .table-print { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .table-print th { background: #8B4513; color: white; padding: 10px; text-align: left; font-weight: bold; border: 1px solid #654321; }
+        .table-print td { padding: 8px; border: 1px solid #ddd; background: white; }
+        .table-print tr:nth-child(even) td { background: #f5f5f5; }
+        .print-button { position: fixed; top: 20px; right: 20px; padding: 15px 30px; background: #8B4513; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; }
+        .print-button:hover { background: #A0522D; }
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .skill-row { display: flex; align-items: center; gap: 10px; padding: 8px; background: white; border: 1px solid #ddd; border-radius: 4px; }
+        .skill-name { flex: 1; font-size: 14px; }
+        .skill-value { font-weight: bold; min-width: 40px; text-align: center; border: 1px solid #ccc; padding: 4px 8px; border-radius: 3px; background: white; }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Drukuj do PDF</button>
+
+    <div class="print-container">
+        <div class="print-header">
+            <h1>{{ character.imie }}</h1>
+            <h2>Karta Postaci - Warhammer Fantasy Roleplay</h2>
+        </div>
+
+        <div class="print-section">
+            <h3>📋 Podstawowe Informacje</h3>
+            <div class="info-grid">
+                <div class="info-item"><label>Imię</label><span>{{ character.imie or '-' }}</span></div>
+                <div class="info-item"><label>Rasa</label><span>{{ character.rasa or '-' }}</span></div>
+                <div class="info-item"><label>Klasa</label><span>{{ character.klasa or '-' }}</span></div>
+                <div class="info-item"><label>Kariera</label><span>{{ character.kariera or '-' }}</span></div>
+                <div class="info-item"><label>Wiek</label><span>{{ character.wiek or '-' }}</span></div>
+                <div class="info-item"><label>Wzrost</label><span>{{ character.wzrost or '-' }}</span></div>
+                <div class="info-item"><label>Kolor włosów</label><span>{{ character.kolor_wlosow or '-' }}</span></div>
+                <div class="info-item"><label>Kolor oczu</label><span>{{ character.kolor_oczu or '-' }}</span></div>
+            </div>
+        </div>
+
+        <div class="print-section">
+            <h3>💪 Cechy Główne</h3>
+            <div class="info-grid">
+                <div class="info-item"><label>Walka Wręcz (WW)</label><span>{{ character.walka_wrecz or '0' }}</span></div>
+                <div class="info-item"><label>Umiejętności Strzeleckie (US)</label><span>{{ character.umiejetnosci_strzeleckie or '0' }}</span></div>
+                <div class="info-item"><label>Krzepa (K)</label><span>{{ character.krzepa or '0' }}</span></div>
+                <div class="info-item"><label>Odporność (Odp)</label><span>{{ character.odpornosc or '0' }}</span></div>
+                <div class="info-item"><label>Zręczność (Zr)</label><span>{{ character.zrecznosc or '0' }}</span></div>
+                <div class="info-item"><label>Inteligencja (Int)</label><span>{{ character.inteligencja or '0' }}</span></div>
+                <div class="info-item"><label>Siła Woli (SW)</label><span>{{ character.sila_woli or '0' }}</span></div>
+                <div class="info-item"><label>Ogłada (Ogd)</label><span>{{ character.oglada or '0' }}</span></div>
+            </div>
+        </div>
+
+        <div class="print-section">
+            <h3>❤️ Punkty</h3>
+            <div class="info-grid">
+                <div class="info-item"><label>Punkty Życia</label><span>{{ character.punkty_zycia or '0' }}</span></div>
+                <div class="info-item"><label>Punkty Szczęścia</label><span>{{ character.punkty_szczescia or '0' }}</span></div>
+                <div class="info-item"><label>Punkty Przeznaczenia</label><span>{{ character.punkty_przeznaczenia or '0' }}</span></div>
+                <div class="info-item"><label>Szybkość</label><span>{{ character.szybkosc or '0' }}</span></div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        {% if skills %}
+        <div class="print-section">
+            <h3>🎯 Umiejętności</h3>
+            <table class="table-print">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Typ</th>
+                        <th>Poziom</th>
+                        <th>Koszt</th>
+                        <th>Wymogi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for skill in skills %}
+                    {% if skill.nazwa_umiejetnosci %}
+                    <tr>
+                        <td>{{ skill.nazwa_umiejetnosci }}</td>
+                        <td>{{ skill.typ or '-' }}</td>
+                        <td>{{ skill.poziom or '-' }}</td>
+                        <td>{{ skill.koszt or '-' }}</td>
+                        <td>{{ skill.wymogi or '-' }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="print-section">
+            <h3>🎯 Umiejętności</h3>
+            <p style="text-align: center; color: #999; padding: 20px;">Brak umiejętności</p>
+        </div>
+        {% endif %}
+
+        <div class="page-break"></div>
+
+        <div class="print-section">
+            <h3>⚔️ Broń</h3>
+            {% if bron %}
+            <table class="table-print">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Obciążenie</th>
+                        <th>Typ</th>
+                        <th>Siła</th>
+                        <th>Szkody</th>
+                        <th>Zasięg</th>
+                        <th>Cechy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for weapon in bron %}
+                    {% if weapon.nazwa_broni %}
+                    <tr>
+                        <td>{{ weapon.nazwa_broni }}</td>
+                        <td>{{ weapon.obciazenie or '-' }}</td>
+                        <td>{{ weapon.typ or '-' }}</td>
+                        <td>{{ weapon.sila or '-' }}</td>
+                        <td>{{ weapon.szkody or '-' }}</td>
+                        <td>{{ weapon.zasieg or '-' }}</td>
+                        <td>{{ weapon.cechy or '-' }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #999; padding: 20px;">Brak broni</p>
+            {% endif %}
+        </div>
+
+        <div class="print-section">
+            <h3>🛡️ Zbroja</h3>
+            {% if zbroja %}
+            <table class="table-print">
+                <thead>
+                    <tr>
+                        <th>Lokacja</th>
+                        <th>Typ Zbroi</th>
+                        <th>Punkty Zbroi (PZ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for armor in zbroja %}
+                    {% if armor.armor_location %}
+                    <tr>
+                        <td>{{ armor.armor_location }}</td>
+                        <td>{{ armor.armor_type or '-' }}</td>
+                        <td>{{ armor.armor_pz or '0' }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #999; padding: 20px;">Brak zbroi</p>
+            {% endif %}
+        </div>
+
+        <div class="print-section">
+            <h3>🎒 Ekwipunek</h3>
+            {% if ekwipunek %}
+            <table class="table-print">
+                <thead>
+                    <tr>
+                        <th>Przedmiot</th>
+                        <th>Obciążenie</th>
+                        <th>Wartość</th>
+                        <th>Jednostka</th>
+                        <th>Opis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in ekwipunek %}
+                    {% if item.nazwa_przedmiotu %}
+                    <tr>
+                        <td>{{ item.nazwa_przedmiotu }}</td>
+                        <td>{{ item.obciazenie or '-' }}</td>
+                        <td>{{ item.wartosc or '-' }}</td>
+                        <td>{{ item.jednostka or '-' }}</td>
+                        <td>{{ item.opis or '-' }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #999; padding: 20px;">Brak ekwipunku</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

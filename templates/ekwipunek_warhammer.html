@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}Ekwipunek - {{ character.imie }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="overlay2"></div>
+
+<div class="card-form-container-warhammer">
+    <h1 class="header-text-warhammer">Ekwipunek: {{ character.imie }}</h1>
+    
+    <form method="POST" class="equipment-form-warhammer">
+        
+        <!-- SEKCJA 1: SAKIEWKA -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Sakiewka</h2>
+            <div class="exchange-info">
+                1 złota korona = 20 srebrnych szylingów = 240 miedzianych pensów
+            </div>
+            
+            <div class="money-row">
+                <div class="money-field">
+                    <label>Złote korony</label>
+                    <div class="money-input-group">
+                        <input type="number" name="zlote_korony" value="{{ character.zlote_korony or 0 }}" min="0" class="money-input">
+                        <span class="money-label">zk</span>
+                    </div>
+                </div>
+                <div class="money-field">
+                    <label>Srebrne szyllingi</label>
+                    <div class="money-input-group">
+                        <input type="number" name="srebrne_szyllingi" value="{{ character.srebrne_szyllingi or 0 }}" min="0" class="money-input">
+                        <span class="money-label">s</span>
+                    </div>
+                </div>
+                <div class="money-field">
+                    <label>Miedziany pensy</label>
+                    <div class="money-input-group">
+                        <input type="number" name="miedziany_pensy" value="{{ character.miedziany_pensy or 0 }}" min="0" class="money-input">
+                        <span class="money-label">p</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKCJA 2: PRZELICZNIKI -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Przeliczniki</h2>
+            
+            <div class="converters-grid">
+                <div class="converter-column">
+                    <div class="converter-row">
+                        <div class="converter-field">
+                            <label>Złote korony na szyllingi</label>
+                            <div class="converter-group">
+                                <input type="number" id="zk_input" placeholder="zk" class="converter-input">
+                                <button type="button" class="btn-convert" onclick="convertZkToS()">→</button>
+                                <span id="zk_result" class="converter-result">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="converter-row">
+                        <div class="converter-field">
+                            <label>Szyllingi na pensy</label>
+                            <div class="converter-group">
+                                <input type="number" id="s_input" placeholder="s" class="converter-input">
+                                <button type="button" class="btn-convert" onclick="convertSToP()">→</button>
+                                <span id="s_result" class="converter-result">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="converter-column">
+                    <div class="converter-row">
+                        <div class="converter-field">
+                            <label>Szyllingi na złote korony</label>
+                            <div class="converter-group">
+                                <input type="number" id="s_reverse_input" placeholder="s" class="converter-input">
+                                <button type="button" class="btn-convert" onclick="convertSToZk()">→</button>
+                                <span id="s_reverse_result" class="converter-result">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="converter-row">
+                        <div class="converter-field">
+                            <label>Pensy na szyllingi</label>
+                            <div class="converter-group">
+                                <input type="number" id="p_input" placeholder="p" class="converter-input">
+                                <button type="button" class="btn-convert" onclick="convertPToS()">→</button>
+                                <span id="p_result" class="converter-result">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKCJA 3: EKWIPUNEK -->
+        <div class="warhammer-section">
+            <h2 class="section-title">Przedmioty</h2>
+
+            <div class="equipment-table-wrapper">
+                <table class="equipment-table">
+                    <colgroup>
+                        <col style="width: 40%;">
+                        <col style="width: 15%;">
+                        <col style="width: 15%;">
+                        <col style="width: 30%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Ocb.</th>
+                            <th>Wart.</th>
+                            <th>Opis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(40) %}
+                        {% set item = ekwipunek | selectattr('przedmiot_index', 'equalto', i) | first %}
+                        <tr>
+                            <td><input type="text" name="item_name_{{ i }}" class="item-input" placeholder="Nazwa przedmiotu" value="{{ item.nazwa_przedmiotu if item else '' }}"></td>
+                            <td><input type="number" name="item_ocb_{{ i }}" class="item-number" value="{{ item.obciazenie if item else '0' }}" min="0"></td>
+                            <td><input type="number" name="item_value_{{ i }}" class="item-number" value="{{ item.wartosc if item else '0' }}" min="0"></td>
+                            <td><input type="text" name="item_desc_{{ i }}" class="item-input" placeholder="Opis" value="{{ item.opis if item else '' }}"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PRZYCISKI -->
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-save">Zapisz ekwipunek</button>
+            <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}" class="btn btn-cancel">Powrót do karty</a>
+        </div>
+    </form>
+</div>
+
+<script>
+function convertZkToS() {
+    const zkInput = document.getElementById('zk_input').value;
+    if (zkInput && zkInput > 0) {
+        const result = zkInput * 20;
+        document.getElementById('zk_result').textContent = result + ' s';
+    } else {
+        document.getElementById('zk_result').textContent = '-';
+    }
+}
+
+function convertSToP() {
+    const sInput = document.getElementById('s_input').value;
+    if (sInput && sInput > 0) {
+        const result = sInput * 12;
+        document.getElementById('s_result').textContent = result + ' p';
+    } else {
+        document.getElementById('s_result').textContent = '-';
+    }
+}
+
+function convertSToZk() {
+    const sInput = document.getElementById('s_reverse_input').value;
+    if (sInput && sInput > 0) {
+        const result = (sInput / 20).toFixed(2);
+        document.getElementById('s_reverse_result').textContent = result + ' zk';
+    } else {
+        document.getElementById('s_reverse_result').textContent = '-';
+    }
+}
+
+function convertPToS() {
+    const pInput = document.getElementById('p_input').value;
+    if (pInput && pInput > 0) {
+        const result = (pInput / 12).toFixed(2);
+        document.getElementById('p_result').textContent = result + ' s';
+    } else {
+        document.getElementById('p_result').textContent = '-';
+    }
+}
+</script>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

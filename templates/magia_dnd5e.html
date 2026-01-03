@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Magia - {{ character.imie }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="overlay2"></div>
+
+<div class="card-form-container-dnd5e">
+    <h1 class="header-text-dnd5e"> Magia i Czary: {{ character.imie }}</h1>
+
+    <form method="POST" class="character-form-dnd5e">
+
+        <!-- SEKCJA: PARAMETRY MAGII -->
+        <div class="dnd5e-section">
+            <div class="section-title-dnd5e">Parametry Magii</div>
+            <div class="magic-params">
+                <div class="param-row">
+                    <label>Cecha bazowa:</label>
+                    <input type="text" name="magic_cecha" placeholder="np. Inteligencja" class="param-input" value="{{ magia.magic_cecha if magia else '' }}">
+                </div>
+                <div class="param-row">
+                    <label>ST rzutu przeciw czarom:</label>
+                    <input type="text" name="magic_st" placeholder="np. 14" class="param-input" value="{{ magia.magic_st if magia else '' }}">
+                </div>
+                <div class="param-row">
+                    <label>Premia do ataku czarem:</label>
+                    <input type="text" name="magic_bonus" placeholder="np. +3" class="param-input" value="{{ magia.magic_bonus if magia else '' }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKCJA: CZARY PO POZIOMACH -->
+        <div class="dnd5e-section">
+            <div class="section-title-dnd5e">Czary po Poziomach</div>
+            <div class="spells-grid">
+
+                <!-- KOLUMNA 1 (Poziomy 0-4) -->
+                <div class="spells-column">
+
+                    {% for level in range(5) %}
+                    <!-- Poziom {{ level }} -->
+                    <div class="spell-level-block">
+                        <div class="level-header">
+                            <span class="level-number">{{ level }}</span>
+                            <div class="cells-info">
+                                <input type="text" name="cells_available_{{ level }}" placeholder="Komórki" class="cells-input" value="{{ magia['cells_available_' ~ level] if magia else '' }}">
+                                <span class="cells-separator">/</span>
+                                <input type="text" name="cells_used_{{ level }}" placeholder="Użyte" class="cells-input" value="{{ magia['cells_used_' ~ level] if magia else '' }}">
+                            </div>
+                        </div>
+                        <div class="spells-list">
+                            {% for i in range(12) %}
+                            {% set spell = spells_by_level[level] | selectattr('spell_index', 'equalto', i) | first %}
+                            <div class="spell-item">
+                                <input type="text" name="spell_{{ level }}_{{ i }}_name" placeholder="Nazwa czaru" class="spell-name" value="{{ spell.nazwa_czaru if spell else '' }}">
+                                <input type="text" name="spell_{{ level }}_{{ i }}_range" placeholder="Czas" class="spell-range" value="{{ spell.zasieg if spell else '' }}">
+                                <input type="text" name="spell_{{ level }}_{{ i }}_desc" placeholder="Opis" class="spell-desc" value="{{ spell.opis if spell else '' }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <!-- KOLUMNA 2 (Poziomy 5-9) -->
+                <div class="spells-column">
+
+                    {% for level in range(5, 10) %}
+                    <!-- Poziom {{ level }} -->
+                    <div class="spell-level-block">
+                        <div class="level-header">
+                            <span class="level-number">{{ level }}</span>
+                            <div class="cells-info">
+                                <input type="text" name="cells_available_{{ level }}" placeholder="Komórki" class="cells-input" value="{{ magia['cells_available_' ~ level] if magia else '' }}">
+                                <span class="cells-separator">/</span>
+                                <input type="text" name="cells_used_{{ level }}" placeholder="Użyte" class="cells-input" value="{{ magia['cells_used_' ~ level] if magia else '' }}">
+                            </div>
+                        </div>
+                        <div class="spells-list">
+                            {% for i in range(12) %}
+                            {% set spell = spells_by_level[level] | selectattr('spell_index', 'equalto', i) | first %}
+                            <div class="spell-item">
+                                <input type="text" name="spell_{{ level }}_{{ i }}_name" placeholder="Nazwa czaru" class="spell-name" value="{{ spell.nazwa_czaru if spell else '' }}">
+                                <input type="text" name="spell_{{ level }}_{{ i }}_range" placeholder="Czas" class="spell-range" value="{{ spell.zasieg if spell else '' }}">
+                                <input type="text" name="spell_{{ level }}_{{ i }}_desc" placeholder="Opis" class="spell-desc" value="{{ spell.opis if spell else '' }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PRZYCISKI -->
+        <div class="form-buttons">
+            <button type="button" class="btn btn-skills" onclick="window.location.href='{{ url_for('bieglosci_dnd5e', character_id=character.id) }}'">
+                📚 Biegłości
+            </button>
+            <button type="submit" class="btn btn-save">Zapisz magię</button>
+            <button type="button" class="btn btn-equipment" onclick="window.location.href='{{ url_for('ekwipunek_dnd5e', character_id=character.id) }}'">
+                🎒 Ekwipunek
+            </button>
+            <a href="{{ url_for('edytuj_karte_dnd5e', character_id=character.id) }}" class="btn btn-cancel">Wróć</a>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}
