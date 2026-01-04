@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Weryfikacja Email</h3>
+            </div>
+            <div class="card-body">
+                <p>Na Twój adres email ({{ email }}) został wysłany kod weryfikacyjny.</p>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Kod weryfikacyjny</label>
+                        <input type="text" class="form-control" id="code" name="code" required maxlength="6"
+                            placeholder="Wpisz 6-cyfrowy kod">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Weryfikuj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

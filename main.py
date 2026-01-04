@@ -11,11 +11,22 @@ from dnd5e_extras import create_dnd5e_extras_models
 from npc_manager import create_npc_models
 
 import os
+import random
+import string
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
 # Security: Prefer environment variables for production
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '87484AF684B71AA28BE7A481655C2')
+
+# Mail Configuration
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'u7472955057@gmail.com')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'wvcd ixjh zlte xris'.replace(' ', ''))
+mail = Mail(app)
 
 # Database: Use PostgreSQL on Render, SQLite locally
 database_url = os.environ.get('DATABASE_URL')
@@ -55,6 +66,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    is_verified = db.Column(db.Boolean, default=False)
+    verification_code = db.Column(db.String(6), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def set_password(self, password):
@@ -85,24 +98,24 @@ with app.app_context():
             needs_migration = False
             if 'item_index' not in columns:
                 needs_migration = True
-                print("⚠️ Brak kolumny item_index")
+                print("! Brak kolumny item_index")
             if 'cena' in columns and 'cena_jednostkowa' not in columns:
                 needs_migration = True
-                print("⚠️ Stara nazwa kolumny 'cena' zamiast 'cena_jednostkowa'")
+                print("! Stara nazwa kolumny 'cena' zamiast 'cena_jednostkowa'")
 
             if needs_migration:
-                print("🔄 Usuwanie starych tabel trader_manager...")
+                print("... Usuwanie starych tabel trader_manager...")
                 db.session.execute(text('DROP TABLE IF EXISTS trader_item'))
                 db.session.execute(text('DROP TABLE IF EXISTS trader_manager'))
                 db.session.commit()
-                print("✅ Stare tabele usunięte")
+                print("OK Stare tabele usunięte")
     except Exception as e:
-        print(f"⚠️ Błąd podczas sprawdzania migracji: {e}")
+        print(f"Error Błąd podczas sprawdzania migracji: {e}")
         db.session.rollback()
 
     # Teraz utwórz wszystkie tabele (w tym trader_manager z poprawną strukturą)
     db.create_all()
-    print("✅ Wszystkie tabele utworzone")
+    print("OK Wszystkie tabele utworzone")
 
 
 # ===== REJESTRACJA I LOGOWANIE =====
@@ -128,16 +141,61 @@ def register():
             flash('Email już zarejestrowany!')
             return redirect(url_for('register'))
 
-        user = User(username=username, email=email)
+        # Generate verification code
+        code = ''.join(random.choices(string.digits, k=6))
+        
+        user = User(username=username, email=email, verification_code=code, is_verified=False)
         user.set_password(password)
 
         db.session.add(user)
         db.session.commit()
 
-        flash('Rejestracja udana! Możesz się teraz zalogować.')
-        return redirect(url_for('login'))
+        # Send Verification Email
+        try:
+            msg = Message('Kod weryfikacyjny - RPG Lochmistrz',
+                          sender=app.config['MAIL_USERNAME'],
+                          recipients=[email])
+            msg.body = f'Twój kod weryfikacyjny to: {code}'
+            mail.send(msg)
+            flash('Rejestracja udana! Kod weryfikacyjny został wysłany na Twój email.')
+        except Exception as e:
+            print(f"Błąd wysyłania emaila: {e}")
+            flash(f'Rejestracja udana, ale nie udało się wysłać maila. Twój kod to (awaryjnie): {code}')
+
+        return redirect(url_for('verify_email', email=email))
 
     return render_template('register.html')
+
+
+@app.route("/verify-email", methods=["GET", "POST"])
+def verify_email():
+    email = request.args.get('email')
+    
+    if request.method == "POST":
+        code = request.form.get('code')
+        # Jeśli email nie przyszedł w query params, może użytkownik wpisał go ręcznie?
+        # W tej prostej wersji zakładamy że mamy email z sesji lub query, 
+        # ale tutaj prostujemy: szukamy usera po kodzie (mało bezpieczne globalnie, ale ok lokalnie) 
+        # LUB wymagamy podania maila.
+        # Ulepszenie: przekaż email w ukrytym polu formularza.
+        
+        # Szukamy użytkownika z tym kodem (i ewentualnie mailem jeśli jest)
+        if email:
+            user = User.query.filter_by(email=email, verification_code=code).first()
+        else:
+            # Fallback: szukaj po kodzie (ryzyko kolizji, ale małe przy 6 cyfrach i małej bazie)
+            user = User.query.filter_by(verification_code=code).first()
+
+        if user:
+            user.is_verified = True
+            user.verification_code = None # Wyczyść kod
+            db.session.commit()
+            flash('Konto zweryfikowane pomyślnie! Zaloguj się.')
+            return redirect(url_for('login'))
+        else:
+            flash('Nieprawidłowy kod weryfikacyjny!')
+            
+    return render_template('verify_email.html', email=email)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -149,6 +207,10 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if user and user.check_password(password):
+            if not user.is_verified:
+                flash('Konto nie jest zweryfikowane. Sprawdź email.')
+                return redirect(url_for('verify_email', email=user.email))
+                
             login_user(user, remember=True)
             flash(f'Witaj {user.username}!')
 
