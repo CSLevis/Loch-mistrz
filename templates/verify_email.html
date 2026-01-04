@@ -1,26 +1,40 @@
 {% extends "base.html" %}
+{% block title %}Weryfikacja Email{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">Weryfikacja Email</h3>
-            </div>
-            <div class="card-body">
-                <p>Na Twój adres email ({{ email }}) został wysłany kod weryfikacyjny.</p>
-                <form method="POST">
-                    <div class="mb-3">
-                        <label for="code" class="form-label">Kod weryfikacyjny</label>
-                        <input type="text" class="form-control" id="code" name="code" required maxlength="6"
-                            placeholder="Wpisz 6-cyfrowy kod">
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Weryfikuj</button>
-                    </div>
-                </form>
-            </div>
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='login_styles.css') }}">
+
+<div class="floating-image" id="img"></div>
+<div class="overlay2"></div>
+
+<div class="login-container">
+    <h2>Weryfikacja Email</h2>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert"
+        style="background: rgba(255, 255, 255, 0.9); color: black; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+        {{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <p style="color: #ddd; margin-bottom: 20px; text-align: center;">
+        Na Twój adres email <strong>{{ email }}</strong> został wysłany kod weryfikacyjny.
+    </p>
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Kod weryfikacyjny:</label>
+            <input type="text" name="code" required maxlength="6" placeholder="******"
+                style="text-align: center; letter-spacing: 5px; font-size: 1.2em;">
         </div>
-    </div>
+
+        <button type="submit">Weryfikuj</button>
+    </form>
+
 </div>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 {% endblock %}
