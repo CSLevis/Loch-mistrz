@@ -137,50 +137,27 @@ with app.app_context():
 def register():
     if request.method == "POST":
         username = request.form.get('username')
-        email = request.form.get('email')
         password = request.form.get('password')
         password2 = request.form.get('password2')
 
         is_valid, error_message = validate_password(password, password2)
         if not is_valid:
             flash(error_message)
-            return render_template('register.html', username=username, email=email, error_field='password')
+            return render_template('register.html', username=username, error_field='password')
 
         if User.query.filter_by(username=username).first():
             flash('Nazwa użytkownika już istnieje!')
-            return render_template('register.html', username=username, email=email, error_field='username')
+            return render_template('register.html', username=username, error_field='username')
 
-        if User.query.filter_by(email=email).first():
-            flash('Email już zarejestrowany!')
-            return render_template('register.html', username=username, email=email, error_field='email')
-
-        # Generate verification code
-        code = ''.join(random.choices(string.digits, k=6))
-        
-        user = User(username=username, email=email, verification_code=code, is_verified=False)
+        # Create user without email verification
+        user = User(username=username, email=f"{username}@placeholder.local", is_verified=True)
         user.set_password(password)
 
         db.session.add(user)
         db.session.commit()
 
-        # Send Verification Email
-        # Log code for safety
-        print(f"DEBUG: Code for {email}: {code}")
-        
-        try:
-            msg = Message('Kod weryfikacyjny - RPG Lochmistrz',
-                          sender=app.config['MAIL_USERNAME'],
-                          recipients=[email])
-            msg.body = f'Twój kod weryfikacyjny to: {code}'
-            # Send asynchronously
-            Thread(target=send_async_email, args=(app, msg)).start()
-            
-            flash('Rejestracja udana! Kod weryfikacyjny został wysłany na Twój email.')
-        except Exception as e:
-            print(f"Błąd inicjalizacji wysyłania: {e}")
-            flash(f'Rejestracja udana. Jeśli nie otrzymasz maila, sprawdź logi.')
-
-        return redirect(url_for('verify_email', email=email))
+        flash('Rejestracja udana! Możesz się teraz zalogować.')
+        return redirect(url_for('login'))
 
     return render_template('register.html')
 

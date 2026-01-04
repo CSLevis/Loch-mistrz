@@ -33,12 +33,6 @@
         </div>
 
         <div class="form-group">
-            <label>Email:</label>
-            <input type="email" name="email" value="{{ email or '' }}"
-                class="{{ 'error' if error_field == 'email' else '' }}" required>
-        </div>
-
-        <div class="form-group">
             <label>Hasło:</label>
             <input type="password" name="password" class="{{ 'error' if error_field == 'password' else '' }}" required>
         </div>
