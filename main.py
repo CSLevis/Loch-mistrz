@@ -131,15 +131,15 @@ def register():
         is_valid, error_message = validate_password(password, password2)
         if not is_valid:
             flash(error_message)
-            return redirect(url_for('register'))
+            return render_template('register.html', username=username, email=email, error_field='password')
 
         if User.query.filter_by(username=username).first():
             flash('Nazwa użytkownika już istnieje!')
-            return redirect(url_for('register'))
+            return render_template('register.html', username=username, email=email, error_field='username')
 
         if User.query.filter_by(email=email).first():
             flash('Email już zarejestrowany!')
-            return redirect(url_for('register'))
+            return render_template('register.html', username=username, email=email, error_field='email')
 
         # Generate verification code
         code = ''.join(random.choices(string.digits, k=6))
