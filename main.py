@@ -13,6 +13,7 @@ from npc_manager import create_npc_models
 import os
 import random
 import string
+from threading import Thread
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
@@ -27,6 +28,13 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'u7472955057@gmail.com')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'wvcd ixjh zlte xris'.replace(' ', ''))
 mail = Mail(app)
+
+def send_async_email(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except Exception as e:
+            print(f"Error sending email: {e}")
 
 # Database: Use PostgreSQL on Render, SQLite locally
 database_url = os.environ.get('DATABASE_URL')
@@ -151,16 +159,21 @@ def register():
         db.session.commit()
 
         # Send Verification Email
+        # Log code for safety
+        print(f"DEBUG: Code for {email}: {code}")
+        
         try:
             msg = Message('Kod weryfikacyjny - RPG Lochmistrz',
                           sender=app.config['MAIL_USERNAME'],
                           recipients=[email])
             msg.body = f'Twój kod weryfikacyjny to: {code}'
-            mail.send(msg)
+            # Send asynchronously
+            Thread(target=send_async_email, args=(app, msg)).start()
+            
             flash('Rejestracja udana! Kod weryfikacyjny został wysłany na Twój email.')
         except Exception as e:
-            print(f"Błąd wysyłania emaila: {e}")
-            flash(f'Rejestracja udana, ale nie udało się wysłać maila. Twój kod to (awaryjnie): {code}')
+            print(f"Błąd inicjalizacji wysyłania: {e}")
+            flash(f'Rejestracja udana. Jeśli nie otrzymasz maila, sprawdź logi.')
 
         return redirect(url_for('verify_email', email=email))
 
