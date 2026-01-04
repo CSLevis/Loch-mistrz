@@ -23,18 +23,23 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '87484AF684B71AA28BE7A48
 
 # Mail Configuration
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'u7472955057@gmail.com')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'wvcd ixjh zlte xris'.replace(' ', ''))
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'zwsr psin orcp hshg'.replace(' ', ''))
 mail = Mail(app)
 
 def send_async_email(app, msg):
     with app.app_context():
         try:
+            print(f"DEBUG: Attempting to send email to {msg.recipients}...")
             mail.send(msg)
+            print("DEBUG: Email sent successfully!")
         except Exception as e:
-            print(f"Error sending email: {e}")
+            print(f"CRITICAL ERROR sending email: {e}")
+            import traceback
+            traceback.print_exc()
 
 # Database: Use PostgreSQL on Render, SQLite locally
 database_url = os.environ.get('DATABASE_URL')

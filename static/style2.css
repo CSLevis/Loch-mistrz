@@ -13,8 +13,8 @@ body {
     font-family: sans-serif;
     background: url("tło.gif") repeat;
     padding: 40px 0;
-    overflow: hidden;
-    /* Ucięcie krawędzi */
+    overflow-y: auto;
+    /* Ucięcie krawędzi tylko w poziomie, pionowo scroll */
     /* usuń z-index z body - nie jest potrzebne */
 }
 
