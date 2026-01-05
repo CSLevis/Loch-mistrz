@@ -358,7 +358,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Błąd serwera: ${response.status}`);
+                    }
+                    return response.json().catch(err => {
+                        throw new Error('Serwer zwrócił nieprawidłowy format (prawdopodobnie wylogowano).');
+                    });
+                })
                 .then(data => {
                     if (data.success) {
                         showToast(data.message || 'Zapisano pomyślnie!');
@@ -371,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(err => {
                     console.error('AJAX Error:', err);
-                    showToast('Wystąpił błąd połączenia.', 'error');
+                    showToast(err.message || 'Błąd połączenia.', 'error');
                 })
                 .finally(() => {
                     submitBtn.disabled = false;

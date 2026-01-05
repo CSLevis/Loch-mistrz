@@ -1264,30 +1264,39 @@
 
 .money-input-group {
     display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.money-input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #8B4513;
-    border-radius: 3px;
-    font-size: 0.9em;
+    align-items: stretch;
     background: white;
+    border: 1px solid #8B4513;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.money-input:focus {
-    outline: none;
+.money-input-group:focus-within {
     border-color: #A0522D;
     box-shadow: 0 0 5px rgba(160, 82, 45, 0.3);
 }
 
+.money-input {
+    flex: 1;
+    padding: 10px;
+    border: none !important;
+    font-size: 16px;
+    background: transparent;
+    outline: none;
+    min-width: 0;
+}
+
 .money-label {
-    font-weight: bold;
+    background: rgba(139, 69, 19, 0.1);
     color: #8B4513;
-    min-width: 25px;
-    text-align: center;
+    font-weight: bold;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #8B4513;
+    min-width: 40px;
 }
 
 .converter-row {
