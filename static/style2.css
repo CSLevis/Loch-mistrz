@@ -607,6 +607,38 @@ h1 {
     }
 }
 
+/* ANIMACJA RZUTU KOSTEK */
+@keyframes diceRoll {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: scale(1.3);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    75% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.roll-animation {
+    animation: diceRoll 0.5s ease-in-out;
+}
+
 /* ROLLER SIDEBAR */
 .roller-sidebar {
     position: fixed;

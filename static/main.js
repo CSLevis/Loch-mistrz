@@ -121,6 +121,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
                     const result = data?.calculated_value ?? '';
+
+                    // Usuń animację jeśli istnieje, żeby można było ją ponownie uruchomić
+                    box.classList.remove('roll-animation');
+
+                    // Wymuszenie reflow (restart animacji)
+                    void box.offsetWidth;
+
+                    // Dodaj animację
+                    box.classList.add('roll-animation');
+
+                    // Ustaw wynik
                     box.textContent = result;
                 })
                 .catch(err => {
