@@ -2242,7 +2242,7 @@
     align-items: center;
     flex: 1;
     min-width: 250px;
-    font-color: #965861;
+    color: #965861;
 }
 
 .param-row label {
