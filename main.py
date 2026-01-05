@@ -333,6 +333,9 @@ def nowa_karta_warhammer():
         db.session.add(character)
         db.session.commit()
 
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Warhammer została zapisana!', 'redirect': url_for('karty_postaci')})
+
         flash('✅ Karta Warhammer została zapisana!')
         return redirect(url_for('karty_postaci'))
 
@@ -392,6 +395,10 @@ def edytuj_karte_warhammer(character_id):
         character.bieg = int(request.form.get('bieg', 0) or 0)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Warhammer została zaktualizowana!'})
+
         flash('✅ Karta Warhammer została zaktualizowana!')
         return redirect(url_for('karty_postaci'))
 
@@ -443,6 +450,10 @@ def bron_warhammer(character_id):
                 db.session.add(armor)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Broń i pancerze zostały zapisane!'})
+
         flash('✅ Broń i pancerze zostały zapisane!')
         return redirect(url_for('bron_warhammer', character_id=character_id))
 
@@ -527,6 +538,10 @@ def umiejetnosci_warhammer(character_id):
                 db.session.add(item)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Umiejętności zostały zapisane!'})
+
         flash('✅ Umiejętności zostały zapisane!')
         return redirect(url_for('umiejetnosci_warhammer', character_id=character_id))
 
@@ -567,6 +582,10 @@ def ekwipunek_warhammer(character_id):
                 db.session.add(item)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Ekwipunek został zapisany!'})
+
         flash('✅ Ekwipunek został zapisany!')
         return redirect(url_for('ekwipunek_warhammer', character_id=character_id))
 
@@ -719,6 +738,9 @@ def nowa_karta_dnd5e():
         db.session.add(character)
         db.session.commit()
 
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta D&D 5e została zapisana!', 'redirect': url_for('karty_postaci')})
+
         flash('✅ Karta D&D 5e została zapisana!')
         return redirect(url_for('karty_postaci'))
 
@@ -799,6 +821,10 @@ def edytuj_karte_dnd5e(character_id):
         character.death_failure_3 = 'death_failure_3' in request.form
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta D&D 5e została zaktualizowana!'})
+
         flash('✅ Karta D&D 5e została zaktualizowana!')
         return redirect(url_for('karty_postaci'))
 
@@ -838,6 +864,10 @@ def bieglosci_dnd5e(character_id):
             setattr(bieglosci, f'korzysci_{i + 1}_opis', request.form.get(f'korzysci_opis_{i}', ''))
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Biegłości zostały zapisane!'})
+
         flash('✅ Biegłości zostały zapisane!')
         return redirect(url_for('bieglosci_dnd5e', character_id=character_id))
 
@@ -885,6 +915,10 @@ def magia_dnd5e(character_id):
                     db.session.add(spell)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Magia została zapisana!'})
+
         flash('✅ Magia została zapisana!')
         return redirect(url_for('magia_dnd5e', character_id=character_id))
 
@@ -928,6 +962,10 @@ def ekwipunek_dnd5e(character_id):
                 db.session.add(item)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Ekwipunek został zapisany!'})
+
         flash('✅ Ekwipunek został zapisany!')
         return redirect(url_for('ekwipunek_dnd5e', character_id=character_id))
 
@@ -1005,6 +1043,9 @@ def nowa_karta_cthulhu():
         db.session.add(character)
         db.session.commit()
 
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Cthulhu została zapisana!', 'redirect': url_for('karty_postaci')})
+
         flash('✅ Karta Cthulhu została zapisana!')
         return redirect(url_for('karty_postaci'))
 
@@ -1042,6 +1083,10 @@ def edytuj_karte_cthulhu(character_id):
         character.poczytalnosc = int(request.form.get('poczytalnosc', 0) or 0)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Cthulhu została zaktualizowana!'})
+
         flash('✅ Karta Cthulhu została zaktualizowana!')
         return redirect(url_for('karty_postaci'))
 
@@ -1145,6 +1190,10 @@ def umiejetnosci_cthulhu(character_id):
         skills.custom_skill_5_val = int(request.form.get('custom_skill_5_val', 0) or 0)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Umiejętności zapisane!'})
+
         flash('✅ Umiejętności zapisane!')
         return redirect(url_for('edytuj_karte_cthulhu', character_id=character_id))
 
@@ -1183,6 +1232,10 @@ def bron_cthulhu(character_id):
                 db.session.add(item)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Broń została zapisana!'})
+
         flash('✅ Broń została zapisana!')
         return redirect(url_for('bron_cthulhu', character_id=character_id))
 

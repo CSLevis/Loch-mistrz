@@ -286,7 +286,97 @@ document.addEventListener('keydown', function (e) {
         currentX = 0;
     }, { passive: true });
 })();
+// ===== AJAX FORM SUBMISSION & TOAST NOTIFICATIONS =====
 
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Dodaj kontener na toasty jeśli nie istnieje
+    if (!document.getElementById('toast-container')) {
+        const container = document.createElement('div');
+        container.id = 'toast-container';
+        container.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 10000;';
+        document.body.appendChild(container);
+    }
 
+    // 2. Funkcja wyświetlająca toast
+    window.showToast = function (message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `
+            <div style="background: ${type === 'success' ? '#2c5f2d' : '#8b0000'}; 
+                        color: white; padding: 15px 25px; border-radius: 8px; 
+                        margin-bottom: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+                        border: 2px solid #FFD700; font-family: sans-serif;
+                        animation: slideIn 0.3s ease-out forwards;">
+                ${message}
+            </div>
+        `;
+        document.getElementById('toast-container').appendChild(toast);
 
+        // Usuń po 5 sekundach
+        setTimeout(() => {
+            toast.style.animation = 'slideOut 0.3s ease-in forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
+    };
 
+    // Dodaj style animacji do dokumentu
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+    `;
+    document.head.appendChild(style);
+
+    // 3. Interceptuj wszystkie formularze kart postaci
+    const forms = document.querySelectorAll('form.character-form-warhammer, form.character-form-cthulhu, form.character-form-dnd5e, form.skills-form-warhammer, form.weapons-form-warhammer, form.equipment-form-warhammer');
+
+    // Dodaj ogólny selektor dla wszystkich formularzy w kontenerach kart
+    const allForms = document.querySelectorAll('form');
+
+    allForms.forEach(form => {
+        // Tylko formularze które nie mają wyłączonego AJAXa
+        if (form.dataset.noAjax === 'true') return;
+
+        // Sprawdź czy to formularz zapisu (zwykle ma button type=submit)
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (!submitBtn) return;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const action = form.getAttribute('action') || window.location.href;
+
+            submitBtn.disabled = true;
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Zapisywanie...';
+
+            fetch(action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message || 'Zapisano pomyślnie!');
+                        if (data.redirect) {
+                            setTimeout(() => window.location.href = data.redirect, 1000);
+                        }
+                    } else {
+                        showToast(data.message || 'Błąd podczas zapisywania', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error('AJAX Error:', err);
+                    showToast('Wystąpił błąd połączenia.', 'error');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                });
+        });
+    });
+});
