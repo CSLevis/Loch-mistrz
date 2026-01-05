@@ -359,11 +359,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
                 .then(response => {
+                    if (response.redirected) {
+                        throw new Error('Nastąpiło przekierowanie (prawdopodobnie wylogowano lub błąd HTTPS). Odśwież stronę.');
+                    }
                     if (!response.ok) {
                         throw new Error(`Błąd serwera: ${response.status}`);
                     }
                     return response.json().catch(err => {
-                        throw new Error('Serwer zwrócił nieprawidłowy format (prawdopodobnie wylogowano).');
+                        throw new Error('Serwer zwrócił nieprawidłowy format (HTML zamiast JSON).');
                     });
                 })
                 .then(data => {

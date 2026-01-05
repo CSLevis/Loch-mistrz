@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
+from werkzeug.middleware.proxy_fix import ProxyFix
 from roller import calculate_dice_roll
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -17,6 +18,7 @@ from threading import Thread
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 # Security: Prefer environment variables for production
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '87484AF684B71AA28BE7A481655C2')
