@@ -4358,4 +4358,99 @@
         /* Force input to new line or full line */
         margin-bottom: 5px;
     }
+
+    /* Warhammer Stats Table Mobile Fix */
+    .warhammer-stats-table tr {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .warhammer-stats-table td {
+        flex: 1 0 25%;
+        /* 2 pairs (label + input) per line */
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .warhammer-row,
+    .warhammer-row.three-cols {
+        grid-template-columns: 1fr !important;
+    }
+
+    .card-form-container-warhammer {
+        padding: 15px;
+        margin: 20px auto;
+        width: 95%;
+    }
+
+    .character-form-warhammer {
+        padding: 15px;
+    }
+
+    .header-text-warhammer {
+        font-size: 32px;
+        text-align: center;
+    }
+
+    .cechy-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
+    }
+
+    .cecha-box {
+        padding: 10px;
+    }
+
+    .cecha-input {
+        width: 80%;
+    }
+
+    /* Skills and Abilities Mobile Fix */
+    .skill-header-row,
+    .skill-row-item {
+        grid-template-columns: 1fr !important;
+        text-align: left;
+        padding: 5px;
+    }
+
+    .skill-header-row {
+        display: none;
+        /* Hide header row on mobile as it won't align */
+    }
+
+    .skill-col-check {
+        justify-content: flex-start;
+        padding: 5px 0;
+    }
+
+    .skill-col-check::before {
+        content: attr(data-label);
+        /* Future proofing if data-label gets added */
+        margin-right: 10px;
+        font-weight: bold;
+        min-width: 100px;
+        display: inline-block;
+    }
+
+    /* Since we don't have data-label in HTML yet, let's use child-based labels or just stack them */
+    .skill-row-item .skill-col-check:nth-child(2)::before {
+        content: "Wykupione:";
+    }
+
+    .skill-row-item .skill-col-check:nth-child(3)::before {
+        content: "+10:";
+    }
+
+    .skill-row-item .skill-col-check:nth-child(4)::before {
+        content: "+20:";
+    }
+
+    .ability-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ability-col-name input,
+    .ability-col-desc input {
+        width: 100% !important;
+    }
 }
