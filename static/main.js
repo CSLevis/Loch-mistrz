@@ -359,15 +359,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
                 .then(response => {
+                    // Jeśli nastąpiło przekierowanie (np. sesja wygasła)
                     if (response.redirected) {
-                        throw new Error('Nastąpiło przekierowanie (prawdopodobnie wylogowano lub błąd HTTPS). Odśwież stronę.');
+                        window.location.href = response.url;
+                        return;
                     }
-                    if (!response.ok) {
-                        throw new Error(`Błąd serwera: ${response.status}`);
+
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json();
+                    } else {
+                        // Logowanie błędu dla dewelopera
+                        console.error('Oczekiwano JSON, otrzymano:', contentType);
+                        throw new Error('Serwer zwrócił nieprawidłowy format odpowiedzi. Odśwież stronę.');
                     }
-                    return response.json().catch(err => {
-                        throw new Error('Serwer zwrócił nieprawidłowy format (HTML zamiast JSON).');
-                    });
                 })
                 .then(data => {
                     if (data.success) {

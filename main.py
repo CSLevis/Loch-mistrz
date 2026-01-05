@@ -603,9 +603,8 @@ def usun_karte_warhammer(character_id):
     if character.user_id == current_user.id:
         db.session.delete(character)
         db.session.commit()
-        flash('✅ Karta Warhammer została usunięta!')
-    else:
-        flash('❌ Nie masz dostępu do tej karty!')
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Warhammer została usunięta!', 'redirect': url_for('karty_postaci')})
 
     return redirect(url_for('karty_postaci'))
 
@@ -986,9 +985,8 @@ def usun_karte_dnd5e(character_id):
     if character.user_id == current_user.id:
         db.session.delete(character)
         db.session.commit()
-        flash('✅ Karta D&D 5e została usunięta!')
-    else:
-        flash('❌ Nie masz dostępu do tej karty!')
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta D&D 5e została usunięta!', 'redirect': url_for('karty_postaci')})
 
     return redirect(url_for('karty_postaci'))
 
@@ -1253,9 +1251,8 @@ def usun_karte_cthulhu(character_id):
     if character.user_id == current_user.id:
         db.session.delete(character)
         db.session.commit()
-        flash('✅ Karta Cthulhu została usunięta!')
-    else:
-        flash('❌ Nie masz dostępu do tej karty!')
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Cthulhu została usunięta!', 'redirect': url_for('karty_postaci')})
 
     return redirect(url_for('karty_postaci'))
 
@@ -1387,6 +1384,10 @@ def nowa_karta_trader():
                 db.session.add(item)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Trader Manager\'a została utworzona!', 'redirect': url_for('karty_traderow')})
+
         flash('✅ Karta Trader Manager\'a została utworzona!')
         return redirect(url_for('karty_traderow'))
 
@@ -1451,6 +1452,10 @@ def edytuj_karte_trader(trader_id):
                 db.session.add(item)
 
         db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta Trader Manager\'a została zaktualizowana!'})
+
         flash('✅ Karta Trader Manager\'a została zaktualizowana!')
         return redirect(url_for('edytuj_karte_trader', trader_id=trader_id))
 
@@ -1474,6 +1479,10 @@ def usun_karte_trader(trader_id):
 
     db.session.delete(trader)
     db.session.commit()
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'success': True, 'message': '✅ Karta Trader Manager\'a została usunięta!', 'redirect': url_for('karty_traderow')})
+
     flash('✅ Karta Trader Manager\'a została usunięta!')
     return redirect(url_for('karty_traderow'))
 
