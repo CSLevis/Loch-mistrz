@@ -95,23 +95,56 @@
 
         const bgMusic = window.bgMusicInstance;
 
+        // Funkcja do aktualizacji ikony i stanu
+        function updateMusicUI() {
+            const toggle = document.getElementById('musicToggle');
+            if (!toggle) return;
+            const isMuted = localStorage.getItem('musicMuted') === 'true';
+            toggle.innerHTML = isMuted ? '🔇' : '🔊';
+            bgMusic.muted = isMuted;
+        }
+
+        // Funkcja przełączania
+        function toggleMusic(event) {
+            if (event) event.stopPropagation();
+            const isMuted = localStorage.getItem('musicMuted') === 'true';
+            const newState = !isMuted;
+            localStorage.setItem('musicMuted', newState);
+
+            updateMusicUI();
+
+            if (!newState) {
+                bgMusic.play().catch(err => console.log('Muzyka zablokowana przez przeglądarkę'));
+                sessionStorage.setItem('musicStarted', 'true');
+            } else {
+                // Nie pauzujemy fizycznie, tylko mutujemy, aby zachować ciągłość rytmu jeśli user odciszy
+                // Alternatywnie: bgMusic.pause();
+            }
+        }
+
         // Sprawdź czy muzyka już gra
-        if (sessionStorage.getItem('musicStarted') === 'true' && bgMusic.paused) {
+        const musicShouldPlay = sessionStorage.getItem('musicStarted') === 'true' && localStorage.getItem('musicMuted') !== 'true';
+        if (musicShouldPlay && bgMusic.paused) {
             bgMusic.play().catch(err => console.log('Nie można wznowić muzyki'));
         }
 
-        // Uruchom po pierwszym kliknięciu
+        // Uruchom po pierwszym kliknięciu (jeśli nie wyciszono)
         if (sessionStorage.getItem('musicStarted') !== 'true') {
             window.addEventListener('load', function () {
                 document.body.addEventListener('click', function startMusic() {
-                    bgMusic.play()
-                        .then(() => {
-                            sessionStorage.setItem('musicStarted', 'true');
-                            console.log('Muzyka wystartowała');
-                        })
-                        .catch(err => console.log('Muzyka zablokowana'));
+                    if (localStorage.getItem('musicMuted') !== 'true') {
+                        bgMusic.play()
+                            .then(() => {
+                                sessionStorage.setItem('musicStarted', 'true');
+                                console.log('Muzyka wystartowała');
+                            })
+                            .catch(err => console.log('Muzyka zablokowana'));
+                    }
                 }, { once: true });
+                updateMusicUI();
             });
+        } else {
+            window.addEventListener('load', updateMusicUI);
         }
     </script>
     <!-- DICE ROLLER SIDEBAR -->
@@ -124,8 +157,12 @@
         {% endif %}
     </div>
 
-    <!-- PRZYCISK TOGGLE -->
-    <button class="roller-toggle" onclick="toggleRoller()">🎲 Roller</button>
+    <!-- PRZYCISKI DOLNE -->
+    <div style="position: fixed; left: 20px; bottom: 20px; display: flex; gap: 10px; z-index: 9998;">
+        <button class="music-toggle" id="musicToggle" onclick="toggleMusic(event)"
+            title="Włącz/Wyłącz muzykę">🔊</button>
+        <button class="roller-toggle" onclick="toggleRoller()" style="position: static;">🎲 Roller</button>
+    </div>
 </body>
 
 </html>

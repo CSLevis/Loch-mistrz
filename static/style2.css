@@ -711,6 +711,34 @@ h1 {
     transform: translateY(0);
 }
 
+.music-toggle {
+    padding: 10px 15px;
+    background: linear-gradient(145deg, #1a4a3a, #2a6a5a);
+    color: white;
+    border: 2px solid #0a2a1a;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+.music-toggle:hover {
+    background: linear-gradient(145deg, #2a6a5a, #1a4a3a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.music-toggle:active {
+    transform: translateY(0);
+}
+
 /* ===== MEDIA QUERIES - MOBILE ===== */
 
 @media (max-width: 768px) {
