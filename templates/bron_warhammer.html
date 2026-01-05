@@ -5,12 +5,13 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
 
-<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');">
+</div>
 <div class="overlay2"></div>
 
 <div class="card-form-container-warhammer">
     <h1 class="header-text-warhammer">Broń: {{ character.imie }}</h1>
-    
+
     <form method="POST" class="weapons-form-warhammer">
         {{ form.hidden_tag() if form else '' }}
 
@@ -43,14 +44,22 @@
                 {% for i in range(1, 9) %}
                 {% set weapon = bron | selectattr('bron_index', 'equalto', i-1) | first %}
                 <tr>
-                    <td><input type="text" name="weapon_name_{{ i }}" class="weapon-input" placeholder="Nazwa broni" value="{{ weapon.nazwa_broni if weapon else '' }}"></td>
-                    <td><input type="number" name="weapon_obc_{{ i }}" class="weapon-number" value="{{ weapon.obciazenie if weapon else '0' }}"></td>
-                    <td><input type="text" name="weapon_category_{{ i }}" class="weapon-input" placeholder="Kategoria" value="{{ weapon.typ if weapon else '' }}"></td>
-                    <td><input type="number" name="weapon_sila_{{ i }}" class="weapon-number" value="{{ weapon.sila if weapon else '0' }}"></td>
-                    <td><input type="text" name="weapon_broni_{{ i }}" class="weapon-input" placeholder="Broni" value="{{ weapon.szkody if weapon else '' }}"></td>
-                    <td><input type="text" name="weapon_zasieg_{{ i }}" class="weapon-input" placeholder="Zasięg" value="{{ weapon.zasieg if weapon else '' }}"></td>
-                    <td><input type="number" name="weapon_przeload_{{ i }}" class="weapon-number" value="{{ weapon.przeladowanie if weapon else '0' }}"></td>
-                    <td><input type="text" name="weapon_cechy_{{ i }}" class="weapon-input" placeholder="Cechy" value="{{ weapon.cechy if weapon else '' }}"></td>
+                    <td><input type="text" name="weapon_name_{{ i }}" class="weapon-input" placeholder="Nazwa broni"
+                            value="{{ weapon.nazwa_broni if weapon else '' }}"></td>
+                    <td><input type="number" name="weapon_obc_{{ i }}" class="weapon-number"
+                            value="{{ weapon.obciazenie if weapon else '0' }}"></td>
+                    <td><input type="text" name="weapon_category_{{ i }}" class="weapon-input" placeholder="Kategoria"
+                            value="{{ weapon.typ if weapon else '' }}"></td>
+                    <td><input type="number" name="weapon_sila_{{ i }}" class="weapon-number"
+                            value="{{ weapon.sila if weapon else '0' }}"></td>
+                    <td><input type="text" name="weapon_broni_{{ i }}" class="weapon-input" placeholder="Broni"
+                            value="{{ weapon.szkody if weapon else '' }}"></td>
+                    <td><input type="text" name="weapon_zasieg_{{ i }}" class="weapon-input" placeholder="Zasięg"
+                            value="{{ weapon.zasieg if weapon else '' }}"></td>
+                    <td><input type="number" name="weapon_przeload_{{ i }}" class="weapon-number"
+                            value="{{ weapon.przeladowanie if weapon else '0' }}"></td>
+                    <td><input type="text" name="weapon_cechy_{{ i }}" class="weapon-input" placeholder="Cechy"
+                            value="{{ weapon.cechy if weapon else '' }}"></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -75,9 +84,13 @@
                 {% for i in range(1, 9) %}
                 {% set armor_item = armor | selectattr('armor_index', 'equalto', i-1) | first %}
                 <tr>
-                    <td><input type="text" name="armor_type_{{ i }}" class="armor-input" placeholder="Typ pancerza" value="{{ armor_item.armor_type if armor_item else '' }}"></td>
-                    <td><input type="text" name="armor_location_{{ i }}" class="armor-input" placeholder="np. Cała postać, Tułów" value="{{ armor_item.armor_location if armor_item else '' }}"></td>
-                    <td><input type="number" name="armor_pz_{{ i }}" class="armor-number" value="{{ armor_item.armor_pz if armor_item else '0' }}"></td>
+                    <td><input type="text" name="armor_type_{{ i }}" class="armor-input" placeholder="Typ pancerza"
+                            value="{{ armor_item.armor_type if armor_item else '' }}"></td>
+                    <td><input type="text" name="armor_location_{{ i }}" class="armor-input"
+                            placeholder="np. Cała postać, Tułów"
+                            value="{{ armor_item.armor_location if armor_item else '' }}"></td>
+                    <td><input type="number" name="armor_pz_{{ i }}" class="armor-number"
+                            value="{{ armor_item.armor_pz if armor_item else '0' }}"></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -86,10 +99,11 @@
         <!-- PRZYCISKI -->
         <div class="form-buttons">
             <button type="submit" class="btn btn-save">Zapisz broń</button>
-            <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}" class="btn btn-cancel">Powrót do karty</a>
+            <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}" class="btn btn-cancel">Powrót
+                do karty</a>
         </div>
     </form>
 </div>
 
-<script src="{{ url_for('static', filename='main.js') }}"></script>
+<script src="{{ url_for('static', filename='main.js') }}?v={{ range(1, 9999) | random }}"></script>
 {% endblock %}

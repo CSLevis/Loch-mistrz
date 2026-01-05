@@ -5,7 +5,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
 
-<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');">
+</div>
 <div class="overlay2"></div>
 
 <div class="card-form-container-warhammer">
@@ -175,5 +176,5 @@
     </form>
 </div>
 
-<script src="{{ url_for('static', filename='main.js') }}"></script>
+<script src="{{ url_for('static', filename='main.js') }}?v={{ range(1, 9999) | random }}"></script>
 {% endblock %}
