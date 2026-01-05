@@ -37,6 +37,7 @@
             width: 100%;
             margin-bottom: 8px;
             margin-top: 50px;
+            margin-left: -30px;
         }
 
         .header-left {
@@ -49,7 +50,7 @@
         .header-text {
             font-family: fangsong;
             color: white;
-            font-size: 81px;
+            font-size: 55px !important;
             font-weight: bold;
             text-shadow: -1px -1px 0 #76521e, 1px -1px 0 #76521e, -1px 1px 0 #76521e, 1px 1px 0 #76521e;
             margin: 0;
@@ -71,7 +72,7 @@
 
         .header-text2 {
             color: white;
-            font-size: 48px;
+            font-size: 47px !important;
             font-weight: bold;
             margin: 0;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -82,7 +83,7 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            height: 76px;
+            height: 48px;
         }
 
         .arrow-btn {
@@ -90,8 +91,8 @@
             border: none;
             cursor: pointer;
             padding: 0;
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -106,38 +107,45 @@
         .number-display {
             font-family: fangsong;
             color: white;
-            font-size: 61px;
+            font-size: 45px;
             font-weight: bold;
             text-shadow: -1px -1px 0 #76521e, 1px -1px 0 #76521e, -1px 1px 0 #76521e, 1px 1px 0 #76521e;
-            line-height: 76px;
-            min-width: 76px;
+            line-height: 48px;
+            min-width: 48px;
             text-align: center;
         }
 
         .flex-container {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 0px;
             align-items: center;
+            margin-left: -15px;
         }
 
         .column {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 10px;
+            gap: 20px;
             align-items: center;
+            margin-left: -10px;
+        }
+
+        .column+.column {
+            margin-top: -86px;
         }
 
         .buttonrol {
-            width: 153px;
-            height: 153px;
+            width: 180px;
+            height: 180px;
             border: none;
             background: none;
             cursor: pointer;
             padding: 0;
             margin: 0;
         }
+
 
         .buttonrol img {
             width: 100%;
@@ -146,8 +154,8 @@
         }
 
         .display-box {
-            width: 221px;
-            height: 170px;
+            width: 263px;
+            height: 203px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -167,19 +175,11 @@
             font-family: fangsong;
             font-weight: bold;
             color: white;
-            font-size: 54px;
+            font-size: 32px;
             text-shadow: -1px -1px 0 #76521e, 1px -1px 0 #76521e, -1px 1px 0 #76521e, 1px 1px 0 #76521e;
         }
 
-        .bottom-row {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin-top: 2px;
-            gap: 2px;
-        }
+
 
         .bottom-left {
             flex: 1;
@@ -205,11 +205,13 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(139, 69, 19, 0.3);
+            background: rgba(139, 69, 19, 0.5);
             border: 2px solid #8B4513;
             border-radius: 8px;
-            padding: 12px;
+            padding: 10px;
             backdrop-filter: blur(5px);
+            margin: 60px;
+            margin-bottom: 80px;
         }
 
         .custom-input {
@@ -223,8 +225,8 @@
         }
 
         .display-box2 {
-            width: 238px;
-            height: 170px;
+            width: 276px;
+            height: 203px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -315,20 +317,18 @@
                         <div class="display-content" id="box6"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- CUSTOM -->
-            <div class="bottom-row">
-                <div class="column">
-                    <button class="buttonrol" id="b7"><img src="{{ url_for('static', filename='dms2.png') }}"></button>
-                    <div class="form-window">
-                        <input type="text" id="customInput" placeholder="sides" class="custom-input">
+                <!-- CUSTOM -->
+                <div class="column" style="flex-direction: column; gap: 6px; margin-top: 12px;">
+                    <button class="buttonrol" id="b7" style="width: 180px; height: 180px;"><img
+                            src="{{ url_for('static', filename='dms2.png') }}"></button>
+                    <div class="form-window" style="margin: 6px; padding: 10px;">
+                        <input type="text" id="customInput" placeholder="sides" class="custom-input"
+                            style="width: 90px; font-size: 17px; padding: 6px; text-align: center;">
                     </div>
-                </div>
-                <div class="column">
-                    <div class="display-box2"
-                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                        <div class="display-content" id="box7"></div>
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}'); width: 228px; height: 174px;">
+                        <div class="display-content" id="box7" style="font-size: 27px;"></div>
                     </div>
                 </div>
             </div>

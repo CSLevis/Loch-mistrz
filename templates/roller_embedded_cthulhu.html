@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,128 +12,154 @@
             padding: 8px;
             background: rgba(156, 194, 174, 0.95);
         }
-        .floating-image, .overlay2 {
+
+        .floating-image,
+        .overlay2 {
             display: none;
         }
+
         .overlay-container {
             padding: 0;
         }
+
         .overlay-bg {
             display: none;
         }
+
         .content-wrapper {
             display: flex;
             flex-direction: column;
         }
+
         .header-row {
             display: flex;
             justify-content: space-between;
             width: 100%;
             margin-bottom: 8px;
             margin-top: 50px;
+            margin-left: -30px;
         }
+
         .header-left {
             flex: 1;
             display: flex;
             justify-content: flex-start;
             padding-left: 10px;
         }
+
         .header-text {
             font-family: fangsong;
             color: #e0f7eb;
-            font-size: 32px;
+            font-size: 23px !important;
             font-weight: bold;
             text-shadow: -1px -1px 0 #1a3a2a, 1px -1px 0 #1a3a2a, -1px 1px 0 #1a3a2a, 1px 1px 0 #1a3a2a;
             margin: 0;
         }
+
         .header-right {
             flex: 1;
             display: flex;
             justify-content: flex-end;
             padding-right: 10px;
         }
+
         .number-control-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
         }
+
         .header-text2 {
             color: #e0f7eb;
-            font-size: 14px;
+            font-size: 11px !important;
             font-weight: bold;
             margin: 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
+
         .number-controls {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            height: 45px;
+            height: 29px;
         }
+
         .arrow-btn {
             background: none;
             border: none;
             cursor: pointer;
             padding: 0;
-            width: 35px;
-            height: 35px;
+            width: 29px;
+            height: 29px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .arrow-btn img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
+
         .number-display {
             font-family: fangsong;
             color: #e0f7eb;
-            font-size: 36px;
+            font-size: 27px;
             font-weight: bold;
             text-shadow: -1px -1px 0 #1a3a2a, 1px -1px 0 #1a3a2a, -1px 1px 0 #1a3a2a, 1px 1px 0 #1a3a2a;
-            line-height: 45px;
-            min-width: 45px;
+            line-height: 29px;
+            min-width: 29px;
             text-align: center;
         }
+
         .flex-container {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 0px;
             align-items: center;
         }
+
         .column {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 6px;
+            gap: 20px;
             align-items: center;
         }
+
+        .column+.column {
+            margin-top: -86px;
+        }
+
         .buttonrol {
-            width: 90px;
-            height: 90px;
+            width: 180px;
+            height: 180px;
             border: none;
             background: none;
             cursor: pointer;
             padding: 0;
             margin: 0;
         }
+
         .buttonrol img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
+
         .display-box {
-            width: 130px;
-            height: 100px;
+            width: 263px;
+            height: 203px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             position: relative;
             margin: 0;
         }
+
         .display-content {
             position: absolute;
             top: 0;
@@ -148,20 +175,15 @@
             font-size: 32px;
             text-shadow: -1px -1px 0 #1a3a2a, 1px -1px 0 #1a3a2a, -1px 1px 0 #1a3a2a, 1px 1px 0 #1a3a2a;
         }
-        .bottom-row {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin-top: 6px;
-            gap: 6px;
-        }
+
+
+
         .bottom-left {
             flex: 1;
             display: flex;
             justify-content: center;
         }
+
         .bottom-center {
             flex: 1;
             display: flex;
@@ -169,21 +191,26 @@
             align-items: center;
             width: 100%;
         }
+
         .bottom-right {
             flex: 1;
             display: flex;
             justify-content: center;
         }
+
         .form-window {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(26, 58, 42, 0.4);
+            background: rgba(26, 58, 42, 0.6);
             border: 2px solid #1a3a2a;
             border-radius: 8px;
-            padding: 8px;
+            padding: 10px;
             backdrop-filter: blur(5px);
+            margin: 55px;
+            margin-bottom: 75px;
         }
+
         .custom-input {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid #1a3a2a;
@@ -193,15 +220,17 @@
             outline: none;
             width: 120px;
         }
+
         .display-box2 {
-            width: 140px;
-            height: 100px;
+            width: 276px;
+            height: 203px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             position: relative;
             margin: 0;
         }
+
         .buttonrol img {
             width: 100%;
             height: 100%;
@@ -214,6 +243,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="overlay-container">
         <div class="overlay-bg"></div>
@@ -245,7 +275,8 @@
                 <!-- d4 -->
                 <div class="column">
                     <button class="buttonrol" id="b1"><img src="{{ url_for('static', filename='d4a.png') }}"></button>
-                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
                         <div class="display-content" id="box1"></div>
                     </div>
                 </div>
@@ -253,7 +284,8 @@
                 <!-- d6 -->
                 <div class="column">
                     <button class="buttonrol" id="b2"><img src="{{ url_for('static', filename='d6a.png') }}"></button>
-                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
                         <div class="display-content" id="box2"></div>
                     </div>
                 </div>
@@ -261,7 +293,8 @@
                 <!-- d8 -->
                 <div class="column">
                     <button class="buttonrol" id="b3"><img src="{{ url_for('static', filename='d8a.png') }}"></button>
-                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
                         <div class="display-content" id="box3"></div>
                     </div>
                 </div>
@@ -269,7 +302,8 @@
                 <!-- d10 -->
                 <div class="column">
                     <button class="buttonrol" id="b4"><img src="{{ url_for('static', filename='d10a.png') }}"></button>
-                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
                         <div class="display-content" id="box4"></div>
                     </div>
                 </div>
@@ -277,7 +311,8 @@
                 <!-- d12 -->
                 <div class="column">
                     <button class="buttonrol" id="b5"><img src="{{ url_for('static', filename='d12a.png') }}"></button>
-                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
                         <div class="display-content" id="box5"></div>
                     </div>
                 </div>
@@ -285,23 +320,23 @@
                 <!-- d20 -->
                 <div class="column">
                     <button class="buttonrol" id="b6"><img src="{{ url_for('static', filename='d20a.png') }}"></button>
-                    <div class="display-box" style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
                         <div class="display-content" id="box6"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- CUSTOM -->
-            <div class="bottom-row">
-                <div class="column">
-                    <button class="buttonrol" id="b7"><img src="{{ url_for('static', filename='dms2.png') }}"></button>
-                    <div class="form-window">
-                        <input type="text" id="customInput" placeholder="sides" class="custom-input">
+                <!-- CUSTOM -->
+                <div class="column" style="flex-direction: column; gap: 6px; margin-top: 12px;">
+                    <button class="buttonrol" id="b7" style="width: 180px; height: 180px;"><img
+                            src="{{ url_for('static', filename='dms2.png') }}"></button>
+                    <div class="form-window" style="margin: 10px; padding: 15px;">
+                        <input type="text" id="customInput" placeholder="sides" class="custom-input"
+                            style="width: 90px; font-size: 17px; padding: 10px; text-align: center;">
                     </div>
-                </div>
-                <div class="column">
-                    <div class="display-box2" style="background-image: url('{{ url_for('static', filename='ramc.png') }}');">
-                        <div class="display-content" id="box7"></div>
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='ramc.png') }}'); width: 228px; height: 174px;">
+                        <div class="display-content" id="box7" style="font-size: 27px;"></div>
                     </div>
                 </div>
             </div>
@@ -310,4 +345,5 @@
 
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
+
 </html>
