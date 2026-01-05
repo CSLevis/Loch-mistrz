@@ -290,6 +290,38 @@
     font-size: 14px;
 }
 
+/* WARHAMMER SPECIFIC BUTTON LAYOUT */
+.character-form-warhammer .form-buttons {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 2px solid #8B4513;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    border-top: 2px solid #8B4513;
+    /* Overriding general border-top behavior if needed, but here it fits the box */
+}
+
+.character-form-warhammer .form-buttons .btn {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 45px;
+    font-size: 16px;
+}
+
+@media (min-width: 769px) {
+    /* Optional: On larger screens, maybe 2 columns? 
+       But user asked for "full width like frames", so 1 column is the safest interpretation of "full width".
+       If they wanted them side-by-side but wide, grid-template-columns: 1fr 1fr;
+    */
+}
+
 /* ===== SZABLONY ===== */
 
 .template-selector {
