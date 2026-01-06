@@ -119,11 +119,9 @@ with app.app_context():
                 print("! Stara nazwa kolumny 'cena' zamiast 'cena_jednostkowa'")
 
             if needs_migration:
-                print("... Usuwanie starych tabel trader_manager...")
-                db.session.execute(text('DROP TABLE IF EXISTS trader_item'))
-                db.session.execute(text('DROP TABLE IF EXISTS trader_manager'))
-                db.session.commit()
-                print("OK Stare tabele usunięte")
+                print("! UWAGA: Wykryto starą strukturę tabel trader_manager.")
+                print("! Aby zastosować zmiany, zresetuj bazę danych skryptem reset_database.py")
+                print("! Automatyczne usuwanie tabel zostało wyłączone dla bezpieczeństwa danych.")
     except Exception as e:
         print(f"Error Błąd podczas sprawdzania migracji: {e}")
         db.session.rollback()
