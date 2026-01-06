@@ -3,387 +3,519 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}?v={{ range(1, 9999) | random }}">
 
 <div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');">
 </div>
 <div class="overlay2"></div>
 
 <div class="card-form-container-warhammer">
-    <h1 class="header-text-warhammer">{{ character.imie or 'Postać bez imienia' }} - Umiejętności</h1>
+        <h1 class="header-text-warhammer">{{ character.imie or 'Postać bez imienia' }} - Umiejętności</h1>
 
-    <form method="POST" action="{{ url_for('umiejetnosci_warhammer', character_id=character.id) }}"
-        class="skills-form-warhammer">
+        <form method="POST" action="{{ url_for('umiejetnosci_warhammer', character_id=character.id) }}"
+                class="skills-form-warhammer">
 
-        <!-- UMIEJĘTNOŚCI PODSTAWOWE -->
-        <div class="skills-section">
-            <div class="section-title">Umiejętności Podstawowe</div>
+                <!-- UMIEJĘTNOŚCI PODSTAWOWE -->
+                <div class="skills-section">
+                        <div class="section-title">Umiejętności Podstawowe</div>
 
-            <div class="skills-table-basic">
-                <div class="skill-header-row">
-                    <div class="skill-col-check">Podstawowe</div>
-                    <div class="skill-col-check">Wykupione</div>
-                    <div class="skill-col-check">+10</div>
-                    <div class="skill-col-check">+20</div>
-                    <div class="skill-col-related">Zdolności pokrewne</div>
+                        <div class="skills-table-basic">
+                                <div class="skill-header-row">
+                                        <div class="skill-col-check">Podstawowe</div>
+                                        <div class="skill-col-check">Wykupione</div>
+                                        <div class="skill-col-check">+10</div>
+                                        <div class="skill-col-check">+20</div>
+                                        <div class="skill-col-related">Zdolności pokrewne</div>
+                                </div>
+
+                                {% set skill_charakteryzacja = umiejetnosci | selectattr('nazwa_umiejetnosci',
+                                'equalto',
+                                'charakteryzacja') | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Charakteryzacja</div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_charakteryzacja_buy" {{ 'checked' if
+                                                        skill_charakteryzacja and skill_charakteryzacja.poziom=='Bought'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_charakteryzacja_10" {{ 'checked' if
+                                                        skill_charakteryzacja and skill_charakteryzacja.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_charakteryzacja_20" {{ 'checked' if
+                                                        skill_charakteryzacja and skill_charakteryzacja.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_charakteryzacja_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_charakteryzacja.wymogi if skill_charakteryzacja else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_dowodzenie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'dowodzenie') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Dowodzenie</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_dowodzenie_buy"
+                                                        {{ 'checked' if skill_dowodzenie and
+                                                        skill_dowodzenie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_dowodzenie_10"
+                                                        {{ 'checked' if skill_dowodzenie and
+                                                        skill_dowodzenie.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_dowodzenie_20"
+                                                        {{ 'checked' if skill_dowodzenie and
+                                                        skill_dowodzenie.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_dowodzenie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_dowodzenie.wymogi if skill_dowodzenie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_hazard = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'hazard') | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Hazard</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_hazard_buy"
+                                                        {{ 'checked' if skill_hazard and skill_hazard.poziom=='Bought'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_hazard_10"
+                                                        {{ 'checked' if skill_hazard and skill_hazard.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_hazard_20"
+                                                        {{ 'checked' if skill_hazard and skill_hazard.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_hazard_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_hazard.wymogi if skill_hazard else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_jedzdzictwo = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'jedzdzictwo') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Jeździectwo</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_jedzdzictwo_buy"
+                                                        {{ 'checked' if skill_jedzdzictwo and
+                                                        skill_jedzdzictwo.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_jedzdzictwo_10"
+                                                        {{ 'checked' if skill_jedzdzictwo and
+                                                        skill_jedzdzictwo.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_jedzdzictwo_20"
+                                                        {{ 'checked' if skill_jedzdzictwo and
+                                                        skill_jedzdzictwo.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_jedzdzictwo_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_jedzdzictwo.wymogi if skill_jedzdzictwo else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_mocnaglowa = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'mocnaglowa') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Mocna Głowa</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_mocnaglowa_buy"
+                                                        {{ 'checked' if skill_mocnaglowa and
+                                                        skill_mocnaglowa.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_mocnaglowa_10"
+                                                        {{ 'checked' if skill_mocnaglowa and
+                                                        skill_mocnaglowa.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_mocnaglowa_20"
+                                                        {{ 'checked' if skill_mocnaglowa and
+                                                        skill_mocnaglowa.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_mocnaglowa_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_mocnaglowa.wymogi if skill_mocnaglowa else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_opieka = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'opieka') | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Opieka nad zwierzętami</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_opieka_buy"
+                                                        {{ 'checked' if skill_opieka and skill_opieka.poziom=='Bought'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_opieka_10"
+                                                        {{ 'checked' if skill_opieka and skill_opieka.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_opieka_20"
+                                                        {{ 'checked' if skill_opieka and skill_opieka.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_opieka_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_opieka.wymogi if skill_opieka else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_plotkowanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'plotkowanie') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Plotkowanie</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_plotkowanie_buy"
+                                                        {{ 'checked' if skill_plotkowanie and
+                                                        skill_plotkowanie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_plotkowanie_10"
+                                                        {{ 'checked' if skill_plotkowanie and
+                                                        skill_plotkowanie.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_plotkowanie_20"
+                                                        {{ 'checked' if skill_plotkowanie and
+                                                        skill_plotkowanie.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_plotkowanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_plotkowanie.wymogi if skill_plotkowanie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_plywanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'plywanie') | first
+                                %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Pływanie</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_plywanie_buy"
+                                                        {{ 'checked' if skill_plywanie and
+                                                        skill_plywanie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_plywanie_10"
+                                                        {{ 'checked' if skill_plywanie and skill_plywanie.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_plywanie_20"
+                                                        {{ 'checked' if skill_plywanie and skill_plywanie.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_plywanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_plywanie.wymogi if skill_plywanie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_powozenie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'powozenie') | first
+                                %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Powożenie</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_powozenie_buy"
+                                                        {{ 'checked' if skill_powozenie and
+                                                        skill_powozenie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_powozenie_10"
+                                                        {{ 'checked' if skill_powozenie and skill_powozenie.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_powozenie_20"
+                                                        {{ 'checked' if skill_powozenie and skill_powozenie.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_powozenie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_powozenie.wymogi if skill_powozenie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_przekonywanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'przekonywanie')
+                                | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Przekonywanie</div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_przekonywanie_buy" {{ 'checked' if
+                                                        skill_przekonywanie and skill_przekonywanie.poziom=='Bought'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_przekonywanie_10" {{ 'checked' if
+                                                        skill_przekonywanie and skill_przekonywanie.koszt=='+10' else ''
+                                                        }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_przekonywanie_20" {{ 'checked' if
+                                                        skill_przekonywanie and skill_przekonywanie.koszt=='+20' else ''
+                                                        }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_przekonywanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_przekonywanie.wymogi if skill_przekonywanie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_przeszukiwanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'przeszukiwanie') | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Przeszukiwanie</div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_przeszukiwanie_buy" {{ 'checked' if
+                                                        skill_przeszukiwanie and skill_przeszukiwanie.poziom=='Bought'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_przeszukiwanie_10" {{ 'checked' if
+                                                        skill_przeszukiwanie and skill_przeszukiwanie.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_przeszukiwanie_20" {{ 'checked' if
+                                                        skill_przeszukiwanie and skill_przeszukiwanie.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_przeszukiwanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_przeszukiwanie.wymogi if skill_przeszukiwanie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_skradanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'skradanie') | first
+                                %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Skradanie się</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_skradanie_buy"
+                                                        {{ 'checked' if skill_skradanie and
+                                                        skill_skradanie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_skradanie_10"
+                                                        {{ 'checked' if skill_skradanie and skill_skradanie.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_skradanie_20"
+                                                        {{ 'checked' if skill_skradanie and skill_skradanie.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_skradanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_skradanie.wymogi if skill_skradanie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_spostrzegawczosc = umiejetnosci | selectattr('nazwa_umiejetnosci',
+                                'equalto',
+                                'spostrzegawczosc') | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Spostrzegawczość</div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_spostrzegawczosc_buy" {{ 'checked' if
+                                                        skill_spostrzegawczosc and
+                                                        skill_spostrzegawczosc.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_spostrzegawczosc_10" {{ 'checked' if
+                                                        skill_spostrzegawczosc and skill_spostrzegawczosc.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_spostrzegawczosc_20" {{ 'checked' if
+                                                        skill_spostrzegawczosc and skill_spostrzegawczosc.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_spostrzegawczosc_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_spostrzegawczosc.wymogi if skill_spostrzegawczosc else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_sztuka = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'sztuka') | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Sztuka przetrwania</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_sztuka_buy"
+                                                        {{ 'checked' if skill_sztuka and skill_sztuka.poziom=='Bought'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_sztuka_10"
+                                                        {{ 'checked' if skill_sztuka and skill_sztuka.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_sztuka_20"
+                                                        {{ 'checked' if skill_sztuka and skill_sztuka.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_sztuka_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_sztuka.wymogi if skill_sztuka else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_targowanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'targowanie') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Targowanie</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_targowanie_buy"
+                                                        {{ 'checked' if skill_targowanie and
+                                                        skill_targowanie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_targowanie_10"
+                                                        {{ 'checked' if skill_targowanie and
+                                                        skill_targowanie.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_targowanie_20"
+                                                        {{ 'checked' if skill_targowanie and
+                                                        skill_targowanie.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_targowanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_targowanie.wymogi if skill_targowanie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_ukrywanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'ukrywanie') | first
+                                %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Ukrywanie się</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_ukrywanie_buy"
+                                                        {{ 'checked' if skill_ukrywanie and
+                                                        skill_ukrywanie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_ukrywanie_10"
+                                                        {{ 'checked' if skill_ukrywanie and skill_ukrywanie.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_ukrywanie_20"
+                                                        {{ 'checked' if skill_ukrywanie and skill_ukrywanie.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_ukrywanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_ukrywanie.wymogi if skill_ukrywanie else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_wioslarstwo = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'wioslarstwo') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Wioślarstwo</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wioslarstwo_buy"
+                                                        {{ 'checked' if skill_wioslarstwo and
+                                                        skill_wioslarstwo.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wioslarstwo_10"
+                                                        {{ 'checked' if skill_wioslarstwo and
+                                                        skill_wioslarstwo.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wioslarstwo_20"
+                                                        {{ 'checked' if skill_wioslarstwo and
+                                                        skill_wioslarstwo.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_wioslarstwo_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_wioslarstwo.wymogi if skill_wioslarstwo else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_wspinaczka = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'wspinaczka') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Wspinaczka</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wspinaczka_buy"
+                                                        {{ 'checked' if skill_wspinaczka and
+                                                        skill_wspinaczka.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wspinaczka_10"
+                                                        {{ 'checked' if skill_wspinaczka and
+                                                        skill_wspinaczka.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wspinaczka_20"
+                                                        {{ 'checked' if skill_wspinaczka and
+                                                        skill_wspinaczka.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_wspinaczka_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_wspinaczka.wymogi if skill_wspinaczka else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_wycena = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'wycena') | first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Wycena</div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wycena_buy"
+                                                        {{ 'checked' if skill_wycena and skill_wycena.poziom=='Bought'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wycena_10"
+                                                        {{ 'checked' if skill_wycena and skill_wycena.koszt=='+10'
+                                                        else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_wycena_20"
+                                                        {{ 'checked' if skill_wycena and skill_wycena.koszt=='+20'
+                                                        else '' }}></div>
+                                        <div class="skill-col-related"><input type="text" name="basic_wycena_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_wycena.wymogi if skill_wycena else '' }}">
+                                        </div>
+                                </div>
+
+                                {% set skill_zastraszanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
+                                'zastraszanie') |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name">Zastraszanie</div>
+                                        <div class="skill-col-check"><input type="checkbox"
+                                                        name="basic_zastraszanie_buy" {{ 'checked' if skill_zastraszanie
+                                                        and skill_zastraszanie.poziom=='Bought' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_zastraszanie_10"
+                                                        {{ 'checked' if skill_zastraszanie and
+                                                        skill_zastraszanie.koszt=='+10' else '' }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="basic_zastraszanie_20"
+                                                        {{ 'checked' if skill_zastraszanie and
+                                                        skill_zastraszanie.koszt=='+20' else '' }}></div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="basic_zastraszanie_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ skill_zastraszanie.wymogi if skill_zastraszanie else '' }}">
+                                        </div>
+                                </div>
+                        </div>
                 </div>
 
-                {% set skill_charakteryzacja = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
-                'charakteryzacja') | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Charakteryzacja</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_charakteryzacja_buy" {{ 'checked' if
-                            skill_charakteryzacja and skill_charakteryzacja.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_charakteryzacja_10" {{ 'checked' if
-                            skill_charakteryzacja and skill_charakteryzacja.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_charakteryzacja_20" {{ 'checked' if
-                            skill_charakteryzacja and skill_charakteryzacja.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_charakteryzacja_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_charakteryzacja.wymogi if skill_charakteryzacja else '' }}"></div>
+                <!-- UMIEJĘTNOŚCI ZAAWANSOWANE -->
+                <div class="skills-section">
+                        <div class="section-title">Umiejętności Zaawansowane</div>
+
+                        <div class="skills-table-advanced">
+                                <div class="skill-header-row">
+                                        <div class="skill-col-check">Zaawansowane</div>
+                                        <div class="skill-col-check">Wykupione</div>
+                                        <div class="skill-col-check">+10</div>
+                                        <div class="skill-col-check">+20</div>
+                                        <div class="skill-col-related">Zdolności pokrewne</div>
+                                </div>
+
+                                {% for i in range(20) %}
+                                {% set adv_skill = umiejetnosci | selectattr('umiejetnosc_index', 'equalto', 100 + i) |
+                                first %}
+                                <div class="skill-row-item">
+                                        <div class="skill-col-name"><input type="text" name="advanced_name_{{ i }}"
+                                                        placeholder="Nazwa umiejętności"
+                                                        value="{{ adv_skill.nazwa_umiejetnosci if adv_skill else '' }}">
+                                        </div>
+                                        <div class="skill-col-check"><input type="checkbox" name="advanced_{{ i }}_buy"
+                                                        {{ 'checked' if adv_skill and adv_skill.poziom=='Bought' else ''
+                                                        }}></div>
+                                        <div class="skill-col-check"><input type="checkbox" name="advanced_{{ i }}_10"
+                                                        {{ 'checked' if adv_skill and adv_skill.koszt=='+10' else '' }}>
+                                        </div>
+                                        <div class="skill-col-check"><input type="checkbox" name="advanced_{{ i }}_20"
+                                                        {{ 'checked' if adv_skill and adv_skill.koszt=='+20' else '' }}>
+                                        </div>
+                                        <div class="skill-col-related"><input type="text"
+                                                        name="advanced_{{ i }}_related"
+                                                        placeholder="Powiązane zdolności"
+                                                        value="{{ adv_skill.wymogi if adv_skill else '' }}"></div>
+                                </div>
+                                {% endfor %}
+                        </div>
                 </div>
 
-                {% set skill_dowodzenie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'dowodzenie') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Dowodzenie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_dowodzenie_buy" {{ 'checked' if
-                            skill_dowodzenie and skill_dowodzenie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_dowodzenie_10" {{ 'checked' if
-                            skill_dowodzenie and skill_dowodzenie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_dowodzenie_20" {{ 'checked' if
-                            skill_dowodzenie and skill_dowodzenie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_dowodzenie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_dowodzenie.wymogi if skill_dowodzenie else '' }}"></div>
+                <!-- ZDOLNOŚCI -->
+                <div class="skills-section">
+                        <div class="section-title">Zdolności</div>
+
+                        <div class="abilities-table">
+                                {% for i in range(10) %}
+                                {% set ability = umiejetnosci | selectattr('umiejetnosc_index', 'equalto', 200 + i) |
+                                first %}
+                                <div class="ability-row">
+                                        <div class="ability-col-name">
+                                                <input type="text" name="ability_name_{{ i }}" placeholder="Zdolność"
+                                                        value="{{ ability.nazwa_umiejetnosci if ability else '' }}">
+                                        </div>
+                                        <div class="ability-col-desc">
+                                                <input type="text" name="ability_desc_{{ i }}" placeholder="Opisz"
+                                                        value="{{ ability.opis if ability else '' }}">
+                                        </div>
+                                </div>
+                                {% endfor %}
+                        </div>
                 </div>
 
-                {% set skill_hazard = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'hazard') | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Hazard</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_hazard_buy" {{ 'checked' if
-                            skill_hazard and skill_hazard.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_hazard_10" {{ 'checked' if
-                            skill_hazard and skill_hazard.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_hazard_20" {{ 'checked' if
-                            skill_hazard and skill_hazard.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_hazard_related"
-                            placeholder="Powiązane zdolności" value="{{ skill_hazard.wymogi if skill_hazard else '' }}">
-                    </div>
+                <div class="form-buttons">
+                        <button type="submit" class="btn-save">Zapisz umiejętności</button>
+                        <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}"
+                                class="btn-cancel">Powrót</a>
                 </div>
-
-                {% set skill_jedzdzictwo = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'jedzdzictwo') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Jeździectwo</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_jedzdzictwo_buy" {{ 'checked' if
-                            skill_jedzdzictwo and skill_jedzdzictwo.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_jedzdzictwo_10" {{ 'checked' if
-                            skill_jedzdzictwo and skill_jedzdzictwo.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_jedzdzictwo_20" {{ 'checked' if
-                            skill_jedzdzictwo and skill_jedzdzictwo.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_jedzdzictwo_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_jedzdzictwo.wymogi if skill_jedzdzictwo else '' }}"></div>
-                </div>
-
-                {% set skill_mocnaglowa = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'mocnaglowa') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Mocna Głowa</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_mocnaglowa_buy" {{ 'checked' if
-                            skill_mocnaglowa and skill_mocnaglowa.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_mocnaglowa_10" {{ 'checked' if
-                            skill_mocnaglowa and skill_mocnaglowa.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_mocnaglowa_20" {{ 'checked' if
-                            skill_mocnaglowa and skill_mocnaglowa.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_mocnaglowa_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_mocnaglowa.wymogi if skill_mocnaglowa else '' }}"></div>
-                </div>
-
-                {% set skill_opieka = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'opieka') | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Opieka nad zwierzętami</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_opieka_buy" {{ 'checked' if
-                            skill_opieka and skill_opieka.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_opieka_10" {{ 'checked' if
-                            skill_opieka and skill_opieka.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_opieka_20" {{ 'checked' if
-                            skill_opieka and skill_opieka.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_opieka_related"
-                            placeholder="Powiązane zdolności" value="{{ skill_opieka.wymogi if skill_opieka else '' }}">
-                    </div>
-                </div>
-
-                {% set skill_plotkowanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'plotkowanie') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Plotkowanie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_plotkowanie_buy" {{ 'checked' if
-                            skill_plotkowanie and skill_plotkowanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_plotkowanie_10" {{ 'checked' if
-                            skill_plotkowanie and skill_plotkowanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_plotkowanie_20" {{ 'checked' if
-                            skill_plotkowanie and skill_plotkowanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_plotkowanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_plotkowanie.wymogi if skill_plotkowanie else '' }}"></div>
-                </div>
-
-                {% set skill_plywanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'plywanie') | first
-                %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Pływanie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_plywanie_buy" {{ 'checked' if
-                            skill_plywanie and skill_plywanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_plywanie_10" {{ 'checked' if
-                            skill_plywanie and skill_plywanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_plywanie_20" {{ 'checked' if
-                            skill_plywanie and skill_plywanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_plywanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_plywanie.wymogi if skill_plywanie else '' }}"></div>
-                </div>
-
-                {% set skill_powozenie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'powozenie') | first
-                %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Powożenie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_powozenie_buy" {{ 'checked' if
-                            skill_powozenie and skill_powozenie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_powozenie_10" {{ 'checked' if
-                            skill_powozenie and skill_powozenie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_powozenie_20" {{ 'checked' if
-                            skill_powozenie and skill_powozenie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_powozenie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_powozenie.wymogi if skill_powozenie else '' }}"></div>
-                </div>
-
-                {% set skill_przekonywanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'przekonywanie')
-                | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Przekonywanie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_przekonywanie_buy" {{ 'checked' if
-                            skill_przekonywanie and skill_przekonywanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_przekonywanie_10" {{ 'checked' if
-                            skill_przekonywanie and skill_przekonywanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_przekonywanie_20" {{ 'checked' if
-                            skill_przekonywanie and skill_przekonywanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_przekonywanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_przekonywanie.wymogi if skill_przekonywanie else '' }}"></div>
-                </div>
-
-                {% set skill_przeszukiwanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
-                'przeszukiwanie') | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Przeszukiwanie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_przeszukiwanie_buy" {{ 'checked' if
-                            skill_przeszukiwanie and skill_przeszukiwanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_przeszukiwanie_10" {{ 'checked' if
-                            skill_przeszukiwanie and skill_przeszukiwanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_przeszukiwanie_20" {{ 'checked' if
-                            skill_przeszukiwanie and skill_przeszukiwanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_przeszukiwanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_przeszukiwanie.wymogi if skill_przeszukiwanie else '' }}"></div>
-                </div>
-
-                {% set skill_skradanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'skradanie') | first
-                %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Skradanie się</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_skradanie_buy" {{ 'checked' if
-                            skill_skradanie and skill_skradanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_skradanie_10" {{ 'checked' if
-                            skill_skradanie and skill_skradanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_skradanie_20" {{ 'checked' if
-                            skill_skradanie and skill_skradanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_skradanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_skradanie.wymogi if skill_skradanie else '' }}"></div>
-                </div>
-
-                {% set skill_spostrzegawczosc = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto',
-                'spostrzegawczosc') | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Spostrzegawczość</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_spostrzegawczosc_buy" {{ 'checked'
-                            if skill_spostrzegawczosc and skill_spostrzegawczosc.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_spostrzegawczosc_10" {{ 'checked' if
-                            skill_spostrzegawczosc and skill_spostrzegawczosc.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_spostrzegawczosc_20" {{ 'checked' if
-                            skill_spostrzegawczosc and skill_spostrzegawczosc.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_spostrzegawczosc_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_spostrzegawczosc.wymogi if skill_spostrzegawczosc else '' }}"></div>
-                </div>
-
-                {% set skill_sztuka = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'sztuka') | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Sztuka przetrwania</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_sztuka_buy" {{ 'checked' if
-                            skill_sztuka and skill_sztuka.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_sztuka_10" {{ 'checked' if
-                            skill_sztuka and skill_sztuka.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_sztuka_20" {{ 'checked' if
-                            skill_sztuka and skill_sztuka.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_sztuka_related"
-                            placeholder="Powiązane zdolności" value="{{ skill_sztuka.wymogi if skill_sztuka else '' }}">
-                    </div>
-                </div>
-
-                {% set skill_targowanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'targowanie') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Targowanie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_targowanie_buy" {{ 'checked' if
-                            skill_targowanie and skill_targowanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_targowanie_10" {{ 'checked' if
-                            skill_targowanie and skill_targowanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_targowanie_20" {{ 'checked' if
-                            skill_targowanie and skill_targowanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_targowanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_targowanie.wymogi if skill_targowanie else '' }}"></div>
-                </div>
-
-                {% set skill_ukrywanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'ukrywanie') | first
-                %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Ukrywanie się</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_ukrywanie_buy" {{ 'checked' if
-                            skill_ukrywanie and skill_ukrywanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_ukrywanie_10" {{ 'checked' if
-                            skill_ukrywanie and skill_ukrywanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_ukrywanie_20" {{ 'checked' if
-                            skill_ukrywanie and skill_ukrywanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_ukrywanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_ukrywanie.wymogi if skill_ukrywanie else '' }}"></div>
-                </div>
-
-                {% set skill_wioslarstwo = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'wioslarstwo') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Wioślarstwo</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wioslarstwo_buy" {{ 'checked' if
-                            skill_wioslarstwo and skill_wioslarstwo.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wioslarstwo_10" {{ 'checked' if
-                            skill_wioslarstwo and skill_wioslarstwo.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wioslarstwo_20" {{ 'checked' if
-                            skill_wioslarstwo and skill_wioslarstwo.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_wioslarstwo_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_wioslarstwo.wymogi if skill_wioslarstwo else '' }}"></div>
-                </div>
-
-                {% set skill_wspinaczka = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'wspinaczka') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Wspinaczka</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wspinaczka_buy" {{ 'checked' if
-                            skill_wspinaczka and skill_wspinaczka.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wspinaczka_10" {{ 'checked' if
-                            skill_wspinaczka and skill_wspinaczka.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wspinaczka_20" {{ 'checked' if
-                            skill_wspinaczka and skill_wspinaczka.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_wspinaczka_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_wspinaczka.wymogi if skill_wspinaczka else '' }}"></div>
-                </div>
-
-                {% set skill_wycena = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'wycena') | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Wycena</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wycena_buy" {{ 'checked' if
-                            skill_wycena and skill_wycena.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wycena_10" {{ 'checked' if
-                            skill_wycena and skill_wycena.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_wycena_20" {{ 'checked' if
-                            skill_wycena and skill_wycena.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_wycena_related"
-                            placeholder="Powiązane zdolności" value="{{ skill_wycena.wymogi if skill_wycena else '' }}">
-                    </div>
-                </div>
-
-                {% set skill_zastraszanie = umiejetnosci | selectattr('nazwa_umiejetnosci', 'equalto', 'zastraszanie') |
-                first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name">Zastraszanie</div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_zastraszanie_buy" {{ 'checked' if
-                            skill_zastraszanie and skill_zastraszanie.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_zastraszanie_10" {{ 'checked' if
-                            skill_zastraszanie and skill_zastraszanie.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="basic_zastraszanie_20" {{ 'checked' if
-                            skill_zastraszanie and skill_zastraszanie.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="basic_zastraszanie_related"
-                            placeholder="Powiązane zdolności"
-                            value="{{ skill_zastraszanie.wymogi if skill_zastraszanie else '' }}"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- UMIEJĘTNOŚCI ZAAWANSOWANE -->
-        <div class="skills-section">
-            <div class="section-title">Umiejętności Zaawansowane</div>
-
-            <div class="skills-table-advanced">
-                <div class="skill-header-row">
-                    <div class="skill-col-check">Zaawansowane</div>
-                    <div class="skill-col-check">Wykupione</div>
-                    <div class="skill-col-check">+10</div>
-                    <div class="skill-col-check">+20</div>
-                    <div class="skill-col-related">Zdolności pokrewne</div>
-                </div>
-
-                {% for i in range(20) %}
-                {% set adv_skill = umiejetnosci | selectattr('umiejetnosc_index', 'equalto', 100 + i) | first %}
-                <div class="skill-row-item">
-                    <div class="skill-col-name"><input type="text" name="advanced_name_{{ i }}"
-                            placeholder="Nazwa umiejętności"
-                            value="{{ adv_skill.nazwa_umiejetnosci if adv_skill else '' }}"></div>
-                    <div class="skill-col-check"><input type="checkbox" name="advanced_{{ i }}_buy" {{ 'checked' if
-                            adv_skill and adv_skill.poziom=='Bought' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="advanced_{{ i }}_10" {{ 'checked' if
-                            adv_skill and adv_skill.koszt=='+10' else '' }}></div>
-                    <div class="skill-col-check"><input type="checkbox" name="advanced_{{ i }}_20" {{ 'checked' if
-                            adv_skill and adv_skill.koszt=='+20' else '' }}></div>
-                    <div class="skill-col-related"><input type="text" name="advanced_{{ i }}_related"
-                            placeholder="Powiązane zdolności" value="{{ adv_skill.wymogi if adv_skill else '' }}"></div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- ZDOLNOŚCI -->
-        <div class="skills-section">
-            <div class="section-title">Zdolności</div>
-
-            <div class="abilities-table">
-                {% for i in range(10) %}
-                {% set ability = umiejetnosci | selectattr('umiejetnosc_index', 'equalto', 200 + i) | first %}
-                <div class="ability-row">
-                    <div class="ability-col-name">
-                        <input type="text" name="ability_name_{{ i }}" placeholder="Zdolność"
-                            value="{{ ability.nazwa_umiejetnosci if ability else '' }}">
-                    </div>
-                    <div class="ability-col-desc">
-                        <input type="text" name="ability_desc_{{ i }}" placeholder="Opisz"
-                            value="{{ ability.opis if ability else '' }}">
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="form-buttons">
-            <button type="submit" class="btn-save">Zapisz umiejętności</button>
-            <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}" class="btn-cancel">Powrót</a>
-        </div>
-    </form>
+        </form>
 </div>
 
 <script src="{{ url_for('static', filename='main.js') }}?v={{ range(1, 9999) | random }}"></script>

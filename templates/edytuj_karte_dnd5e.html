@@ -3,9 +3,10 @@
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}?v={{ range(1, 9999) | random }}">
 
-<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');">
+</div>
 <div class="overlay2"></div>
 
 <div class="card-form-container-dnd5e">
@@ -17,7 +18,8 @@
         <div class="dnd5e-section">
             <div class="section-title-dnd5e">
                 <label>Imię:</label>
-                <input type="text" name="imie" value="{{ character.imie }}" placeholder="Imię postaci" class="imie-input-dnd5e">
+                <input type="text" name="imie" value="{{ character.imie }}" placeholder="Imię postaci"
+                    class="imie-input-dnd5e">
             </div>
 
             <table class="character-info-table">
@@ -25,23 +27,28 @@
                     <td>
                         <label>Klasa i poziom:</label>
                         <div class="info-group">
-                            <input type="text" name="klasa" value="{{ character.klasa or '' }}" placeholder="Klasa" class="info-input">
-                            <input type="number" name="poziom" value="{{ character.poziom or 1 }}" min="1" max="20" class="info-input" style="max-width: 60px;">
+                            <input type="text" name="klasa" value="{{ character.klasa or '' }}" placeholder="Klasa"
+                                class="info-input">
+                            <input type="number" name="poziom" value="{{ character.poziom or 1 }}" min="1" max="20"
+                                class="info-input" style="max-width: 60px;">
                         </div>
                     </td>
                     <td>
                         <label>Pochodzenie:</label>
-                        <input type="text" name="pochodzenie" value="{{ character.pochodzenie or '' }}" placeholder="Pochodzenie" class="info-input">
+                        <input type="text" name="pochodzenie" value="{{ character.pochodzenie or '' }}"
+                            placeholder="Pochodzenie" class="info-input">
                     </td>
                     <td>
                         <label>Imię gracza:</label>
-                        <input type="text" name="gracz" value="{{ character.gracz or '' }}" placeholder="Imię gracza" class="info-input">
+                        <input type="text" name="gracz" value="{{ character.gracz or '' }}" placeholder="Imię gracza"
+                            class="info-input">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label>Rasa:</label>
-                        <input type="text" name="rasa" value="{{ character.rasa or '' }}" placeholder="Rasa" class="info-input">
+                        <input type="text" name="rasa" value="{{ character.rasa or '' }}" placeholder="Rasa"
+                            class="info-input">
                     </td>
                     <td>
                         <label>Charakter:</label>
@@ -49,7 +56,8 @@
                     </td>
                     <td>
                         <label>Punkty doświadczenia:</label>
-                        <input type="number" name="doswiadczenie" value="{{ character.doswiadczenie or 0 }}" min="0" class="info-input">
+                        <input type="number" name="doswiadczenie" value="{{ character.doswiadczenie or 0 }}" min="0"
+                            class="info-input">
                     </td>
                 </tr>
                 <tr>
@@ -92,48 +100,60 @@
                 <div class="attribute-box">
                     <div class="attribute-label">Siła</div>
                     <div class="attribute-inputs">
-                        <input type="number" name="sila" value="{{ character.sila or 10 }}" min="3" max="20" class="attribute-value">
-                        <span class="attribute-modifier">+<input type="number" name="sila_mod" value="0" min="-10" max="10" class="modifier-input" style="width: 40px;"></span>
+                        <input type="number" name="sila" value="{{ character.sila or 10 }}" min="3" max="20"
+                            class="attribute-value">
+                        <span class="attribute-modifier">+<input type="number" name="sila_mod" value="0" min="-10"
+                                max="10" class="modifier-input" style="width: 40px;"></span>
                     </div>
                 </div>
 
                 <div class="attribute-box">
                     <div class="attribute-label">Zręczność</div>
                     <div class="attribute-inputs">
-                        <input type="number" name="zrecznosc" value="{{ character.zrecznosc or 10 }}" min="3" max="20" class="attribute-value">
-                        <span class="attribute-modifier">+<input type="number" name="zrecznosc_mod" value="0" min="-10" max="10" class="modifier-input" style="width: 40px;"></span>
+                        <input type="number" name="zrecznosc" value="{{ character.zrecznosc or 10 }}" min="3" max="20"
+                            class="attribute-value">
+                        <span class="attribute-modifier">+<input type="number" name="zrecznosc_mod" value="0" min="-10"
+                                max="10" class="modifier-input" style="width: 40px;"></span>
                     </div>
                 </div>
 
                 <div class="attribute-box">
                     <div class="attribute-label">Kondycja</div>
                     <div class="attribute-inputs">
-                        <input type="number" name="kondycja" value="{{ character.kondycja or 10 }}" min="3" max="20" class="attribute-value">
-                        <span class="attribute-modifier">+<input type="number" name="kondycja_mod" value="0" min="-10" max="10" class="modifier-input" style="width: 40px;"></span>
+                        <input type="number" name="kondycja" value="{{ character.kondycja or 10 }}" min="3" max="20"
+                            class="attribute-value">
+                        <span class="attribute-modifier">+<input type="number" name="kondycja_mod" value="0" min="-10"
+                                max="10" class="modifier-input" style="width: 40px;"></span>
                     </div>
                 </div>
 
                 <div class="attribute-box">
                     <div class="attribute-label">Inteligencja</div>
                     <div class="attribute-inputs">
-                        <input type="number" name="inteligencja" value="{{ character.inteligencja or 10 }}" min="3" max="20" class="attribute-value">
-                        <span class="attribute-modifier">+<input type="number" name="inteligencja_mod" value="0" min="-10" max="10" class="modifier-input" style="width: 40px;"></span>
+                        <input type="number" name="inteligencja" value="{{ character.inteligencja or 10 }}" min="3"
+                            max="20" class="attribute-value">
+                        <span class="attribute-modifier">+<input type="number" name="inteligencja_mod" value="0"
+                                min="-10" max="10" class="modifier-input" style="width: 40px;"></span>
                     </div>
                 </div>
 
                 <div class="attribute-box">
                     <div class="attribute-label">Mądrość</div>
                     <div class="attribute-inputs">
-                        <input type="number" name="madrosc" value="{{ character.madrosc or 10 }}" min="3" max="20" class="attribute-value">
-                        <span class="attribute-modifier">+<input type="number" name="madrosc_mod" value="0" min="-10" max="10" class="modifier-input" style="width: 40px;"></span>
+                        <input type="number" name="madrosc" value="{{ character.madrosc or 10 }}" min="3" max="20"
+                            class="attribute-value">
+                        <span class="attribute-modifier">+<input type="number" name="madrosc_mod" value="0" min="-10"
+                                max="10" class="modifier-input" style="width: 40px;"></span>
                     </div>
                 </div>
 
                 <div class="attribute-box">
                     <div class="attribute-label">Charyzma</div>
                     <div class="attribute-inputs">
-                        <input type="number" name="charyzma" value="{{ character.charyzma or 10 }}" min="3" max="20" class="attribute-value">
-                        <span class="attribute-modifier">+<input type="number" name="charyzma_mod" value="0" min="-10" max="10" class="modifier-input" style="width: 40px;"></span>
+                        <input type="number" name="charyzma" value="{{ character.charyzma or 10 }}" min="3" max="20"
+                            class="attribute-value">
+                        <span class="attribute-modifier">+<input type="number" name="charyzma_mod" value="0" min="-10"
+                                max="10" class="modifier-input" style="width: 40px;"></span>
                     </div>
                 </div>
             </div>
@@ -146,32 +166,38 @@
                     <div class="save-row">
                         <div class="save-checkbox"><input type="checkbox" name="save_sila"></div>
                         <div class="save-label">Siła</div>
-                        <div class="save-value">+<input type="number" name="save_sila_val" value="0" min="-10" max="10" class="save-input" style="width: 35px;"></div>
+                        <div class="save-value">+<input type="number" name="save_sila_val" value="0" min="-10" max="10"
+                                class="save-input" style="width: 35px;"></div>
                     </div>
                     <div class="save-row">
                         <div class="save-checkbox"><input type="checkbox" name="save_zrecznosc"></div>
                         <div class="save-label">Zręczność</div>
-                        <div class="save-value">+<input type="number" name="save_zrecznosc_val" value="0" min="-10" max="10" class="save-input" style="width: 35px;"></div>
+                        <div class="save-value">+<input type="number" name="save_zrecznosc_val" value="0" min="-10"
+                                max="10" class="save-input" style="width: 35px;"></div>
                     </div>
                     <div class="save-row">
                         <div class="save-checkbox"><input type="checkbox" name="save_kondycja"></div>
                         <div class="save-label">Kondycja</div>
-                        <div class="save-value">+<input type="number" name="save_kondycja_val" value="0" min="-10" max="10" class="save-input" style="width: 35px;"></div>
+                        <div class="save-value">+<input type="number" name="save_kondycja_val" value="0" min="-10"
+                                max="10" class="save-input" style="width: 35px;"></div>
                     </div>
                     <div class="save-row">
                         <div class="save-checkbox"><input type="checkbox" name="save_inteligencja"></div>
                         <div class="save-label">Inteligencja</div>
-                        <div class="save-value">+<input type="number" name="save_inteligencja_val" value="0" min="-10" max="10" class="save-input" style="width: 35px;"></div>
+                        <div class="save-value">+<input type="number" name="save_inteligencja_val" value="0" min="-10"
+                                max="10" class="save-input" style="width: 35px;"></div>
                     </div>
                     <div class="save-row">
                         <div class="save-checkbox"><input type="checkbox" name="save_madrosc"></div>
                         <div class="save-label">Mądrość</div>
-                        <div class="save-value">+<input type="number" name="save_madrosc_val" value="0" min="-10" max="10" class="save-input" style="width: 35px;"></div>
+                        <div class="save-value">+<input type="number" name="save_madrosc_val" value="0" min="-10"
+                                max="10" class="save-input" style="width: 35px;"></div>
                     </div>
                     <div class="save-row">
                         <div class="save-checkbox"><input type="checkbox" name="save_charyzma"></div>
                         <div class="save-label">Charyzma</div>
-                        <div class="save-value">+<input type="number" name="save_charyzma_val" value="0" min="-10" max="10" class="save-input" style="width: 35px;"></div>
+                        <div class="save-value">+<input type="number" name="save_charyzma_val" value="0" min="-10"
+                                max="10" class="save-input" style="width: 35px;"></div>
                     </div>
                 </div>
 
@@ -181,92 +207,110 @@
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_akrobatyka"></div>
                         <div class="skill-label">Akrobatyka</div>
-                        <div class="skill-value">+<input type="number" name="skill_akrobatyka_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_akrobatyka_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_atletyka"></div>
                         <div class="skill-label">Atletyka</div>
-                        <div class="skill-value">+<input type="number" name="skill_atletyka_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_atletyka_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_historia"></div>
                         <div class="skill-label">Historia</div>
-                        <div class="skill-value">+<input type="number" name="skill_historia_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_historia_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_intuicja"></div>
                         <div class="skill-label">Intuicja</div>
-                        <div class="skill-value">+<input type="number" name="skill_intuicja_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_intuicja_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_medycyna"></div>
                         <div class="skill-label">Medycyna</div>
-                        <div class="skill-value">+<input type="number" name="skill_medycyna_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_medycyna_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_opieka"></div>
                         <div class="skill-label">Opieka nad zwierzętami</div>
-                        <div class="skill-value">+<input type="number" name="skill_opieka_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_opieka_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_oszustwo"></div>
                         <div class="skill-label">Oszustwo</div>
-                        <div class="skill-value">+<input type="number" name="skill_oszustwo_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_oszustwo_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_percepcja"></div>
                         <div class="skill-label">Percepcja</div>
-                        <div class="skill-value">+<input type="number" name="skill_percepcja_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_percepcja_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_perswazja"></div>
                         <div class="skill-label">Perswazja</div>
-                        <div class="skill-value">+<input type="number" name="skill_perswazja_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_perswazja_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_przyroda"></div>
                         <div class="skill-label">Przyroda</div>
-                        <div class="skill-value">+<input type="number" name="skill_przyroda_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_przyroda_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_religia"></div>
                         <div class="skill-label">Religia</div>
-                        <div class="skill-value">+<input type="number" name="skill_religia_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_religia_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_skradanie"></div>
                         <div class="skill-label">Skradanie się</div>
-                        <div class="skill-value">+<input type="number" name="skill_skradanie_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_skradanie_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_sztuka"></div>
                         <div class="skill-label">Sztuka przetrwania</div>
-                        <div class="skill-value">+<input type="number" name="skill_sztuka_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_sztuka_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_sledztwo"></div>
                         <div class="skill-label">Śledztwo</div>
-                        <div class="skill-value">+<input type="number" name="skill_sledztwo_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_sledztwo_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_wiedza"></div>
                         <div class="skill-label">Wiedza tajemna</div>
-                        <div class="skill-value">+<input type="number" name="skill_wiedza_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_wiedza_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_wystepy"></div>
                         <div class="skill-label">Występy</div>
-                        <div class="skill-value">+<input type="number" name="skill_wystepy_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_wystepy_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_zastraszanie"></div>
                         <div class="skill-label">Zastraszanie</div>
-                        <div class="skill-value">+<input type="number" name="skill_zastraszanie_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_zastraszanie_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                     <div class="skill-row">
                         <div class="skill-checkbox"><input type="checkbox" name="skill_zwinne"></div>
                         <div class="skill-label">Zwinne dłonie</div>
-                        <div class="skill-value">+<input type="number" name="skill_zwinne_val" value="0" min="-10" max="10" class="skill-input" style="width: 35px;"></div>
+                        <div class="skill-value">+<input type="number" name="skill_zwinne_val" value="0" min="-10"
+                                max="10" class="skill-input" style="width: 35px;"></div>
                     </div>
                 </div>
             </div>
@@ -278,15 +322,18 @@
                 <div class="combat-box">
                     <div class="combat-row">
                         <label>Klasa pancerza:</label>
-                        <input type="number" name="klasa_pancerza" value="{{ character.klasa_pancerza or 10 }}" min="1" class="combat-input">
+                        <input type="number" name="klasa_pancerza" value="{{ character.klasa_pancerza or 10 }}" min="1"
+                            class="combat-input">
                     </div>
                     <div class="combat-row">
                         <label>Inicjatywa:</label>
-                        <input type="number" name="inicjatywa" value="{{ character.inicjatywa or 0 }}" min="-10" class="combat-input">
+                        <input type="number" name="inicjatywa" value="{{ character.inicjatywa or 0 }}" min="-10"
+                            class="combat-input">
                     </div>
                     <div class="combat-row">
                         <label>Szybkość:</label>
-                        <input type="number" name="szybkosc" value="{{ character.szybkosc or 30 }}" min="0" class="combat-input">
+                        <input type="number" name="szybkosc" value="{{ character.szybkosc or 30 }}" min="0"
+                            class="combat-input">
                     </div>
                 </div>
 
@@ -295,15 +342,18 @@
                 <div class="hp-box">
                     <div class="hp-row">
                         <label>Maks. PW:</label>
-                        <input type="number" name="punkty_zycia" value="{{ character.punkty_zycia or 0 }}" min="0" class="hp-input">
+                        <input type="number" name="punkty_zycia" value="{{ character.punkty_zycia or 0 }}" min="0"
+                            class="hp-input">
                     </div>
                     <div class="hp-row">
                         <label>Aktualne PW:</label>
-                        <input type="number" name="aktualne_pw" value="{{ character.aktualne_pw or 0 }}" min="0" class="hp-input">
+                        <input type="number" name="aktualne_pw" value="{{ character.aktualne_pw or 0 }}" min="0"
+                            class="hp-input">
                     </div>
                     <div class="hp-row">
                         <label>Tymcz. PW:</label>
-                        <input type="number" name="czasowe_pw" value="{{ character.czasowe_pw or 0 }}" min="0" class="hp-input">
+                        <input type="number" name="czasowe_pw" value="{{ character.czasowe_pw or 0 }}" min="0"
+                            class="hp-input">
                     </div>
                 </div>
 
@@ -342,11 +392,13 @@
                     </div>
                     <div class="misc-row">
                         <label>Premia z biegł.:</label>
-                        <input type="number" name="premia_bieglości" value="{{ character.premia_bieglości or 2 }}" min="0" class="misc-input">
+                        <input type="number" name="premia_bieglości" value="{{ character.premia_bieglości or 2 }}"
+                            min="0" class="misc-input">
                     </div>
                     <div class="misc-row">
                         <label>Pasywna Mądrość:</label>
-                        <input type="number" name="pasywna_madrosc" value="{{ character.pasywna_madrosc or 10 }}" min="0" max="30" class="misc-input">
+                        <input type="number" name="pasywna_madrosc" value="{{ character.pasywna_madrosc or 10 }}"
+                            min="0" max="30" class="misc-input">
                     </div>
                 </div>
             </div>
@@ -355,16 +407,20 @@
         <!-- PRZYCISKI -->
         <div class="form-buttons">
             <button type="submit" class="btn btn-save">Zapisz zmiany</button>
-            <button type="button" class="btn btn-skills" onclick="window.location.href='{{ url_for('bieglosci_dnd5e', character_id=character.id) }}'">
+            <button type="button" class="btn btn-skills"
+                onclick="window.location.href='{{ url_for('bieglosci_dnd5e', character_id=character.id) }}'">
                 📚 Biegłości
             </button>
-            <button type="button" class="btn btn-magic" onclick="window.location.href='{{ url_for('magia_dnd5e', character_id=character.id) }}'">
+            <button type="button" class="btn btn-magic"
+                onclick="window.location.href='{{ url_for('magia_dnd5e', character_id=character.id) }}'">
                 ✨ Magia
             </button>
-            <button type="button" class="btn btn-equipment" onclick="window.location.href='{{ url_for('ekwipunek_dnd5e', character_id=character.id) }}'">
+            <button type="button" class="btn btn-equipment"
+                onclick="window.location.href='{{ url_for('ekwipunek_dnd5e', character_id=character.id) }}'">
                 🎒 Ekwipunek
             </button>
-            <a href="{{ url_for('drukuj_karte_dnd5e', character_id=character.id) }}" class="btn btn-secondary" target="_blank" style="background: #722F37;">🖨️ Drukuj do PDF</a>
+            <a href="{{ url_for('drukuj_karte_dnd5e', character_id=character.id) }}" class="btn btn-secondary"
+                target="_blank" style="background: #722F37;">🖨️ Drukuj do PDF</a>
             <a href="{{ url_for('karty_postaci') }}" class="btn btn-cancel">Anuluj</a>
         </div>
     </form>
