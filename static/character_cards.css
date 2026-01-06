@@ -4436,25 +4436,33 @@
         text-align: center;
     }
 
+    /* Force strict single column for ALL buttons on mobile */
     .form-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    /* Force strict single column for Warhammer buttons on mobile */
-    .character-form-warhammer .form-buttons {
         display: flex !important;
         flex-direction: column !important;
         gap: 15px !important;
         width: 100% !important;
         padding: 20px !important;
+        margin-top: 20px !important;
+        border-top: 2px solid #8B4513 !important;
         box-sizing: border-box !important;
     }
 
     .form-buttons .btn {
         flex: 1 1 100% !important;
-        width: 100%;
-        margin: 0;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 15px 10px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: 50px !important;
+        font-size: 16px !important;
+        white-space: normal !important;
+        /* Allow text to wrap if it's very long */
+        text-align: center !important;
     }
 
     .cechy-grid {
