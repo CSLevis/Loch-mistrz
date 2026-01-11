@@ -3746,6 +3746,10 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
+        height: 42px !important;
+        min-height: 42px !important;
+        align-self: flex-start;
+        padding: 5px 12px !important;
     }
 
     .info-group {
@@ -3754,7 +3758,7 @@
     }
 
     .info-group .info-input[name="klasa"] {
-        flex: 1 1 auto;
+        flex: 0 1 50% !important;
         min-width: 0;
     }
 
@@ -3762,6 +3766,21 @@
         flex: 0 0 50px !important;
         width: 50px !important;
         min-width: 50px !important;
+    }
+
+    /* Zwężenie pól liczbowych i parametrów */
+    .combat-input,
+    .hp-input,
+    .kosci-input {
+        width: 65px !important;
+        flex: 0 0 65px !important;
+        padding: 6px !important;
+    }
+
+    .misc-input {
+        width: 80px !important;
+        flex: 0 0 80px !important;
+        padding: 6px !important;
     }
 
     /* FORMULARZE CTHULHU - RESPONSIVE 480px */
