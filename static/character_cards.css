@@ -3746,10 +3746,13 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
-        height: 38px !important;
-        min-height: 38px !important;
+        height: auto !important;
+        min-height: auto !important;
         align-self: flex-start;
-        padding: 5px 12px !important;
+        padding: 8px !important;
+        border: 1px solid #63260b !important;
+        font-size: 0.9em !important;
+        font-weight: normal !important;
     }
 
     .info-group {
@@ -3772,14 +3775,15 @@
     .combat-input,
     .hp-input,
     .kosci-input {
-        width: 55px !important;
-        flex: 0 0 55px !important;
-        padding: 6px !important;
+        width: 48px !important;
+        flex: 0 0 48px !important;
+        padding: 6px 4px !important;
+        font-size: 13px !important;
     }
 
     .misc-input {
-        width: 80px !important;
-        flex: 0 0 80px !important;
+        width: 75px !important;
+        flex: 0 0 75px !important;
         padding: 6px !important;
     }
 
