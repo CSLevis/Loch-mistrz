@@ -3746,8 +3746,8 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
-        height: 42px !important;
-        min-height: 42px !important;
+        height: 38px !important;
+        min-height: 38px !important;
         align-self: flex-start;
         padding: 5px 12px !important;
     }
@@ -3772,8 +3772,8 @@
     .combat-input,
     .hp-input,
     .kosci-input {
-        width: 65px !important;
-        flex: 0 0 65px !important;
+        width: 55px !important;
+        flex: 0 0 55px !important;
         padding: 6px !important;
     }
 
