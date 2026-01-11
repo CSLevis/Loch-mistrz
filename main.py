@@ -55,6 +55,14 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 db = SQLAlchemy(app)
 
+# Wyświetl informację o używanej bazie danych w logach
+with app.app_context():
+    if database_url:
+        print("🌍 [DATABASE] Połączono z bazą: POSTGRESQL (Dane są trwałe)")
+    else:
+        print("⚠️ [DATABASE] Połączono z bazą: SQLITE (Dane zostaną utracone po restarcie!)")
+        print("   Wskazówka: Ustaw zmienną DATABASE_URL w panelu Render, aby zachować dane.")
+
 CharacterWarhammer = Character.create_warhammer_model(db)
 CharacterDnD5e = Character.create_dnd5e_model(db)
 CharacterCthulhu = Character.create_cthulhu_model(db)
