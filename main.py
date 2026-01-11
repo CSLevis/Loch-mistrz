@@ -240,6 +240,28 @@ def index():
     return render_template("glowna.html")
 
 
+@app.route("/debug-db")
+def debug_db():
+    uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
+    if uri.startswith('postgresql'):
+        status = "🟢 POSTGRESQL (Dane są trwałe)"
+    else:
+        status = "🔴 SQLITE (Dane zostaną utracone!)"
+    
+    # Bezpieczne wyświetlanie URI (bez hasła)
+    safe_uri = uri.split('@')[-1] if '@' in uri else uri
+    
+    return f"""
+    <h1>Status Bazy Danych</h1>
+    <p>Status: <b>{status}</b></p>
+    <p>Adres bazy: <code>{safe_uri}</code></p>
+    <hr>
+    <p>Jeśli status to SQLITE, dane będą znikać po każdym deployu.</p>
+    <p>Aby to naprawić, dodaj <code>DATABASE_URL</code> w panelu Render (Dashboard -> Environment).</p>
+    <a href="/">Powrót do strony głównej</a>
+    """
+
+
 @app.route("/roller", methods=["GET", "POST"])
 def roller():
     return render_template('roller.html')
