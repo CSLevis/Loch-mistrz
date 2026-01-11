@@ -1537,7 +1537,9 @@
 }
 
 .imie-input-dnd5e {
-    flex: 1;
+    flex: 0 1 400px;
+    /* Don't grow beyond 400px, but can shrink */
+    max-width: 400px;
     padding: 10px;
     border: 2px solid #63260b;
     border-radius: 5px;
@@ -1572,11 +1574,22 @@
 
 .info-input {
     flex: 1;
+    min-width: 0;
+    /* Allow shrinking in flex container */
     padding: 8px;
     border: 1px solid #63260b;
     border-radius: 4px;
     font-size: 0.9em;
     background: white;
+}
+
+/* Specific shorter inputs for class/level layout */
+.info-group .info-input[name="klasa"] {
+    flex: 0 1 200px;
+}
+
+.info-group .info-input[name="poziom"] {
+    flex: 0 0 60px;
 }
 
 .info-input:focus {
