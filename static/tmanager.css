@@ -361,6 +361,28 @@
 
 @media (max-width: 768px) {
 
+    /* === CONTAINER ADJUSTMENTS === */
+    .card-form-container-trader {
+        margin: 10px auto;
+        /* Reduced from 50px */
+        padding: 10px;
+        /* Reduced from 40px */
+        width: 95%;
+        /* Wider on mobile */
+        max-width: 100%;
+    }
+
+    .trader-form {
+        padding: 10px;
+        /* Reduced from 30px */
+    }
+
+    .header-text-trader {
+        font-size: 28px;
+        /* Smaller title */
+        margin-bottom: 15px;
+    }
+
     .trader-item-row,
     .trader-column-header {
         grid-template-columns: 1fr;
