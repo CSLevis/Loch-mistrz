@@ -4612,3 +4612,105 @@
         width: 100% !important;
     }
 }
+
+/* ===== CTHULHU SKILLS GRID ===== */
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Mobile overrides for Cthulhu skills */
+@media (max-width: 768px) {
+    .card-form-container-cthulhu .skills-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-form-container-cthulhu .skill-row {
+        display: flex;
+        /* Override previous column direction or flex settings */
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+        padding: 5px;
+        border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+    }
+
+    .card-form-container-cthulhu .skill-check {
+        flex: 0 0 25px;
+        width: 25px;
+        height: 25px;
+    }
+
+    .card-form-container-cthulhu .skill-row label {
+        flex: 1 1 60%;
+        /* Take up most of the first line */
+        font-size: 14px;
+        white-space: normal;
+        /* Allow text wrapping if needed */
+        margin-right: auto;
+    }
+
+    .card-form-container-cthulhu .skill-value,
+    .card-form-container-cthulhu .skill-half,
+    .card-form-container-cthulhu .skill-fifth {
+        flex: 1 0 28%;
+        /* Take up ~1/3 of the second line */
+        max-width: 32%;
+        text-align: center;
+        font-size: 14px;
+        padding: 5px;
+        height: 35px;
+        /* Fixed height for inputs */
+        box-sizing: border-box;
+    }
+
+    .card-form-container-cthulhu .skill-half,
+    .card-form-container-cthulhu .skill-fifth {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 4px;
+    }
+
+    .card-form-container-cthulhu .skill-name-input {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    /* Custom handling for skill-custom rows where we have an extra input */
+    .card-form-container-cthulhu .skill-row.skill-custom {
+        justify-content: space-between;
+    }
+
+    .card-form-container-cthulhu .skill-row.skill-custom label {
+        flex: 1 0 80%;
+        /* Label takes full width on top */
+        margin-bottom: 5px;
+    }
+
+    .card-form-container-cthulhu .skill-row.skill-custom .skill-check {
+        /* Checkbox stays on left */
+    }
+
+    .card-form-container-cthulhu .skill-row.skill-custom .skill-name-input {
+        flex: 1 0 100%;
+        /* Custom name input takes full width of line 2 */
+        order: 3;
+        /* Move visual order if needed */
+        margin-bottom: 5px;
+    }
+
+    /* Force order for custom skills: 
+       Row 1: Checkbox, Label
+       Row 2: Custom Name Input
+       Row 3: Value, Half, Fifth
+    */
+    .card-form-container-cthulhu .skill-row.skill-custom {
+        align-items: flex-start;
+    }
+}
