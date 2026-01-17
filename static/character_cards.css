@@ -320,6 +320,14 @@
         font-size: 16px;
         flex: none !important;
     }
+
+    .character-form-warhammer .form-buttons button[disabled],
+    .character-form-warhammer .form-buttons .btn-weapon,
+    .character-form-warhammer .form-buttons .btn-skills {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 100% !important;
+    }
 }
 
 /* ===== SZABLONY ===== */
