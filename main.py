@@ -21,7 +21,7 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 # Security: Prefer environment variables for production
-
+# Database persistence test: 2026-01-17 21:16
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '87484AF684B71AA28BE7A481655C2')
 
 # Mail Configuration
