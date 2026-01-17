@@ -2665,8 +2665,10 @@
     /* STAT GROUP - Mobile fix dla Cthulhu */
     .stat-group {
         width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        justify-items: center;
     }
 
     .form-field-small {
