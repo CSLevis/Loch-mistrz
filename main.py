@@ -1376,64 +1376,13 @@ def usun_karte_cthulhu(character_id):
     return redirect(url_for('karty_postaci'))
 
 
-@app.route("/drukuj-karte-cthulhu/<int:character_id>")
-@login_required
-def drukuj_karte_cthulhu(character_id):
-    character = CharacterCthulhu.query.get_or_404(character_id)
-
-    if character.user_id != current_user.id:
-        flash('Nie masz dostępu do tej karty!')
-        return redirect(url_for('karty_postaci'))
-
-    skills = CthulhuSkills.query.filter_by(character_id=character_id).first()
-    bron = CthulhuBron.query.filter_by(character_id=character_id).all()
-
-    return render_template('drukuj_karta_cthulhu.html',
-                         character=character,
-                         skills=skills,
-                         bron=bron)
 
 
-@app.route("/drukuj-karte-warhammer/<int:character_id>")
-@login_required
-def drukuj_karte_warhammer(character_id):
-    character = CharacterWarhammer.query.get_or_404(character_id)
-
-    if character.user_id != current_user.id:
-        flash('Nie masz dostępu do tej karty!')
-        return redirect(url_for('karty_postaci'))
-
-    skills = WarhammerUmiejetnosc.query.filter_by(character_id=character_id).all()
-    bron = WarhammerBron.query.filter_by(character_id=character_id).all()
-    zbroja = WarhammerArmor.query.filter_by(character_id=character_id).all()
-    ekwipunek = WarhammerEkwipunek.query.filter_by(character_id=character_id).all()
-
-    return render_template('drukuj_karta_warhammer.html',
-                         character=character,
-                         skills=skills,
-                         bron=bron,
-                         zbroja=zbroja,
-                         ekwipunek=ekwipunek)
 
 
-@app.route("/drukuj-karte-dnd5e/<int:character_id>")
-@login_required
-def drukuj_karte_dnd5e(character_id):
-    character = CharacterDnD5e.query.get_or_404(character_id)
 
-    if character.user_id != current_user.id:
-        flash('Nie masz dostępu do tej karty!')
-        return redirect(url_for('karty_postaci'))
 
-    bieglosci = DnD5eBieglosci.query.filter_by(character_id=character_id).first()
-    magia = DnD5eMagia.query.filter_by(character_id=character_id).first()
-    ekwipunek = DnD5eEkwipunek.query.filter_by(character_id=character_id).all()
 
-    return render_template('drukuj_karta_dnd5e.html',
-                         character=character,
-                         bieglosci=bieglosci,
-                         magia=magia,
-                         ekwipunek=ekwipunek)
 
 
 # ===== TRADER MANAGER =====
