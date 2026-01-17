@@ -3746,13 +3746,16 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
-        height: auto !important;
-        min-height: auto !important;
+        height: 40px !important;
+        min-height: 40px !important;
+        /* Forced single line height */
         align-self: flex-start;
         padding: 8px !important;
         border: 1px solid #63260b !important;
         font-size: 0.9em !important;
         font-weight: normal !important;
+        flex: 0 0 auto !important;
+        /* KLUCZOWA ZMIANA: Resetuje flex-basis 400px */
     }
 
     .info-group {
@@ -3782,8 +3785,8 @@
     }
 
     .misc-input {
-        width: 75px !important;
-        flex: 0 0 75px !important;
+        width: 68px !important;
+        flex: 0 0 68px !important;
         padding: 6px !important;
     }
 

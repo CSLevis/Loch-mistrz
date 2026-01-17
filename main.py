@@ -140,6 +140,96 @@ with app.app_context():
     print("OK Wszystkie tabele utworzone")
 
 
+# ===== MECHANIZM BACKUPU DANYCH (DLA RENDERA) =====
+
+def model_to_dict(obj):
+    """Konwertuje obiekt SQLAlchemy na słownik."""
+    return {c.name: getattr(obj, c.name) for c in obj.__table__.columns}
+
+@app.route("/api/backup")
+def api_backup():
+    """Eksportuje całą bazę danych do JSON (User, Karty)."""
+    # Zabezpieczenie: wymaga hasła w parametrze URL (proste API key)
+    # Użyj ?key=tajnehaslobackup
+    if request.args.get('key') != os.environ.get('SECRET_KEY'):
+         return jsonify({'error': 'Unauthorized'}), 401
+
+    data = {
+        'users': [model_to_dict(u) for u in User.query.all()],
+        'warhammer_cards': [model_to_dict(c) for c in CharacterWarhammer.query.all()],
+        'dnd5e_cards': [model_to_dict(c) for c in CharacterDnD5e.query.all()],
+        'cthulhu_cards': [model_to_dict(c) for c in CharacterCthulhu.query.all()],
+        # Relacyjne (ekstra) tabele pomijamy w wersji uproszczonej lub dodajemy jeśli krytyczne
+        # W tej wersji backupujemy główne karty. Pełny backup wymagałby wszystkich pod-tabel.
+    }
+    
+    # Dodajmy extras dla kompletności (przykład dla DnD)
+    data['dnd5e_bieglosci'] = [model_to_dict(x) for x in DnD5eBieglosc.query.all()]
+    data['dnd5e_magia'] = [model_to_dict(x) for x in DnD5eMagia.query.all()]
+    data['dnd5e_item'] = [model_to_dict(x) for x in DnD5eEkwipunek.query.all()]
+    
+    return jsonify(data)
+
+@app.route("/api/restore", methods=["POST"])
+def api_restore():
+    """Przywraca dane z JSON (kasuje obecne!)."""
+    if request.args.get('key') != os.environ.get('SECRET_KEY'):
+        return jsonify({'error': 'Unauthorized'}), 401
+        
+    data = request.json
+    if not data:
+        return jsonify({'error': 'No data'}), 400
+        
+    try:
+        # 1. Wyczyść tabele (kolejność ważna ze względu na FK)
+        # Najpierw dzieci
+        DnD5eBieglosc.query.delete()
+        DnD5eMagia.query.delete()
+        DnD5eEkwipunek.query.delete()
+        
+        CharacterWarhammer.query.delete()
+        CharacterDnD5e.query.delete()
+        CharacterCthulhu.query.delete()
+        User.query.delete()
+        
+        db.session.commit()
+        
+        # 2. Załaduj Users
+        for u_data in data.get('users', []):
+            u = User(**u_data)
+            db.session.add(u)
+        db.session.commit() # Commit users first to get IDs
+        
+        # 3. Załaduj Karty
+        for c_data in data.get('warhammer_cards', []):
+            db.session.add(CharacterWarhammer(**c_data))
+            
+        for c_data in data.get('dnd5e_cards', []):
+            db.session.add(CharacterDnD5e(**c_data))
+            
+        for c_data in data.get('cthulhu_cards', []):
+            db.session.add(CharacterCthulhu(**c_data))
+            
+        db.session.commit()
+        
+        # 4. Załaduj Extras
+        for x_data in data.get('dnd5e_bieglosci', []):
+            db.session.add(DnD5eBieglosc(**x_data))
+        for x_data in data.get('dnd5e_magia', []):
+            db.session.add(DnD5eMagia(**x_data))
+        for x_data in data.get('dnd5e_item', []):
+            db.session.add(DnD5eEkwipunek(**x_data))
+            
+        db.session.commit()
+        
+        return jsonify({'success': True, 'message': 'Data restored!'})
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+
+
 # ===== REJESTRACJA I LOGOWANIE =====
 
 @app.route("/register", methods=["GET", "POST"])
