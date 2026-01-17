@@ -377,7 +377,6 @@
     /* Responsive Trader Table */
     .trader-table,
     .trader-table tbody,
-    .trader-table tr,
     .trader-table td {
         display: block;
         width: 100%;
@@ -388,59 +387,139 @@
         display: none;
     }
 
+    /* ROW AS CARD/GRID CONTAINER */
     .trader-table tr {
+        display: grid !important;
+        grid-template-columns: repeat(6, 1fr);
+        /* 6 columns base grid */
+        gap: 10px;
         margin-bottom: 25px;
         border: 2px solid rgba(100, 50, 60, 0.8);
         border-radius: 8px;
         background: rgba(0, 0, 0, 0.2);
-        /* Slightly darker background for cards */
         padding: 15px;
     }
 
+    /* CELL STYLING */
     .trader-table td {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 5px;
-        border-bottom: 1px solid rgba(150, 88, 97, 0.3);
+        padding: 2px;
+        border: none;
         min-height: auto;
-    }
-
-    .trader-table td:last-child {
-        border-bottom: none;
     }
 
     .trader-table td::before {
         content: attr(data-label);
         font-weight: bold;
         color: #FFD700;
-        margin-bottom: 8px;
-        font-size: 14px;
+        margin-bottom: 4px;
+        font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
+    /* === BUYING TABLE (6 items) ===
+       1. Nazwa
+       2. Ilość, 3. Cena, 4. Wartość
+       5. Suma Ceny, 6. Suma Wartości 
+    */
+
+    /* Nazwa (1) -> Full width */
+    .buying-table td:nth-child(1) {
+        grid-column: 1 / -1;
+    }
+
+    /* Ilość (2) -> 2 cols */
+    .buying-table td:nth-child(2) {
+        grid-column: span 2;
+    }
+
+    /* Cena (3) -> 2 cols */
+    .buying-table td:nth-child(3) {
+        grid-column: span 2;
+    }
+
+    /* Wartość (4) -> 2 cols */
+    .buying-table td:nth-child(4) {
+        grid-column: span 2;
+    }
+
+    /* Suma Ceny (5) -> 3 cols */
+    .buying-table td:nth-child(5) {
+        grid-column: span 3;
+    }
+
+    /* Suma Wartości (6) -> 3 cols */
+    .buying-table td:nth-child(6) {
+        grid-column: span 3;
+    }
+
+
+    /* === SELLING TABLE (7 items) ===
+        1. Nazwa
+        2. Il. Kupiona, 3. Il. Sprzedana, 4. Cena Sprz
+        5. Przychód, 6. Zysk, 7. Wartość
+    */
+
+    /* Nazwa (1) -> Full width */
+    .selling-table td:nth-child(1) {
+        grid-column: 1 / -1;
+    }
+
+    /* Il. Kupiona (2) -> 2 cols */
+    .selling-table td:nth-child(2) {
+        grid-column: span 2;
+    }
+
+    /* Il. Sprzedana (3) -> 2 cols */
+    .selling-table td:nth-child(3) {
+        grid-column: span 2;
+    }
+
+    /* Cena Sprzedaży (4) -> 2 cols */
+    .selling-table td:nth-child(4) {
+        grid-column: span 2;
+    }
+
+    /* Przychód (5) -> 2 cols */
+    .selling-table td:nth-child(5) {
+        grid-column: span 2;
+    }
+
+    /* Zysk (6) -> 2 cols */
+    .selling-table td:nth-child(6) {
+        grid-column: span 2;
+    }
+
+    /* Wartość (7) -> 2 cols */
+    .selling-table td:nth-child(7) {
+        grid-column: span 2;
+    }
+
+
+    /* COMMON ADJUSTMENTS */
     .trader-input,
     .trader-number {
         width: 100%;
+        font-size: 13px;
+        padding: 6px;
     }
 
     .sold-nazwa-display,
     .sold-ilosc-display,
     .sold-wartosc-display {
-        color: white;
-        font-weight: bold;
-        width: 100%;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
-        border: 1px solid rgba(150, 88, 97, 0.5);
-        box-sizing: border-box;
+        font-size: 13px;
+        padding: 6px;
     }
 
     .trader-section h2 {
-        font-size: 24px;
-        /* Slightly smaller title on mobile */
+        font-size: 20px;
+    }
+
+    .trader-table td:last-child {
+        border-bottom: none;
     }
 }
