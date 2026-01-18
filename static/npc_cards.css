@@ -25,7 +25,7 @@
     color: #FFD700;
     font-size: 36px;
     margin: 0;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .npc-actions {
@@ -37,7 +37,7 @@
 /* ===== PRZYCISKI NPC ===== */
 
 .npc-actions .btn {
-    padding: 12px 24px;
+    padding: 12px 22px;
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -46,8 +46,8 @@
     transition: all 0.3s ease;
     text-decoration: none;
     display: inline-block;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .npc-actions .btn-save {
@@ -65,7 +65,7 @@
 
 .npc-actions .btn-save:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .npc-actions .btn-cancel {
@@ -84,7 +84,7 @@
 
 .npc-actions .btn-cancel:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ===== GRID KART ===== */
@@ -104,8 +104,8 @@
     background: linear-gradient(145deg, rgba(40, 40, 40, 0.98), rgba(20, 20, 20, 0.98));
     border-radius: 12px;
     padding: 0;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6),
-                inset 0 1px 0 rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -121,15 +121,15 @@
     right: 0;
     height: 4px;
     background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 215, 0, 0.6) 50%,
-        transparent 100%);
+            transparent 0%,
+            rgba(255, 215, 0, 0.6) 50%,
+            transparent 100%);
 }
 
 .npc-card:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.8),
-                inset 0 1px 0 rgba(255,255,255,0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* Kolory dla systemów */
@@ -140,9 +140,9 @@
 
 .cthulhu-card::before {
     background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(44, 95, 45, 0.8) 50%,
-        transparent 100%);
+            transparent 0%,
+            rgba(44, 95, 45, 0.8) 50%,
+            transparent 100%);
 }
 
 .warhammer-card {
@@ -152,9 +152,9 @@
 
 .warhammer-card::before {
     background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(139, 69, 19, 0.8) 50%,
-        transparent 100%);
+            transparent 0%,
+            rgba(139, 69, 19, 0.8) 50%,
+            transparent 100%);
 }
 
 .dnd-card {
@@ -164,9 +164,9 @@
 
 .dnd-card::before {
     background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(114, 47, 55, 0.8) 50%,
-        transparent 100%);
+            transparent 0%,
+            rgba(114, 47, 55, 0.8) 50%,
+            transparent 100%);
 }
 
 /* ===== NAGŁÓWEK KARTY ===== */
@@ -190,7 +190,7 @@
     font-size: 22px;
     font-weight: bold;
     padding: 5px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .npc-name:focus {
@@ -438,6 +438,7 @@
 }
 
 @media (max-width: 768px) {
+
     /* KONTENER I HEADER */
     .npc-container {
         margin: 60px auto 20px;
@@ -508,7 +509,8 @@
 
     .npc-field input {
         padding: 10px;
-        font-size: 16px; /* Zapobiega auto-zoom na iOS */
+        font-size: 16px;
+        /* Zapobiega auto-zoom na iOS */
     }
 
     /* CECHY - 3 KOLUMNY NA MOBILE */

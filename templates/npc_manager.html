@@ -3,194 +3,197 @@
 
 {% block content %}
 <style>
-.main {
-    background: transparent !important;
-    box-shadow: none !important;
-    width: 100% !important;
-    max-width: none !important;
-    position: static !important;
-    z-index: auto !important;
-}
-.floating-image {
-    position: fixed !important;
-    z-index: -10 !important;
-    pointer-events: none !important;
-    filter: blur(10px) !important;
-}
-.overlay2 {
-    position: fixed !important;
-    z-index: -9 !important;
-    pointer-events: none !important;
-    background-color: rgba(35, 45, 40, 0.7) !important;
-}
-
-/* NPC MANAGER CLASSES */
-.npc-manager-container {
-    max-width: 1200px;
-    margin: 100px auto;
-    padding: 40px;
-    text-align: center;
-}
-
-.npc-manager-title {
-    color: #FFD700;
-    font-size: 48px;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-.npc-manager-subtitle {
-    color: rgba(255,255,255,0.9);
-    font-size: 20px;
-    margin-bottom: 60px;
-}
-
-.systems-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.system-card-link {
-    text-decoration: none;
-}
-
-.system-card-box {
-    padding: 40px;
-    border-radius: 15px;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    cursor: pointer;
-}
-
-.system-card-box:hover {
-    transform: translateY(-10px) scale(1.05);
-}
-
-.system-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
-}
-
-.system-name {
-    color: #FFD700;
-    font-size: 28px;
-    margin-bottom: 15px;
-}
-
-.system-description {
-    color: rgba(255,255,255,0.85);
-    font-size: 16px;
-}
-
-.back-button {
-    margin-top: 60px;
-}
-
-.back-button .btn {
-    padding: 15px 40px;
-    font-size: 18px;
-}
-
-/* MOBILE STYLES */
-@media (max-width: 768px) {
-    body {
-        padding: 10px 0;
+    .main {
+        background: transparent !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: none !important;
+        position: static !important;
+        z-index: auto !important;
     }
 
+    .floating-image {
+        position: fixed !important;
+        z-index: -10 !important;
+        pointer-events: none !important;
+        filter: blur(10px) !important;
+    }
+
+    .overlay2 {
+        position: fixed !important;
+        z-index: -9 !important;
+        pointer-events: none !important;
+        background-color: rgba(35, 45, 40, 0.7) !important;
+    }
+
+    /* NPC MANAGER CLASSES */
     .npc-manager-container {
-        margin: 60px auto 30px;
-        padding: 20px 15px;
+        max-width: 1200px;
+        margin: 100px auto;
+        padding: 40px;
+        text-align: center;
     }
 
     .npc-manager-title {
-        font-size: 32px;
-        margin-bottom: 15px;
+        color: #FFD700;
+        font-size: 48px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .npc-manager-subtitle {
-        font-size: 16px;
-        margin-bottom: 40px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 20px;
+        margin-bottom: 60px;
     }
 
     .systems-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 0 10px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .system-card-link {
+        text-decoration: none;
     }
 
     .system-card-box {
-        padding: 30px 20px;
+        padding: 40px;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
     }
 
     .system-card-box:hover {
-        transform: translateY(-5px) scale(1.02);
+        transform: translateY(-10px) scale(1.05);
     }
 
     .system-icon {
-        font-size: 56px;
+        font-size: 64px;
+        margin-bottom: 20px;
+    }
+
+    .system-name {
+        color: #FFD700;
+        font-size: 28px;
         margin-bottom: 15px;
     }
 
-    .system-name {
-        font-size: 24px;
-        margin-bottom: 12px;
-    }
-
     .system-description {
-        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 16px;
     }
 
     .back-button {
-        margin-top: 40px;
+        margin-top: 60px;
     }
 
     .back-button .btn {
-        padding: 12px 30px;
-        font-size: 16px;
-        width: 100%;
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 480px) {
-    .npc-manager-container {
-        margin: 40px auto 20px;
-        padding: 15px 10px;
+        padding: 15px 40px;
+        font-size: 18px;
     }
 
-    .npc-manager-title {
-        font-size: 28px;
+    /* MOBILE STYLES */
+    @media (max-width: 768px) {
+        body {
+            padding: 10px 0;
+        }
+
+        .npc-manager-container {
+            margin: 60px auto 30px;
+            padding: 20px 15px;
+        }
+
+        .npc-manager-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .npc-manager-subtitle {
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .systems-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 0 10px;
+        }
+
+        .system-card-box {
+            padding: 30px 20px;
+        }
+
+        .system-card-box:hover {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        .system-icon {
+            font-size: 56px;
+            margin-bottom: 15px;
+        }
+
+        .system-name {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .system-description {
+            font-size: 14px;
+        }
+
+        .back-button {
+            margin-top: 40px;
+        }
+
+        .back-button .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+        }
     }
 
-    .npc-manager-subtitle {
-        font-size: 15px;
-        margin-bottom: 30px;
-    }
+    @media (max-width: 480px) {
+        .npc-manager-container {
+            margin: 40px auto 20px;
+            padding: 15px 10px;
+        }
 
-    .system-card-box {
-        padding: 25px 15px;
-    }
+        .npc-manager-title {
+            font-size: 28px;
+        }
 
-    .system-icon {
-        font-size: 48px;
-    }
+        .npc-manager-subtitle {
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
 
-    .system-name {
-        font-size: 22px;
-    }
+        .system-card-box {
+            padding: 25px 15px;
+        }
 
-    .system-description {
-        font-size: 13px;
+        .system-icon {
+            font-size: 48px;
+        }
+
+        .system-name {
+            font-size: 22px;
+        }
+
+        .system-description {
+            font-size: 13px;
+        }
     }
-}
 </style>
 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
 
-<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');">
+</div>
 <div class="overlay2"></div>
 
 <div style="max-width: 1200px; margin: 100px auto; padding: 40px; text-align: center;">
@@ -201,7 +204,8 @@
         Wybierz system RPG, aby zarządzać swoimi NPC
     </p>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;">
+    <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;">
 
         <!-- Cthulhu -->
         <a href="{{ url_for('npc_manager_cthulhu') }}" style="text-decoration: none;">
@@ -211,8 +215,8 @@
                         transition: all 0.3s ease;
                         box-shadow: 0 8px 24px rgba(0,0,0,0.4);
                         cursor: pointer;"
-                 onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(44,95,45,0.6)';"
-                 onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
+                onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(44,95,45,0.6)';"
+                onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
                 <div style="font-size: 64px; margin-bottom: 20px;">🦑</div>
                 <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">Call of Cthulhu</h2>
                 <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
@@ -229,8 +233,8 @@
                         transition: all 0.3s ease;
                         box-shadow: 0 8px 24px rgba(0,0,0,0.4);
                         cursor: pointer;"
-                 onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(139,69,19,0.6)';"
-                 onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
+                onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(139,69,19,0.6)';"
+                onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
                 <div style="font-size: 64px; margin-bottom: 20px;">⚔️</div>
                 <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">Warhammer Fantasy</h2>
                 <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
@@ -247,8 +251,8 @@
                         transition: all 0.3s ease;
                         box-shadow: 0 8px 24px rgba(0,0,0,0.4);
                         cursor: pointer;"
-                 onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(114,47,55,0.6)';"
-                 onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
+                onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(114,47,55,0.6)';"
+                onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
                 <div style="font-size: 64px; margin-bottom: 20px;">🐉</div>
                 <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">D&D 5e</h2>
                 <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
@@ -260,7 +264,7 @@
     </div>
 
     <div style="margin-top: 60px;">
-        <a href="{{ url_for('index') }}" class="btn btn-cancel" style="padding: 15px 40px; font-size: 18px;">
+        <a href="{{ url_for('index') }}" class="btn btn-cancel" style="padding: 15px 37px; font-size: 18px;">
             ← Powrót do Menu Głównego
         </a>
     </div>
