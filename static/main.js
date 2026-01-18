@@ -1,9 +1,11 @@
-// Animacja tła - zabezpieczona przed brakiem elementu
-document.addEventListener('DOMContentLoaded', function () {
+// Animacja tła - zabezpieczona przed brakiem elementu i wielokrotnym uruchomieniem
+function initBackgroundAnimation() {
     const img = document.getElementById('img');
 
-    // Sprawdź czy element istnieje
-    if (img) {
+    // Sprawdź czy element istnieje i czy nie ma już uruchomionej animacji
+    if (img && !img.dataset.animated) {
+        img.dataset.animated = "true";
+
         // Konfiguracja
         let vx = 0.5; // Prędkość X
         let vy = 0.3; // Prędkość Y
@@ -13,10 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
         let y = -window.innerHeight * 0.15;
 
         function animate() {
-            // Oblicz bezpieczne granice (w pikselach)
-            // Obrazek ma 130% (1.3) ekranu.
-            // Nadmiar to 0.3 (30%).
-            // Chcemy ruszać się w zakresie od -5% do -25%, żeby zawsze mieć 5% marginesu z każdej strony.
+            // Jeśli element zniknął z DOM, zakończ pętlę
+            if (!document.getElementById('img')) {
+                return;
+            }
+
             const minX = -window.innerWidth * 0.25;
             const maxX = -window.innerWidth * 0.05;
             const minY = -window.innerHeight * 0.25;
@@ -29,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (x >= maxX || x <= minX) vx = -vx;
             if (y >= maxY || y <= minY) vy = -vy;
 
-            // Zabezpieczenie przed "ucieczką" poza zakres przy zmianie rozmiaru okna
+            // Zabezpieczenie przed "ucieczką" poza zakres
             if (x > maxX) x = maxX;
             if (x < minX) x = minX;
             if (y > maxY) y = maxY;
@@ -41,7 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         animate();
     }
-});
+}
+
+// Inicjalizacja przy ładowaniu strony i po swapie HTMX
+document.addEventListener('DOMContentLoaded', initBackgroundAnimation);
+document.body.addEventListener('htmx:afterOnLoad', initBackgroundAnimation);
+// Wywołaj od razu na wypadek gdyby skrypt był ładowany dynamicznie
+initBackgroundAnimation();
 
 
 
