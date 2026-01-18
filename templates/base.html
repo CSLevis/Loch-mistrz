@@ -31,7 +31,7 @@
     <!-- Menu powrotu - tylko jeśli NIE jesteś na stronie głównej -->
     {% if request.endpoint != 'index' %}
     <div class="user-menu" style="left: 20px; right: auto;">
-        <a href="{{ url_for('index') }}">← Powrót do menu</a>
+        <a href="{{ url_for('index') }}">{{ _('nav_back') }}</a>
     </div>
     {% endif %}
 
@@ -39,10 +39,10 @@
     <div class="user-menu">
         {% if current_user.is_authenticated %}
         <span class="username">{{ current_user.username }}</span>
-        <a href="{{ url_for('logout') }}">Wyloguj</a>
+        <a href="{{ url_for('logout') }}">{{ _('logout') }}</a>
         {% else %}
-        <a href="{{ url_for('login') }}">Zaloguj się</a>
-        <a href="{{ url_for('register') }}">Rejestracja</a>
+        <a href="{{ url_for('login') }}">{{ _('login') }}</a>
+        <a href="{{ url_for('register') }}">{{ _('register') }}</a>
         {% endif %}
     </div>
 
@@ -175,8 +175,19 @@
     <!-- PRZYCISKI DOLNE -->
     <div style="position: fixed; left: 20px; bottom: 20px; display: flex; gap: 10px; z-index: 9998;">
         <button class="music-toggle" id="musicToggle" onclick="toggleMusic(event)"
-            title="Włącz/Wyłącz muzykę">🔊</button>
-        <button class="roller-toggle" onclick="toggleRoller()" style="position: static;">🎲 Roller</button>
+            title="{{ _('music_on_off') }}">🔊</button>
+        <button class="roller-toggle" onclick="toggleRoller()" style="position: static;">{{ _('dice_roller_btn')
+            }}</button>
+    </div>
+
+    <!-- LANGUAGE SWITCHER -->
+    <div style="position: fixed; right: 20px; bottom: 20px; display: flex; gap: 5px; z-index: 9999;">
+        <a href="{{ url_for('set_language', lang='pl') }}"
+            style="text-decoration: none; padding: 5px 10px; background: {{ 'goldenrod' if session.get('lang', 'pl') == 'pl' else 'rgba(0,0,0,0.5)' }}; color: white; border-radius: 4px; border: 1px solid #FFD700; font-weight: bold; font-size: 14px;"
+            hx-boost="false">PL</a>
+        <a href="{{ url_for('set_language', lang='en') }}"
+            style="text-decoration: none; padding: 5px 10px; background: {{ 'goldenrod' if session.get('lang') == 'en' else 'rgba(0,0,0,0.5)' }}; color: white; border-radius: 4px; border: 1px solid #FFD700; font-weight: bold; font-size: 14px;"
+            hx-boost="false">EN</a>
     </div>
 </body>
 

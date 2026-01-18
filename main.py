@@ -10,6 +10,8 @@ from character_cards import Character
 from trader_manager import create_trader_models
 from dnd5e_extras import create_dnd5e_extras_models
 from npc_manager import create_npc_models
+from translations import TRANSLATIONS
+from flask import session
 
 import os
 import random
@@ -1687,6 +1689,24 @@ def npc_manager_dnd5e():
     npcs = NPCDnD5e.query.filter_by(user_id=current_user.id).all()
     return render_template('npc_manager_dnd5e.html', npcs=npcs)
 
+
+# ===== TRANSLATIONS =====
+
+@app.route("/set_language/<lang>")
+def set_language(lang):
+    if lang in ['pl', 'en']:
+        session['lang'] = lang
+    return redirect(request.referrer or url_for('index'))
+
+@app.context_processor
+def utility_processor():
+    def get_translation(key, *args):
+        lang = session.get('lang', 'pl')
+        text = TRANSLATIONS.get(lang, TRANSLATIONS['pl']).get(key, key)
+        if args:
+            return text.format(*args)
+        return text
+    return dict(_=get_translation)
 
 # ===== CONTEXT PROCESSOR =====
 

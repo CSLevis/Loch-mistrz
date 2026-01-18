@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Strona Główna{% endblock %}
+{% block title %}{{ _('home_title') }}{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
@@ -8,14 +8,15 @@
 </div>
 
 <div class="container">
-    <button class="image-button image-button1" onclick="location.href='{{ url_for('roller') }}'">Dice <br>
-        Roller</button>
-    <button class="image-button image-button2" onclick="location.href='{{ url_for('karty_postaci') }}'">Character <br>
-        Sheet</button>
-    <button class="image-button image-button3" onclick="location.href='{{ url_for('karty_traderow') }}'">Trader <br>
-        Manager</button>
-    <button class="image-button image-button4" onclick="location.href='{{ url_for('npc_manager') }}'">NPC <br>
-        Manager</button>
+    <button class="image-button image-button1" onclick="location.href='{{ url_for('roller') }}'">{{
+        _('menu_dice_roller') | safe }}</button>
+    <button class="image-button image-button2"
+        onclick="location.href='{{ url_for('character_sheets') if request.endpoint == 'character_sheets' else url_for('karty_postaci') }}'">{{
+        _('menu_character_sheets') | safe }}</button>
+    <button class="image-button image-button3" onclick="location.href='{{ url_for('karty_traderow') }}'">{{
+        _('menu_trader_manager') | safe }}</button>
+    <button class="image-button image-button4" onclick="location.href='{{ url_for('npc_manager') }}'">{{
+        _('menu_npc_manager') | safe }}</button>
 </div>
 
 <script src="{{ url_for('static', filename='main.js') }}"></script>

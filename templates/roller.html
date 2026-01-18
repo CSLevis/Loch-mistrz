@@ -1,94 +1,102 @@
 {% extends "base.html" %}
-{% block title %}Dice Roller{% endblock %}
+{% block title %}{{ _('roller_title') }}{% endblock %}
 
 {% block content %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
-    <div class="floating-image" id="img"></div>
-    <div class="overlay2">
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<div class="floating-image" id="img"></div>
+<div class="overlay2">
     <div class="overlay-container">
-    <div class="overlay-bg"></div>
+        <div class="overlay-bg"></div>
 
-    <!-- ZMIEŃ NA KOLUMNĘ PIONOWĄ -->
-    <div class="content-wrapper">
-        <!-- HEADER NAD KOLUMNAMI -->
-        <div class="header-row">
-            <div class="header-left">
-                <span class="header-text">Dice Roller</span>
+        <!-- ZMIEŃ NA KOLUMNĘ PIONOWĄ -->
+        <div class="content-wrapper">
+            <!-- HEADER NAD KOLUMNAMI -->
+            <div class="header-row">
+                <div class="header-left">
+                    <span class="header-text">{{ _('roller_title') }}</span>
+                </div>
+                <div class="header-right">
+                    <!-- 1. DODANY NAPIS NAD STRZAŁKAMI -->
+                    <div class="number-control-section">
+                        <div class="header-text2">{{ _('roller_throws_count') }}</div>
+                        <div class="number-controls">
+                            <button class="arrow-btn" onclick="changeNumber(-1)">
+                                <img src="{{ url_for('static', filename='al.png') }}" alt="<">
+                            </button>
+                            <span class="number-display" id="numberDisplay">1</span>
+                            <button class="arrow-btn" onclick="changeNumber(1)">
+                                <img src="{{ url_for('static', filename='ar.png') }}" alt=">">
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="header-right">
-                <!-- 1. DODANY NAPIS NAD STRZAŁKAMI -->
-                <div class="number-control-section">
-                    <div class="header-text2">number of throws</div>
-                    <div class="number-controls">
-                        <button class="arrow-btn" onclick="changeNumber(-1)">
-                            <img src="{{ url_for('static', filename='al.png') }}" alt="<">
-                        </button>
-                        <span class="number-display" id="numberDisplay">1</span>
-                        <button class="arrow-btn" onclick="changeNumber(1)">
-                            <img src="{{ url_for('static', filename='ar.png') }}" alt=">">
-                        </button>
+
+            <!-- KOLUMNY POD HEADEREM -->
+            <div class="flex-container">
+                <!-- Kolumna 1: przyciski -->
+                <div class="column">
+                    <button class="buttonrol" id="b1"><img src="{{ url_for('static', filename='d4a.png') }}"></button>
+                    <button class="buttonrol" id="b2"><img src="{{ url_for('static', filename='d6a.png') }}"></button>
+                    <button class="buttonrol" id="b3"><img src="{{ url_for('static', filename='d8a.png') }}"></button>
+                </div>
+
+                <!-- Kolumna 2: ramki -->
+                <div class="column">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box1"></div>
+                    </div>
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box2"></div>
+                    </div>
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box3"></div>
+                    </div>
+                </div>
+
+                <!-- Kolumna 3: przyciski -->
+                <div class="column">
+                    <button class="buttonrol" id="b4"><img src="{{ url_for('static', filename='d10a.png') }}"></button>
+                    <button class="buttonrol" id="b5"><img src="{{ url_for('static', filename='d12a.png') }}"></button>
+                    <button class="buttonrol" id="b6"><img src="{{ url_for('static', filename='d20a.png') }}"></button>
+                </div>
+
+                <!-- Kolumna 4: ramki -->
+                <div class="column">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box4"></div>
+                    </div>
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box5"></div>
+                    </div>
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. NOWA LINIJKA POD KOLUMNAMI -->
+            <div class="bottom-row">
+                <!-- Wszystko w jednej linijce -->
+                <div class="custom-dice-row">
+                    <button class="buttonrol" id="b7"><img src="{{ url_for('static', filename='dms2.png') }}"></button>
+                    <input type="text" id="customInput" placeholder="{{ _('roller_custom_placeholder') }}"
+                        class="custom-input">
+                    <div class="display-box2"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box7"></div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- KOLUMNY POD HEADEREM -->
-        <div class="flex-container">
-            <!-- Kolumna 1: przyciski -->
-            <div class="column">
-                <button class="buttonrol" id="b1"><img src="{{ url_for('static', filename='d4a.png') }}"></button>
-                <button class="buttonrol" id="b2"><img src="{{ url_for('static', filename='d6a.png') }}"></button>
-                <button class="buttonrol" id="b3"><img src="{{ url_for('static', filename='d8a.png') }}"></button>
-            </div>
-
-            <!-- Kolumna 2: ramki -->
-            <div class="column">
-                <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                    <div class="display-content" id="box1"></div>
-                </div>
-                <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                    <div class="display-content" id="box2"></div>
-                </div>
-                <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                    <div class="display-content" id="box3"></div>
-                </div>
-            </div>
-
-            <!-- Kolumna 3: przyciski -->
-            <div class="column">
-                <button class="buttonrol" id="b4"><img src="{{ url_for('static', filename='d10a.png') }}"></button>
-                <button class="buttonrol" id="b5"><img src="{{ url_for('static', filename='d12a.png') }}"></button>
-                <button class="buttonrol" id="b6"><img src="{{ url_for('static', filename='d20a.png') }}"></button>
-            </div>
-
-            <!-- Kolumna 4: ramki -->
-            <div class="column">
-                <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                    <div class="display-content" id="box4"></div>
-                </div>
-                <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                    <div class="display-content" id="box5"></div>
-                </div>
-                <div class="display-box" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                    <div class="display-content" id="box6"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. NOWA LINIJKA POD KOLUMNAMI -->
-       <div class="bottom-row">
-    <!-- Wszystko w jednej linijce -->
-    <div class="custom-dice-row">
-        <button class="buttonrol" id="b7"><img src="{{ url_for('static', filename='dms2.png') }}"></button>
-        <input type="text" id="customInput" placeholder="sides" class="custom-input">
-        <div class="display-box2" style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-            <div class="display-content" id="box7"></div>
-        </div>
     </div>
 </div>
-    </div>
-</div>
-</div>
 
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 {% endblock %}

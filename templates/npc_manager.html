@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Manager Bohaterów Niezależnych{% endblock %}
+{% block title %}{{ _('npc_manager_title') }}{% endblock %}
 
 {% block content %}
 <style>
@@ -196,79 +196,78 @@
 </div>
 <div class="overlay2"></div>
 
-<div style="max-width: 1200px; margin: 100px auto; padding: 40px; text-align: center;">
-    <h1 style="color: #FFD700; font-size: 48px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-        👥 Manager Bohaterów Niezależnych
-    </h1>
-    <p style="color: rgba(255,255,255,0.9); font-size: 20px; margin-bottom: 60px;">
-        Wybierz system RPG, aby zarządzać swoimi NPC
-    </p>
+<h1 style="color: #FFD700; font-size: 48px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+    👥 {{ _('npc_manager_title') }}
+</h1>
+<p style="color: rgba(255,255,255,0.9); font-size: 20px; margin-bottom: 60px;">
+    {{ _('npc_manager_subtitle') }}
+</p>
 
-    <div
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;">
+<div
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;">
 
-        <!-- Cthulhu -->
-        <a href="{{ url_for('npc_manager_cthulhu') }}" style="text-decoration: none;">
-            <div style="background: linear-gradient(135deg, rgba(44, 95, 45, 0.95), rgba(28, 60, 29, 0.95));
+    <!-- Cthulhu -->
+    <a href="{{ url_for('npc_manager_cthulhu') }}" style="text-decoration: none;">
+        <div style="background: linear-gradient(135deg, rgba(44, 95, 45, 0.95), rgba(28, 60, 29, 0.95));
                         padding: 40px; border-radius: 15px;
                         border: 3px solid #2c5f2d;
                         transition: all 0.3s ease;
                         box-shadow: 0 8px 24px rgba(0,0,0,0.4);
                         cursor: pointer;"
-                onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(44,95,45,0.6)';"
-                onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
-                <div style="font-size: 64px; margin-bottom: 20px;">🦑</div>
-                <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">Call of Cthulhu</h2>
-                <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
-                    Zarządzaj kultystami, badaczami i innymi postaciami z mitologii Lovecrafta
-                </p>
-            </div>
-        </a>
+            onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(44,95,45,0.6)';"
+            onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
+            <div style="font-size: 64px; margin-bottom: 20px;">🦑</div>
+            <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">Call of Cthulhu</h2>
+            <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
+                {{ _('npc_cthulhu_desc') }}
+            </p>
+        </div>
+    </a>
 
-        <!-- Warhammer -->
-        <a href="{{ url_for('npc_manager_warhammer') }}" style="text-decoration: none;">
-            <div style="background: linear-gradient(135deg, rgba(139, 69, 19, 0.95), rgba(101, 50, 14, 0.95));
+    <!-- Warhammer -->
+    <a href="{{ url_for('npc_manager_warhammer') }}" style="text-decoration: none;">
+        <div style="background: linear-gradient(135deg, rgba(139, 69, 19, 0.95), rgba(101, 50, 14, 0.95));
                         padding: 40px; border-radius: 15px;
                         border: 3px solid #8B4513;
                         transition: all 0.3s ease;
                         box-shadow: 0 8px 24px rgba(0,0,0,0.4);
                         cursor: pointer;"
-                onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(139,69,19,0.6)';"
-                onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
-                <div style="font-size: 64px; margin-bottom: 20px;">⚔️</div>
-                <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">Warhammer Fantasy</h2>
-                <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
-                    Twórz szlachciców, wojowników i mieszkańców Starego Świata
-                </p>
-            </div>
-        </a>
+            onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(139,69,19,0.6)';"
+            onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
+            <div style="font-size: 64px; margin-bottom: 20px;">⚔️</div>
+            <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">Warhammer Fantasy</h2>
+            <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
+                {{ _('npc_warhammer_desc') }}
+            </p>
+        </div>
+    </a>
 
-        <!-- D&D 5e -->
-        <a href="{{ url_for('npc_manager_dnd5e') }}" style="text-decoration: none;">
-            <div style="background: linear-gradient(135deg, rgba(114, 47, 55, 0.95), rgba(82, 34, 39, 0.95));
+    <!-- D&D 5e -->
+    <a href="{{ url_for('npc_manager_dnd5e') }}" style="text-decoration: none;">
+        <div style="background: linear-gradient(135deg, rgba(114, 47, 55, 0.95), rgba(82, 34, 39, 0.95));
                         padding: 40px; border-radius: 15px;
                         border: 3px solid #722F37;
                         transition: all 0.3s ease;
                         box-shadow: 0 8px 24px rgba(0,0,0,0.4);
                         cursor: pointer;"
-                onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(114,47,55,0.6)';"
-                onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
-                <div style="font-size: 64px; margin-bottom: 20px;">🐉</div>
-                <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">D&D 5e</h2>
-                <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
-                    Kreuj bohaterów, wrogów i sojuszników w świecie Dungeons & Dragons
-                </p>
-            </div>
-        </a>
+            onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.boxShadow='0 12px 32px rgba(114,47,55,0.6)';"
+            onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.4)';">
+            <div style="font-size: 64px; margin-bottom: 20px;">🐉</div>
+            <h2 style="color: #FFD700; font-size: 28px; margin-bottom: 15px;">D&D 5e</h2>
+            <p style="color: rgba(255,255,255,0.85); font-size: 16px;">
+                {{ _('npc_dnd5e_desc') }}
+            </p>
+        </div>
+    </a>
 
-    </div>
+</div>
 
-    <div style="margin-top: 60px;">
-        <a href="{{ url_for('index') }}" class="btn btn-cancel"
-            style="padding: 15px 25px; font-size: 18px; display: inline-block; transform: scaleX(0.91);">
-            ← Powrót do Menu Głównego
-        </a>
-    </div>
+<div style="margin-top: 60px;">
+    <a href="{{ url_for('index') }}" class="btn btn-cancel"
+        style="padding: 15px 25px; font-size: 18px; display: inline-block; transform: scaleX(0.91);">
+        {{ _('nav_back_home') }}
+    </a>
+</div>
 </div>
 
 <script src="{{ url_for('static', filename='main.js') }}"></script>

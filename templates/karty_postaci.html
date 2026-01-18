@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Karty Postaci{% endblock %}
+{% block title %}{{ _('char_cards_title') }}{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
@@ -10,8 +10,8 @@
 
 <div class="cards-container">
     <div class="cards-header">
-        <h1 class="header-text">Karty Postaci</h1>
-        <a href="{{ url_for('wybierz_system') }}" class="btn-new-card">+ Nowa Karta</a>
+        <h1 class="header-text">{{ _('char_cards_title') }}</h1>
+        <a href="{{ url_for('wybierz_system') }}" class="btn-new-card">{{ _('char_new_card') }}</a>
     </div>
 
     <!-- Sekcja Warhammer -->
@@ -21,37 +21,38 @@
         {% for character in warhammer_cards %}
         <div class="character-card">
             <div class="card-header">
-                <h3>{{ character.imie or 'Bez imienia' }}</h3>
-                <span class="card-profession">{{ character.profesja or 'Brak profesji' }}</span>
+                <h3>{{ character.imie or _('char_no_name') }}</h3>
+                <span class="card-profession">{{ character.profesja or _('char_no_prof') }}</span>
             </div>
 
             <div class="card-info">
-                <p><strong>Gracz:</strong> {{ character.gracz or '-' }}</p>
-                <p><strong>Wiek:</strong> {{ character.wiek or '-' }} | <strong>Płeć:</strong> {{ character.plec or '-'
+                <p><strong>{{ _('char_player') }}</strong> {{ character.gracz or '-' }}</p>
+                <p><strong>{{ _('char_age') }}</strong> {{ character.wiek or '-' }} | <strong>{{ _('char_sex')
+                        }}</strong> {{ character.plec or '-'
                     }}</p>
             </div>
 
             <div class="card-stats">
-                <span>S: {{ character.s }}</span>
-                <span>ZR: {{ character.zr }}</span>
-                <span>Kon: {{ character.kon }}</span>
-                <span>Int: {{ character.intel }}</span>
+                <span>{{ _('stat_s') }}: {{ character.s }}</span>
+                <span>{{ _('stat_zr_short') }}: {{ character.zr }}</span>
+                <span>{{ _('stat_kon') }}: {{ character.kon }}</span>
+                <span>{{ _('stat_intel') }}: {{ character.intel }}</span>
             </div>
 
             <div class="card-actions">
-                <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}"
-                    class="btn btn-create">Edytuj</a>
+                <a href="{{ url_for('edytuj_karte_warhammer', character_id=character.id) }}" class="btn btn-create">{{
+                    _('char_edit') }}</a>
                 <form method="POST" action="{{ url_for('usun_karte_warhammer', character_id=character.id) }}"
                     style="display: inline;">
                     <button type="submit" class="btn btn-create"
-                        onclick="return confirm('Czy na pewno usunąć tę kartę?')">Usuń</button>
+                        onclick="return confirm('{{ _('char_delete_confirm') }}')">{{ _('char_delete') }}</button>
                 </form>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p class="no-cards-info">Brak kart Warhammer</p>
+    <p class="no-cards-info">{{ _('char_no_cards_system', 'Warhammer') }}</p>
     {% endif %}
 
     <!-- Sekcja D&D 5e -->
@@ -61,33 +62,34 @@
         {% for character in dnd5e_cards %}
         <div class="character-card">
             <div class="card-header">
-                <h3>{{ character.imie or 'Bez imienia' }}</h3>
-                <span class="card-profession">{{ character.klasa or 'Brak klasy' }}</span>
+                <h3>{{ character.imie or _('char_no_name') }}</h3>
+                <span class="card-profession">{{ character.klasa or _('char_no_class') }}</span>
             </div>
             <div class="card-info">
-                <p><strong>Gracz:</strong> {{ character.gracz or '-' }}</p>
-                <p><strong>Poziom:</strong> {{ character.poziom or '-' }} | <strong>Rasa:</strong> {{ character.rasa or
+                <p><strong>{{ _('char_player') }}</strong> {{ character.gracz or '-' }}</p>
+                <p><strong>{{ _('char_level') }}</strong> {{ character.poziom or '-' }} | <strong>{{ _('char_race')
+                        }}</strong> {{ character.rasa or
                     '-' }}</p>
             </div>
             <div class="card-stats">
-                <span>Siła: {{ character.sila }}</span>
-                <span>Zręczność: {{ character.zrecznosc }}</span>
-                <span>KP: {{ character.klasa_pancerza }}</span>
+                <span>{{ _('stat_power') }}: {{ character.sila }}</span>
+                <span>{{ _('stat_dex') }}: {{ character.zrecznosc }}</span>
+                <span>{{ _('stat_kp') }}: {{ character.klasa_pancerza }}</span>
             </div>
             <div class="card-actions">
-                <a href="{{ url_for('edytuj_karte_dnd5e', character_id=character.id) }}"
-                    class="btn btn-create">Edytuj</a>
+                <a href="{{ url_for('edytuj_karte_dnd5e', character_id=character.id) }}" class="btn btn-create">{{
+                    _('char_edit') }}</a>
                 <form method="POST" action="{{ url_for('usun_karte_dnd5e', character_id=character.id) }}"
                     style="display: inline;">
                     <button type="submit" class="btn btn-create"
-                        onclick="return confirm('Czy na pewno usunąć tę kartę?')">Usuń</button>
+                        onclick="return confirm('{{ _('char_delete_confirm') }}')">{{ _('char_delete') }}</button>
                 </form>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p class="no-cards-info">Brak kart D&D 5e</p>
+    <p class="no-cards-info">{{ _('char_no_cards_system', 'D&D 5e') }}</p>
     {% endif %}
 
     <!-- Sekcja Call of Cthulhu -->
@@ -97,35 +99,35 @@
         {% for character in cthulhu_cards %}
         <div class="character-card">
             <div class="card-header">
-                <h3>{{ character.imie or 'Bez imienia' }}</h3>
-                <span class="card-profession">{{ character.zawod or 'Brak zawodu' }}</span>
+                <h3>{{ character.imie or _('char_no_name') }}</h3>
+                <span class="card-profession">{{ character.zawod or _('char_no_job') }}</span>
             </div>
 
             <div class="card-info">
-                <p><strong>Gracz:</strong> {{ character.gracz or '-' }}</p>
-                <p><strong>Wiek:</strong> {{ character.wiek or '-' }}</p>
+                <p><strong>{{ _('char_player') }}</strong> {{ character.gracz or '-' }}</p>
+                <p><strong>{{ _('char_age') }}</strong> {{ character.wiek or '-' }}</p>
             </div>
 
             <div class="card-stats">
-                <span>Siła: {{ character.sila }}</span>
-                <span>Int: {{ character.inteligencja }}</span>
-                <span>Poczytalność: {{ character.poczytalnosc }}</span>
+                <span>{{ _('stat_power') }}: {{ character.sila }}</span>
+                <span>{{ _('stat_intel') }}: {{ character.inteligencja }}</span>
+                <span>{{ _('stat_sanity') }}: {{ character.poczytalnosc }}</span>
             </div>
 
             <div class="card-actions">
-                <a href="{{ url_for('edytuj_karte_cthulhu', character_id=character.id) }}"
-                    class="btn btn-create">Edytuj</a>
+                <a href="{{ url_for('edytuj_karte_cthulhu', character_id=character.id) }}" class="btn btn-create">{{
+                    _('char_edit') }}</a>
                 <form method="POST" action="{{ url_for('usun_karte_cthulhu', character_id=character.id) }}"
                     style="display: inline;">
                     <button type="submit" class="btn btn-create"
-                        onclick="return confirm('Czy na pewno usunąć tę kartę?')">Usuń</button>
+                        onclick="return confirm('{{ _('char_delete_confirm') }}')">{{ _('char_delete') }}</button>
                 </form>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p class="no-cards-info">Brak kart Cthulhu</p>
+    <p class="no-cards-info">{{ _('char_no_cards_system', 'Cthulhu') }}</p>
     {% endif %}
 
 </div>
