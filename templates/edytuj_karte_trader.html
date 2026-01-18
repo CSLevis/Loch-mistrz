@@ -108,7 +108,7 @@
                                 class="trader-number sold-zysk"
                                 value="{{ sold_item.suma_wartosci if sold_item else '0' }}" readonly></td>
                         <td class="sold-wartosc-display" data-label="Wartość Rynkowa">{{
-                            ((bought_item.ilosc_jednostek|float) * (bought_item.wartosc_rynkowa|float))|round(2) if
+                            ((bought_item.ilosc_jednostek|float) * (bought_item.wartosc_rynkowa|float))|round(1) if
                             bought_item else '0' }}</td>
                         <input type="hidden" name="sold_nazwa_{{ i }}" class="sold-nazwa-hidden"
                             value="{{ bought_item.nazwa_towaru if bought_item else '' }}">
@@ -147,8 +147,8 @@
             const cena = parseFloat(cenaInput.value) || 0;
             const wartosc = parseFloat(wartoscInput.value) || 0;
 
-            sumaCenyInput.value = (ilosc * cena).toFixed(2);
-            sumaWartosciInput.value = (ilosc * wartosc).toFixed(2);
+            sumaCenyInput.value = (ilosc * cena).toFixed(1);
+            sumaWartosciInput.value = (ilosc * wartosc).toFixed(1);
 
             // Aktualizuj sekcję sprzedaży
             if (nazwaInput.value.trim() !== '') {
@@ -156,7 +156,7 @@
                 soldNazwaDisplay.textContent = nazwaInput.value;
                 soldNazwaHidden.value = nazwaInput.value;
                 soldIloscDisplay.textContent = ilosc;
-                soldWartoscDisplay.textContent = (ilosc * wartosc).toFixed(2);
+                soldWartoscDisplay.textContent = (ilosc * wartosc).toFixed(1);
             } else {
                 soldRow.style.display = 'none';
             }
@@ -178,17 +178,24 @@
         const soldRow = document.querySelector(`.sold-row[data-index="${index}"]`);
         const boughtRow = document.querySelector(`.bought-row[data-index="${index}"]`);
 
-        const iloscSprzedana = parseFloat(soldRow.querySelector('.sold-ilosc').value) || 0;
-        const cenaSprzedazy = parseFloat(soldRow.querySelector('.sold-cena').value) || 0;
         const iloscKupiona = parseFloat(boughtRow.querySelector('.bought-ilosc').value) || 0;
+        let iloscSprzedana = parseFloat(soldRow.querySelector('.sold-ilosc').value) || 0;
+
+        // Walidacja: ilość sprzedana nie może być większa niż kupiona
+        if (iloscSprzedana > iloscKupiona) {
+            iloscSprzedana = iloscKupiona;
+            soldRow.querySelector('.sold-ilosc').value = iloscSprzedana;
+        }
+
+        const cenaSprzedazy = parseFloat(soldRow.querySelector('.sold-cena').value) || 0;
         const cenaZakupu = parseFloat(boughtRow.querySelector('.bought-cena').value) || 0;
         const wartoscRynkowa = parseFloat(boughtRow.querySelector('.bought-wartosc').value) || 0;
 
         const przychod = iloscSprzedana * cenaSprzedazy;
         const zyskNetto = przychod - (iloscSprzedana * cenaZakupu);
 
-        soldRow.querySelector('.sold-suma-ceny').value = przychod.toFixed(2);
-        soldRow.querySelector('.sold-zysk').value = zyskNetto.toFixed(2);
+        soldRow.querySelector('.sold-suma-ceny').value = przychod.toFixed(1);
+        soldRow.querySelector('.sold-zysk').value = zyskNetto.toFixed(1);
     }
 
     document.querySelectorAll('.sold-row').forEach((row, index) => {
