@@ -68,11 +68,9 @@
 
     <!-- MUZYKA - różna dla każdego systemu -->
     <script>
-        // Sprawdź który szablon jest aktywny na podstawie URL
         const currentPath = window.location.pathname;
-        let musicFile = '/static/tło.mp3'; // domyślna muzyka
+        let musicFile = '/static/tło.mp3';
 
-        // Wybierz muzykę w zależności od strony
         if (currentPath.includes('cthulhu')) {
             musicFile = '/static/tło4.mp3';
         } else if (currentPath.includes('dnd5e')) {
@@ -81,21 +79,27 @@
             musicFile = '/static/tło2.mp3';
         }
 
-        // Globalny obiekt audio (jeden dla całej sesji)
-        if (!window.bgMusicInstance || window.bgMusicInstance.src !== window.location.origin + musicFile) {
-            // Zatrzymaj starą muzykę jeśli gra
-            if (window.bgMusicInstance) {
-                window.bgMusicInstance.pause();
-            }
+        const bgMusic = new Audio(musicFile);
+        bgMusic.loop = true;
+        bgMusic.volume = 0.3;
 
-            window.bgMusicInstance = new Audio(musicFile);
-            window.bgMusicInstance.loop = true;
-            window.bgMusicInstance.volume = 0.3;
+        // Persystencja czasu
+        const savedFile = sessionStorage.getItem('lastMusicFile');
+        const savedTime = sessionStorage.getItem('musicTime');
+
+        if (savedFile === musicFile && savedTime) {
+            bgMusic.currentTime = parseFloat(savedTime);
         }
+        sessionStorage.setItem('lastMusicFile', musicFile);
 
-        const bgMusic = window.bgMusicInstance;
+        // Zapisuj czas co sekundę
+        setInterval(() => {
+            if (!bgMusic.paused) {
+                // Zaokrąglamy, aby uniknąć problemów z precyzją
+                sessionStorage.setItem('musicTime', bgMusic.currentTime);
+            }
+        }, 1000);
 
-        // Funkcja do aktualizacji ikony i stanu
         function updateMusicUI() {
             const toggle = document.getElementById('musicToggle');
             if (!toggle) return;
@@ -104,48 +108,36 @@
             bgMusic.muted = isMuted;
         }
 
-        // Funkcja przełączania
         function toggleMusic(event) {
             if (event) event.stopPropagation();
             const isMuted = localStorage.getItem('musicMuted') === 'true';
             const newState = !isMuted;
             localStorage.setItem('musicMuted', newState);
-
             updateMusicUI();
 
             if (!newState) {
-                bgMusic.play().catch(err => console.log('Muzyka zablokowana przez przeglądarkę'));
+                bgMusic.play().catch(err => console.log('Muzyka zablokowana'));
                 sessionStorage.setItem('musicStarted', 'true');
-            } else {
-                // Nie pauzujemy fizycznie, tylko mutujemy, aby zachować ciągłość rytmu jeśli user odciszy
-                // Alternatywnie: bgMusic.pause();
             }
         }
 
-        // Sprawdź czy muzyka już gra
         const musicShouldPlay = sessionStorage.getItem('musicStarted') === 'true' && localStorage.getItem('musicMuted') !== 'true';
-        if (musicShouldPlay && bgMusic.paused) {
-            bgMusic.play().catch(err => console.log('Nie można wznowić muzyki'));
+        if (musicShouldPlay) {
+            bgMusic.play().catch(err => console.log('Autoplay blocked'));
         }
 
-        // Uruchom po pierwszym kliknięciu (jeśli nie wyciszono)
-        if (sessionStorage.getItem('musicStarted') !== 'true') {
-            window.addEventListener('load', function () {
-                document.body.addEventListener('click', function startMusic() {
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMusicUI();
+            if (sessionStorage.getItem('musicStarted') !== 'true') {
+                document.body.addEventListener('click', () => {
                     if (localStorage.getItem('musicMuted') !== 'true') {
-                        bgMusic.play()
-                            .then(() => {
-                                sessionStorage.setItem('musicStarted', 'true');
-                                console.log('Muzyka wystartowała');
-                            })
-                            .catch(err => console.log('Muzyka zablokowana'));
+                        bgMusic.play().then(() => {
+                            sessionStorage.setItem('musicStarted', 'true');
+                        }).catch(err => console.log('Blocked'));
                     }
                 }, { once: true });
-                updateMusicUI();
-            });
-        } else {
-            window.addEventListener('load', updateMusicUI);
-        }
+            }
+        });
     </script>
     <!-- DICE ROLLER SIDEBAR -->
     <div class="roller-sidebar" id="rollerSidebar">
