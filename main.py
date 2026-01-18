@@ -51,8 +51,14 @@ if database_url and database_url.startswith("postgres://"):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url or 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+# Optymalizacja dla produkcji (Render)
+if os.environ.get('RENDER') or database_url:
+    app.config['TEMPLATES_AUTO_RELOAD'] = False
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3600 # Godzina dla statycznych plików
+else:
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 db = SQLAlchemy(app)
 
@@ -136,8 +142,12 @@ with app.app_context():
         db.session.rollback()
 
     # Teraz utwórz wszystkie tabele (w tym trader_manager z poprawną strukturą)
-    db.create_all()
-    print("OK Wszystkie tabele utworzone")
+    # Wykonujemy to warunkowo lub optymalnie
+    if os.environ.get('INIT_DB', 'true').lower() == 'true':
+        db.create_all()
+        print("OK Wszystkie tabele utworzone/zweryfikowane")
+    else:
+        print("ℹ️ [DATABASE] Pominięto db.create_all() (wymuszone przez INIT_DB=false)")
 
 
 # ===== MECHANIZM BACKUPU DANYCH (DLA RENDERA) =====
