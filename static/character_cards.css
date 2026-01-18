@@ -168,7 +168,9 @@
     transition: all 0.3s ease;
     display: inline-block;
     text-align: center;
+    transform: scaleX(0.91);
 }
+
 
 .btn-cancel:hover {
     background: linear-gradient(145deg, #FF6347, #DC143C);
