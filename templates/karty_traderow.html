@@ -6,7 +6,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='tmanager.css') }}">
 
-<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');">
+</div>
 <div class="overlay2"></div>
 
 <div class="card-form-container-dnd5e">
@@ -29,12 +30,15 @@
             </div>
 
             <div style="padding: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="{{ url_for('edytuj_karte_trader', trader_id=trader.id) }}" class="btn-trader-save" style="flex: 1; min-width: 150px;">
+                <a href="{{ url_for('edytuj_karte_trader', trader_id=trader.id) }}" class="btn-trader-save"
+                    style="flex: 1; min-width: 150px;">
                     ✏️ Edytuj
                 </a>
-                
-                <form method="POST" action="{{ url_for('usun_karte_trader', trader_id=trader.id) }}" style="flex: 1; min-width: 150px;">
-                    <button type="submit" class="btn-trader-delete" onclick="return confirm('Na pewno usunąć tę kartę?');" style="width: 100%; cursor: pointer;">
+
+                <form method="POST" action="{{ url_for('usun_karte_trader', trader_id=trader.id) }}"
+                    style="flex: 1; min-width: 150px;">
+                    <button type="submit" class="btn-trader-delete"
+                        onclick="return confirm('Na pewno usunąć tę kartę?');" style="width: 100%; cursor: pointer;">
                         🗑️ Usuń
                     </button>
                 </form>
@@ -46,9 +50,6 @@
     <div class="trader-container">
         <div style="padding: 30px; text-align: center; color: rgba(255, 255, 255, 0.7);">
             <p style="font-size: 16px;">Nie masz jeszcze żadnych kart Trader Manager'a.</p>
-            <a href="{{ url_for('nowa_karta_trader') }}" class="btn-new-trader" style="margin-top: 15px;">
-                ➕ Utwórz Nową Kartę
-            </a>
         </div>
     </div>
     {% endif %}
