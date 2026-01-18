@@ -23,9 +23,11 @@
             });
         }
     </script>
+    <!-- HTMX for Gapless Navigation -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 
-<body>
+<body hx-boost="true">
     <!-- Menu powrotu - tylko jeśli NIE jesteś na stronie głównej -->
     {% if request.endpoint != 'index' %}
     <div class="user-menu" style="left: 20px; right: auto;">
@@ -68,76 +70,97 @@
 
     <!-- MUZYKA - różna dla każdego systemu -->
     <script>
-        const currentPath = window.location.pathname;
-        let musicFile = '/static/tło.mp3';
-
-        if (currentPath.includes('cthulhu')) {
-            musicFile = '/static/tło4.mp3';
-        } else if (currentPath.includes('dnd5e')) {
-            musicFile = '/static/tło.mp3';
-        } else if (currentPath.includes('warhammer')) {
-            musicFile = '/static/tło2.mp3';
+        // Globalny obiekt audio zainicjalizowany raz
+        if (!window.audioContext) {
+            window.audioContext = {
+                instance: null,
+                currentFile: null
+            };
         }
 
-        const bgMusic = new Audio(musicFile);
-        bgMusic.loop = true;
-        bgMusic.volume = 0.3;
+        function initMusic() {
+            const currentPath = window.location.pathname;
+            let musicFile = '/static/tło.mp3';
 
-        // Persystencja czasu
-        const savedFile = sessionStorage.getItem('lastMusicFile');
-        const savedTime = sessionStorage.getItem('musicTime');
-
-        if (savedFile === musicFile && savedTime) {
-            bgMusic.currentTime = parseFloat(savedTime);
-        }
-        sessionStorage.setItem('lastMusicFile', musicFile);
-
-        // Zapisuj czas co sekundę
-        setInterval(() => {
-            if (!bgMusic.paused) {
-                // Zaokrąglamy, aby uniknąć problemów z precyzją
-                sessionStorage.setItem('musicTime', bgMusic.currentTime);
+            if (currentPath.includes('cthulhu')) {
+                musicFile = '/static/tło4.mp3';
+            } else if (currentPath.includes('dnd5e')) {
+                musicFile = '/static/tło.mp3';
+            } else if (currentPath.includes('warhammer')) {
+                musicFile = '/static/tło2.mp3';
             }
-        }, 1000);
+
+            // Inicjalizacja lub zmiana utworu
+            if (!window.audioContext.instance) {
+                window.audioContext.instance = new Audio(musicFile);
+                window.audioContext.instance.loop = true;
+                window.audioContext.instance.volume = 0.3;
+                window.audioContext.currentFile = musicFile;
+
+                const savedTime = sessionStorage.getItem('musicTime');
+                if (savedTime && sessionStorage.getItem('lastMusicFile') === musicFile) {
+                    window.audioContext.instance.currentTime = parseFloat(savedTime);
+                }
+            } else if (window.audioContext.currentFile !== musicFile) {
+                window.audioContext.instance.pause();
+                window.audioContext.instance.src = musicFile;
+                window.audioContext.currentFile = musicFile;
+                window.audioContext.instance.currentTime = 0;
+                if (sessionStorage.getItem('musicStarted') === 'true') {
+                    window.audioContext.instance.play().catch(e => console.log('Transition blocked'));
+                }
+            }
+
+            sessionStorage.setItem('lastMusicFile', musicFile);
+            updateMusicUI();
+        }
 
         function updateMusicUI() {
             const toggle = document.getElementById('musicToggle');
-            if (!toggle) return;
+            if (!toggle || !window.audioContext.instance) return;
             const isMuted = localStorage.getItem('musicMuted') === 'true';
             toggle.innerHTML = isMuted ? '🔇' : '🔊';
-            bgMusic.muted = isMuted;
+            window.audioContext.instance.muted = isMuted;
         }
 
         function toggleMusic(event) {
             if (event) event.stopPropagation();
             const isMuted = localStorage.getItem('musicMuted') === 'true';
-            const newState = !isMuted;
-            localStorage.setItem('musicMuted', newState);
+            localStorage.setItem('musicMuted', !isMuted);
             updateMusicUI();
 
-            if (!newState) {
-                bgMusic.play().catch(err => console.log('Muzyka zablokowana'));
+            if (isMuted && window.audioContext.instance) {
+                window.audioContext.instance.play().catch(e => console.log('Manual play blocked'));
                 sessionStorage.setItem('musicStarted', 'true');
             }
         }
 
-        const musicShouldPlay = sessionStorage.getItem('musicStarted') === 'true' && localStorage.getItem('musicMuted') !== 'true';
-        if (musicShouldPlay) {
-            bgMusic.play().catch(err => console.log('Autoplay blocked'));
+        // Zapisywanie czasu co 200ms dla precyzji
+        setInterval(() => {
+            if (window.audioContext.instance && !window.audioContext.instance.paused) {
+                sessionStorage.setItem('musicTime', window.audioContext.instance.currentTime);
+            }
+        }, 200);
+
+        // Start/Kontynuacja
+        initMusic();
+        if (sessionStorage.getItem('musicStarted') === 'true' && localStorage.getItem('musicMuted') !== 'true') {
+            window.audioContext.instance.play().catch(e => console.log('Autoplay blocked'));
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            updateMusicUI();
-            if (sessionStorage.getItem('musicStarted') !== 'true') {
-                document.body.addEventListener('click', () => {
-                    if (localStorage.getItem('musicMuted') !== 'true') {
-                        bgMusic.play().then(() => {
-                            sessionStorage.setItem('musicStarted', 'true');
-                        }).catch(err => console.log('Blocked'));
-                    }
-                }, { once: true });
-            }
+        // Obsługa HTMX (inicjalizacja po zmianie treści bez przeładowania)
+        document.body.addEventListener('htmx:afterOnLoad', () => {
+            initMusic();
         });
+
+        // Obsługa pierwszego kliknięcia
+        document.addEventListener('click', () => {
+            if (sessionStorage.getItem('musicStarted') !== 'true' && localStorage.getItem('musicMuted') !== 'true') {
+                window.audioContext.instance.play().then(() => {
+                    sessionStorage.setItem('musicStarted', 'true');
+                });
+            }
+        }, { once: true });
     </script>
     <!-- DICE ROLLER SIDEBAR -->
     <div class="roller-sidebar" id="rollerSidebar">
