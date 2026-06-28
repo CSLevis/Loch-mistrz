@@ -92,6 +92,43 @@
     <p class="no-cards-info">{{ _('char_no_cards_system', 'D&D 5e') }}</p>
     {% endif %}
 
+    <!-- Sekcja D&D 3e -->
+    <h2 class="system-title">D&D 3e</h2>
+    {% if dnd3e_cards %}
+    <div class="cards-grid">
+        {% for character in dnd3e_cards %}
+        <div class="character-card">
+            <div class="card-header">
+                <h3>{{ character.imie or _('char_no_name') }}</h3>
+                <span class="card-profession">{{ character.klasa or _('char_no_class') }}</span>
+            </div>
+            <div class="card-info">
+                <p><strong>{{ _('char_player') }}</strong> {{ character.gracz or '-' }}</p>
+                <p><strong>{{ _('char_level') }}</strong> {{ character.poziom or '-' }} | <strong>{{ _('char_race')
+                        }}</strong> {{ character.rasa or
+                    '-' }}</p>
+            </div>
+            <div class="card-stats">
+                <span>{{ _('stat_power') }}: {{ character.sila }}</span>
+                <span>{{ _('stat_dex') }}: {{ character.zrecznosc }}</span>
+                <span>{{ _('stat_kp') }}: {{ character.kp }}</span>
+            </div>
+            <div class="card-actions">
+                <a href="{{ url_for('edytuj_karte_dnd3e', character_id=character.id) }}" class="btn btn-create">{{
+                    _('char_edit') }}</a>
+                <form method="POST" action="{{ url_for('usun_karte_dnd3e', character_id=character.id) }}"
+                    style="display: inline;">
+                    <button type="submit" class="btn btn-create"
+                        onclick="return confirm('{{ _('char_delete_confirm') }}')">{{ _('char_delete') }}</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-cards-info">{{ _('char_no_cards_system', 'D&D 3e') }}</p>
+    {% endif %}
+
     <!-- Sekcja Call of Cthulhu -->
     <h2 class="system-title">Call of Cthulhu</h2>
     {% if cthulhu_cards %}

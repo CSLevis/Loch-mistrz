@@ -9,6 +9,9 @@ from validators import validate_password
 from character_cards import Character
 from trader_manager import create_trader_models
 from dnd5e_extras import create_dnd5e_extras_models
+from dnd3e_extras import (create_dnd3e_skills_model, create_dnd3e_abilities_model,
+                          create_dnd3e_equipment_model, create_dnd3e_magic_model,
+                          create_dnd3e_spell_model)
 from npc_manager import create_npc_models
 from translations import TRANSLATIONS
 from flask import session
@@ -74,6 +77,7 @@ with app.app_context():
 
 CharacterWarhammer = Character.create_warhammer_model(db)
 CharacterDnD5e = Character.create_dnd5e_model(db)
+CharacterDnD3e = Character.create_dnd3e_model(db)
 CharacterCthulhu = Character.create_cthulhu_model(db)
 CthulhuSkill = Character.create_cthulhu_skills_model(db)
 
@@ -84,6 +88,13 @@ TraderManager, TraderItem = create_trader_models(db)
 (DnD5eBieglosc, DnD5eMagia, DnD5eSpell, DnD5eEkwipunek,
  WarhammerBron, WarhammerUmiejetnosc, WarhammerEkwipunek, WarhammerArmor,
  CthulhuBron) = create_dnd5e_extras_models(db)
+
+# Modele D&D 3e
+DnD3eSkills = create_dnd3e_skills_model(db)
+DnD3eAbilities = create_dnd3e_abilities_model(db)
+DnD3eEquipment = create_dnd3e_equipment_model(db)
+DnD3eMagic = create_dnd3e_magic_model(db)
+DnD3eSpell = create_dnd3e_spell_model(db)
 
 # NPC Manager
 NPCCthulhu, NPCWarhammer, NPCDnD5e = create_npc_models(db)
@@ -398,11 +409,13 @@ def roller_embedded_cthulhu():
 def karty_postaci():
     warhammer_cards = CharacterWarhammer.query.filter_by(user_id=current_user.id).all()
     dnd5e_cards = CharacterDnD5e.query.filter_by(user_id=current_user.id).all()
+    dnd3e_cards = CharacterDnD3e.query.filter_by(user_id=current_user.id).all()
     cthulhu_cards = CharacterCthulhu.query.filter_by(user_id=current_user.id).all()
 
     return render_template('karty_postaci.html',
                            warhammer_cards=warhammer_cards,
                            dnd5e_cards=dnd5e_cards,
+                           dnd3e_cards=dnd3e_cards,
                            cthulhu_cards=cthulhu_cards)
 
 
@@ -1118,6 +1131,298 @@ def usun_karte_dnd5e(character_id):
         db.session.commit()
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'success': True, 'message': '✅ Karta D&D 5e została usunięta!', 'redirect': url_for('karty_postaci')})
+
+    return redirect(url_for('karty_postaci'))
+
+
+# ===== D&D 3e =====
+
+@app.route("/nowa-karta-dnd3e", methods=["GET", "POST"])
+@login_required
+def nowa_karta_dnd3e():
+    if request.method == "POST":
+        # Dane podstawowe
+        character = CharacterDnD3e(
+            imie=request.form.get('imie', ''),
+            gracz=request.form.get('gracz', ''),
+            klasa=request.form.get('klasa', ''),
+            poziom=int(request.form.get('poziom', 1) or 1),
+            rasa=request.form.get('rasa', ''),
+            charakter=request.form.get('charakter', ''),
+            wiara=request.form.get('wiara', ''),
+            rozmiar=request.form.get('rozmiar', 'Średni'),
+            plec=request.form.get('plec', ''),
+            wiek=request.form.get('wiek', ''),
+            wzrost=request.form.get('wzrost', ''),
+            waga=request.form.get('waga', ''),
+            oczy=request.form.get('oczy', ''),
+            wlosy=request.form.get('wlosy', ''),
+            karnacja=request.form.get('karnacja', ''),
+
+            # Atrybuty
+            sila=int(request.form.get('sila', 10) or 10),
+            sila_mod=int(request.form.get('sila_mod', 0) or 0),
+            sila_temp=int(request.form.get('sila_temp', 0) or 0),
+            sila_temp_mod=int(request.form.get('sila_temp_mod', 0) or 0),
+
+            zrecznosc=int(request.form.get('zrecznosc', 10) or 10),
+            zrecznosc_mod=int(request.form.get('zrecznosc_mod', 0) or 0),
+            zrecznosc_temp=int(request.form.get('zrecznosc_temp', 0) or 0),
+            zrecznosc_temp_mod=int(request.form.get('zrecznosc_temp_mod', 0) or 0),
+
+            budowa=int(request.form.get('budowa', 10) or 10),
+            budowa_mod=int(request.form.get('budowa_mod', 0) or 0),
+            budowa_temp=int(request.form.get('budowa_temp', 0) or 0),
+            budowa_temp_mod=int(request.form.get('budowa_temp_mod', 0) or 0),
+
+            inteligencja=int(request.form.get('inteligencja', 10) or 10),
+            inteligencja_mod=int(request.form.get('inteligencja_mod', 0) or 0),
+            inteligencja_temp=int(request.form.get('inteligencja_temp', 0) or 0),
+            inteligencja_temp_mod=int(request.form.get('inteligencja_temp_mod', 0) or 0),
+
+            madrosc=int(request.form.get('madrosc', 10) or 10),
+            madrosc_mod=int(request.form.get('madrosc_mod', 0) or 0),
+            madrosc_temp=int(request.form.get('madrosc_temp', 0) or 0),
+            madrosc_temp_mod=int(request.form.get('madrosc_temp_mod', 0) or 0),
+
+            charyzma=int(request.form.get('charyzma', 10) or 10),
+            charyzma_mod=int(request.form.get('charyzma_mod', 0) or 0),
+            charyzma_temp=int(request.form.get('charyzma_temp', 0) or 0),
+            charyzma_temp_mod=int(request.form.get('charyzma_temp_mod', 0) or 0),
+
+            # Punkty wytrzymałości
+            pw_razem=int(request.form.get('pw_razem', 0) or 0),
+            pw_rany=int(request.form.get('pw_rany', 0) or 0),
+            pw_stluczenia=int(request.form.get('pw_stluczenia', 0) or 0),
+
+            # Klasa pancerza
+            kp=int(request.form.get('kp', 10) or 10),
+            kp_zbroja=int(request.form.get('kp_zbroja', 0) or 0),
+            kp_tarcza=int(request.form.get('kp_tarcza', 0) or 0),
+            kp_zrecznosc=int(request.form.get('kp_zrecznosc', 0) or 0),
+            kp_rozmiar=int(request.form.get('kp_rozmiar', 0) or 0),
+            kp_naturalna=int(request.form.get('kp_naturalna', 0) or 0),
+            kp_inne=int(request.form.get('kp_inne', 0) or 0),
+            kp_dotykowe=int(request.form.get('kp_dotykowe', 10) or 10),
+            kp_nieprzygotowany=int(request.form.get('kp_nieprzygotowany', 10) or 10),
+
+            # Pola dodatkowe
+            redukcja_obrazen=request.form.get('redukcja_obrazen', ''),
+            kosci_zycia=request.form.get('kosci_zycia', ''),
+            odpornosc_magiczna=int(request.form.get('odpornosc_magiczna', 0) or 0),
+            szansa_chybienia=int(request.form.get('szansa_chybienia', 0) or 0),
+            szybkosc=int(request.form.get('szybkosc', 30) or 30),
+            ograniczenie_czarow=request.form.get('ograniczenie_czarow', ''),
+            kara_ze_zbroi=int(request.form.get('kara_ze_zbroi', 0) or 0),
+
+            # Bazowy atak i inicjatywa
+            bazowy_atak=int(request.form.get('bazowy_atak', 0) or 0),
+            inicjatywa=int(request.form.get('inicjatywa', 0) or 0),
+            inicjatywa_mod_zr=int(request.form.get('inicjatywa_mod_zr', 0) or 0),
+            inicjatywa_inne=int(request.form.get('inicjatywa_inne', 0) or 0),
+
+            # Rzuty obronne
+            wytrwalosc_razem=int(request.form.get('wytrwalosc_razem', 0) or 0),
+            wytrwalosc_bazowa=int(request.form.get('wytrwalosc_bazowa', 0) or 0),
+            wytrwalosc_mod=int(request.form.get('wytrwalosc_mod', 0) or 0),
+            wytrwalosc_magiczny=int(request.form.get('wytrwalosc_magiczny', 0) or 0),
+            wytrwalosc_inne=int(request.form.get('wytrwalosc_inne', 0) or 0),
+            wytrwalosc_temp=int(request.form.get('wytrwalosc_temp', 0) or 0),
+
+            refleks_razem=int(request.form.get('refleks_razem', 0) or 0),
+            refleks_bazowa=int(request.form.get('refleks_bazowa', 0) or 0),
+            refleks_mod=int(request.form.get('refleks_mod', 0) or 0),
+            refleks_magiczny=int(request.form.get('refleks_magiczny', 0) or 0),
+            refleks_inne=int(request.form.get('refleks_inne', 0) or 0),
+            refleks_temp=int(request.form.get('refleks_temp', 0) or 0),
+
+            wola_razem=int(request.form.get('wola_razem', 0) or 0),
+            wola_bazowa=int(request.form.get('wola_bazowa', 0) or 0),
+            wola_mod=int(request.form.get('wola_mod', 0) or 0),
+            wola_magiczny=int(request.form.get('wola_magiczny', 0) or 0),
+            wola_inne=int(request.form.get('wola_inne', 0) or 0),
+            wola_temp=int(request.form.get('wola_temp', 0) or 0),
+
+            # Ataki
+            atak_wrecz_razem=int(request.form.get('atak_wrecz_razem', 0) or 0),
+            atak_wrecz_bazowy=int(request.form.get('atak_wrecz_bazowy', 0) or 0),
+            atak_wrecz_mod_sila=int(request.form.get('atak_wrecz_mod_sila', 0) or 0),
+            atak_wrecz_mod_rozmiar=int(request.form.get('atak_wrecz_mod_rozmiar', 0) or 0),
+            atak_wrecz_inne=int(request.form.get('atak_wrecz_inne', 0) or 0),
+            atak_wrecz_temp=int(request.form.get('atak_wrecz_temp', 0) or 0),
+
+            atak_dystans_razem=int(request.form.get('atak_dystans_razem', 0) or 0),
+            atak_dystans_bazowy=int(request.form.get('atak_dystans_bazowy', 0) or 0),
+            atak_dystans_mod_zr=int(request.form.get('atak_dystans_mod_zr', 0) or 0),
+            atak_dystans_mod_rozmiar=int(request.form.get('atak_dystans_mod_rozmiar', 0) or 0),
+            atak_dystans_inne=int(request.form.get('atak_dystans_inne', 0) or 0),
+            atak_dystans_temp=int(request.form.get('atak_dystans_temp', 0) or 0),
+
+            # Broń (3 sloty)
+            bron_1_nazwa=request.form.get('bron_1_nazwa', ''),
+            bron_1_bonus=request.form.get('bron_1_bonus', ''),
+            bron_1_obrazenia=request.form.get('bron_1_obrazenia', ''),
+            bron_1_krytyk=request.form.get('bron_1_krytyk', ''),
+            bron_1_zasieg=request.form.get('bron_1_zasieg', ''),
+            bron_1_waga=request.form.get('bron_1_waga', ''),
+            bron_1_rodzaj=request.form.get('bron_1_rodzaj', ''),
+            bron_1_wielkosc=request.form.get('bron_1_wielkosc', ''),
+            bron_1_specjalne=request.form.get('bron_1_specjalne', ''),
+
+            bron_2_nazwa=request.form.get('bron_2_nazwa', ''),
+            bron_2_bonus=request.form.get('bron_2_bonus', ''),
+            bron_2_obrazenia=request.form.get('bron_2_obrazenia', ''),
+            bron_2_krytyk=request.form.get('bron_2_krytyk', ''),
+            bron_2_zasieg=request.form.get('bron_2_zasieg', ''),
+            bron_2_waga=request.form.get('bron_2_waga', ''),
+            bron_2_rodzaj=request.form.get('bron_2_rodzaj', ''),
+            bron_2_wielkosc=request.form.get('bron_2_wielkosc', ''),
+            bron_2_specjalne=request.form.get('bron_2_specjalne', ''),
+
+            bron_3_nazwa=request.form.get('bron_3_nazwa', ''),
+            bron_3_bonus=request.form.get('bron_3_bonus', ''),
+            bron_3_obrazenia=request.form.get('bron_3_obrazenia', ''),
+            bron_3_krytyk=request.form.get('bron_3_krytyk', ''),
+            bron_3_zasieg=request.form.get('bron_3_zasieg', ''),
+            bron_3_waga=request.form.get('bron_3_waga', ''),
+            bron_3_rodzaj=request.form.get('bron_3_rodzaj', ''),
+            bron_3_wielkosc=request.form.get('bron_3_wielkosc', ''),
+            bron_3_specjalne=request.form.get('bron_3_specjalne', ''),
+
+            # Zbroja
+            zbroja_rodzaj=request.form.get('zbroja_rodzaj', ''),
+            zbroja_premia=int(request.form.get('zbroja_premia', 0) or 0),
+            zbroja_max_zr=int(request.form.get('zbroja_max_zr', 0) or 0),
+            zbroja_kara_test=int(request.form.get('zbroja_kara_test', 0) or 0),
+            zbroja_niepowodzenie_czaru=int(request.form.get('zbroja_niepowodzenie_czaru', 0) or 0),
+            zbroja_szybkosc=int(request.form.get('zbroja_szybkosc', 0) or 0),
+            zbroja_waga=request.form.get('zbroja_waga', ''),
+            zbroja_specjalne=request.form.get('zbroja_specjalne', ''),
+
+            # Tarcza
+            tarcza_rodzaj=request.form.get('tarcza_rodzaj', ''),
+            tarcza_bonus=int(request.form.get('tarcza_bonus', 0) or 0),
+            tarcza_max_zr=int(request.form.get('tarcza_max_zr', 0) or 0),
+            tarcza_kara_test=int(request.form.get('tarcza_kara_test', 0) or 0),
+            tarcza_niepowodzenie_czaru=int(request.form.get('tarcza_niepowodzenie_czaru', 0) or 0),
+            tarcza_szybkosc=int(request.form.get('tarcza_szybkosc', 0) or 0),
+            tarcza_waga=request.form.get('tarcza_waga', ''),
+            tarcza_specjalne=request.form.get('tarcza_specjalne', ''),
+
+            # Strona 2
+            doswiadczenie=int(request.form.get('doswiadczenie', 0) or 0),
+            kampania=request.form.get('kampania', ''),
+
+            platyna=int(request.form.get('platyna', 0) or 0),
+            zloto=int(request.form.get('zloto', 0) or 0),
+            srebro=int(request.form.get('srebro', 0) or 0),
+            miedziaki=int(request.form.get('miedziaki', 0) or 0),
+            inne_kosztownosci=request.form.get('inne_kosztownosci', ''),
+
+            laczne_obciazenie=request.form.get('laczne_obciazenie', ''),
+            max_ranga=int(request.form.get('max_ranga', 4) or 4),
+            wolne_punkty=int(request.form.get('wolne_punkty', 0) or 0),
+            jezyki=request.form.get('jezyki', ''),
+            notatki=request.form.get('notatki', ''),
+
+            user_id=current_user.id
+        )
+
+        db.session.add(character)
+        db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta D&D 3e została zapisana!', 'redirect': url_for('karty_postaci')})
+
+        flash('✅ Karta D&D 3e została zapisana!')
+        return redirect(url_for('karty_postaci'))
+
+    return render_template('nowa_karta_dnd3e.html')
+
+
+@app.route("/edytuj-karte-dnd3e/<int:character_id>", methods=["GET", "POST"])
+@login_required
+def edytuj_karte_dnd3e(character_id):
+    character = CharacterDnD3e.query.get_or_404(character_id)
+
+    if character.user_id != current_user.id:
+        flash('Nie masz dostępu do tej karty!')
+        return redirect(url_for('karty_postaci'))
+
+    if request.method == "POST":
+        # Aktualizuj wszystkie pola (podobnie jak w nowa_karta_dnd3e)
+        character.imie = request.form.get('imie', '')
+        character.gracz = request.form.get('gracz', '')
+        character.klasa = request.form.get('klasa', '')
+        character.poziom = int(request.form.get('poziom', 1) or 1)
+        character.rasa = request.form.get('rasa', '')
+        character.charakter = request.form.get('charakter', '')
+        character.wiara = request.form.get('wiara', '')
+        character.rozmiar = request.form.get('rozmiar', 'Średni')
+        character.plec = request.form.get('plec', '')
+        character.wiek = request.form.get('wiek', '')
+        character.wzrost = request.form.get('wzrost', '')
+        character.waga = request.form.get('waga', '')
+        character.oczy = request.form.get('oczy', '')
+        character.wlosy = request.form.get('wlosy', '')
+        character.karnacja = request.form.get('karnacja', '')
+
+        # Atrybuty (skrócone dla zwięzłości - w pełnej wersji wszystkie pola)
+        character.sila = int(request.form.get('sila', 10) or 10)
+        character.sila_mod = int(request.form.get('sila_mod', 0) or 0)
+        character.zrecznosc = int(request.form.get('zrecznosc', 10) or 10)
+        character.zrecznosc_mod = int(request.form.get('zrecznosc_mod', 0) or 0)
+        character.budowa = int(request.form.get('budowa', 10) or 10)
+        character.budowa_mod = int(request.form.get('budowa_mod', 0) or 0)
+        character.inteligencja = int(request.form.get('inteligencja', 10) or 10)
+        character.inteligencja_mod = int(request.form.get('inteligencja_mod', 0) or 0)
+        character.madrosc = int(request.form.get('madrosc', 10) or 10)
+        character.madrosc_mod = int(request.form.get('madrosc_mod', 0) or 0)
+        character.charyzma = int(request.form.get('charyzma', 10) or 10)
+        character.charyzma_mod = int(request.form.get('charyzma_mod', 0) or 0)
+
+        # HP i obrona
+        character.pw_razem = int(request.form.get('pw_razem', 0) or 0)
+        character.pw_rany = int(request.form.get('pw_rany', 0) or 0)
+        character.kp = int(request.form.get('kp', 10) or 10)
+        character.bazowy_atak = int(request.form.get('bazowy_atak', 0) or 0)
+        character.inicjatywa = int(request.form.get('inicjatywa', 0) or 0)
+
+        # Rzuty obronne
+        character.wytrwalosc_razem = int(request.form.get('wytrwalosc_razem', 0) or 0)
+        character.refleks_razem = int(request.form.get('refleks_razem', 0) or 0)
+        character.wola_razem = int(request.form.get('wola_razem', 0) or 0)
+
+        # Pieniądze
+        character.platyna = int(request.form.get('platyna', 0) or 0)
+        character.zloto = int(request.form.get('zloto', 0) or 0)
+        character.srebro = int(request.form.get('srebro', 0) or 0)
+        character.miedziaki = int(request.form.get('miedziaki', 0) or 0)
+
+        character.doswiadczenie = int(request.form.get('doswiadczenie', 0) or 0)
+        character.notatki = request.form.get('notatki', '')
+
+        db.session.commit()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta D&D 3e została zaktualizowana!', 'redirect': url_for('karty_postaci')})
+
+        flash('✅ Karta D&D 3e została zaktualizowana!')
+        return redirect(url_for('karty_postaci'))
+
+    return render_template('edytuj_karte_dnd3e.html', character=character)
+
+
+@app.route("/usun-karte-dnd3e/<int:character_id>", methods=["POST"])
+@login_required
+def usun_karte_dnd3e(character_id):
+    character = CharacterDnD3e.query.get_or_404(character_id)
+
+    if character.user_id == current_user.id:
+        db.session.delete(character)
+        db.session.commit()
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': True, 'message': '✅ Karta D&D 3e została usunięta!', 'redirect': url_for('karty_postaci')})
 
     return redirect(url_for('karty_postaci'))
 

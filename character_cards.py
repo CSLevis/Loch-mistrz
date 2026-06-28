@@ -156,6 +156,218 @@ class Character:
         return CharacterDnD5e
 
     @staticmethod
+    def create_dnd3e_model(db):
+        """Model dla D&D 3e (3. edycja)"""
+
+        class CharacterDnD3e(db.Model):
+            __tablename__ = 'characters_dnd3e'
+
+            id = db.Column(db.Integer, primary_key=True)
+            user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+            # STRONA 1 - Dane podstawowe
+            imie = db.Column(db.String(100), default='')
+            gracz = db.Column(db.String(100), default='')
+            klasa = db.Column(db.String(100), default='')
+            poziom = db.Column(db.Integer, default=1)
+            rasa = db.Column(db.String(100), default='')
+            charakter = db.Column(db.String(100), default='')  # Alignment
+            wiara = db.Column(db.String(100), default='')
+            rozmiar = db.Column(db.String(50), default='Średni')  # M, S, L, etc.
+            plec = db.Column(db.String(50), default='')
+            wiek = db.Column(db.String(50), default='')
+            wzrost = db.Column(db.String(50), default='')
+            waga = db.Column(db.String(50), default='')
+            oczy = db.Column(db.String(100), default='')
+            wlosy = db.Column(db.String(100), default='')
+            karnacja = db.Column(db.String(100), default='')
+
+            # Cechy (6 atrybutów) - punkty i modyfikatory
+            sila = db.Column(db.Integer, default=10)
+            sila_mod = db.Column(db.Integer, default=0)
+            sila_temp = db.Column(db.Integer, default=0)
+            sila_temp_mod = db.Column(db.Integer, default=0)
+
+            zrecznosc = db.Column(db.Integer, default=10)
+            zrecznosc_mod = db.Column(db.Integer, default=0)
+            zrecznosc_temp = db.Column(db.Integer, default=0)
+            zrecznosc_temp_mod = db.Column(db.Integer, default=0)
+
+            budowa = db.Column(db.Integer, default=10)
+            budowa_mod = db.Column(db.Integer, default=0)
+            budowa_temp = db.Column(db.Integer, default=0)
+            budowa_temp_mod = db.Column(db.Integer, default=0)
+
+            inteligencja = db.Column(db.Integer, default=10)
+            inteligencja_mod = db.Column(db.Integer, default=0)
+            inteligencja_temp = db.Column(db.Integer, default=0)
+            inteligencja_temp_mod = db.Column(db.Integer, default=0)
+
+            madrosc = db.Column(db.Integer, default=10)
+            madrosc_mod = db.Column(db.Integer, default=0)
+            madrosc_temp = db.Column(db.Integer, default=0)
+            madrosc_temp_mod = db.Column(db.Integer, default=0)
+
+            charyzma = db.Column(db.Integer, default=10)
+            charyzma_mod = db.Column(db.Integer, default=0)
+            charyzma_temp = db.Column(db.Integer, default=0)
+            charyzma_temp_mod = db.Column(db.Integer, default=0)
+
+            # Punkty Wytrzymałości (HP)
+            pw_razem = db.Column(db.Integer, default=0)
+            pw_rany = db.Column(db.Integer, default=0)  # Aktualne PW
+            pw_stluczenia = db.Column(db.Integer, default=0)
+
+            # Klasa Pancerza (AC)
+            kp = db.Column(db.Integer, default=10)
+            kp_zbroja = db.Column(db.Integer, default=0)
+            kp_tarcza = db.Column(db.Integer, default=0)
+            kp_zrecznosc = db.Column(db.Integer, default=0)
+            kp_rozmiar = db.Column(db.Integer, default=0)
+            kp_naturalna = db.Column(db.Integer, default=0)
+            kp_inne = db.Column(db.Integer, default=0)
+            kp_dotykowe = db.Column(db.Integer, default=10)
+            kp_nieprzygotowany = db.Column(db.Integer, default=10)
+
+            # Dodatkowe pola obronne
+            redukcja_obrazen = db.Column(db.String(100), default='')
+            kosci_zycia = db.Column(db.String(50), default='')
+            odpornosc_magiczna = db.Column(db.Integer, default=0)
+            szansa_chybienia = db.Column(db.Integer, default=0)
+            szybkosc = db.Column(db.Integer, default=30)
+            ograniczenie_czarow = db.Column(db.String(100), default='')
+            kara_ze_zbroi = db.Column(db.Integer, default=0)
+
+            # Bazowy atak i Inicjatywa
+            bazowy_atak = db.Column(db.Integer, default=0)
+            inicjatywa = db.Column(db.Integer, default=0)
+            inicjatywa_mod_zr = db.Column(db.Integer, default=0)
+            inicjatywa_inne = db.Column(db.Integer, default=0)
+
+            # Rzuty obronne (Saving Throws)
+            # Wytrwałość (Fortitude)
+            wytrwalosc_razem = db.Column(db.Integer, default=0)
+            wytrwalosc_bazowa = db.Column(db.Integer, default=0)
+            wytrwalosc_mod = db.Column(db.Integer, default=0)
+            wytrwalosc_magiczny = db.Column(db.Integer, default=0)
+            wytrwalosc_inne = db.Column(db.Integer, default=0)
+            wytrwalosc_temp = db.Column(db.Integer, default=0)
+
+            # Refleks (Reflex)
+            refleks_razem = db.Column(db.Integer, default=0)
+            refleks_bazowa = db.Column(db.Integer, default=0)
+            refleks_mod = db.Column(db.Integer, default=0)
+            refleks_magiczny = db.Column(db.Integer, default=0)
+            refleks_inne = db.Column(db.Integer, default=0)
+            refleks_temp = db.Column(db.Integer, default=0)
+
+            # Wola (Will)
+            wola_razem = db.Column(db.Integer, default=0)
+            wola_bazowa = db.Column(db.Integer, default=0)
+            wola_mod = db.Column(db.Integer, default=0)
+            wola_magiczny = db.Column(db.Integer, default=0)
+            wola_inne = db.Column(db.Integer, default=0)
+            wola_temp = db.Column(db.Integer, default=0)
+
+            # Ataki
+            # W zwarciu (Melee)
+            atak_wrecz_razem = db.Column(db.Integer, default=0)
+            atak_wrecz_bazowy = db.Column(db.Integer, default=0)
+            atak_wrecz_mod_sila = db.Column(db.Integer, default=0)
+            atak_wrecz_mod_rozmiar = db.Column(db.Integer, default=0)
+            atak_wrecz_inne = db.Column(db.Integer, default=0)
+            atak_wrecz_temp = db.Column(db.Integer, default=0)
+
+            # Na odległość (Ranged)
+            atak_dystans_razem = db.Column(db.Integer, default=0)
+            atak_dystans_bazowy = db.Column(db.Integer, default=0)
+            atak_dystans_mod_zr = db.Column(db.Integer, default=0)
+            atak_dystans_mod_rozmiar = db.Column(db.Integer, default=0)
+            atak_dystans_inne = db.Column(db.Integer, default=0)
+            atak_dystans_temp = db.Column(db.Integer, default=0)
+
+            # Broń (3 sloty)
+            bron_1_nazwa = db.Column(db.String(100), default='')
+            bron_1_bonus = db.Column(db.String(50), default='')
+            bron_1_obrazenia = db.Column(db.String(50), default='')
+            bron_1_krytyk = db.Column(db.String(50), default='')
+            bron_1_zasieg = db.Column(db.String(50), default='')
+            bron_1_waga = db.Column(db.String(50), default='')
+            bron_1_rodzaj = db.Column(db.String(50), default='')
+            bron_1_wielkosc = db.Column(db.String(50), default='')
+            bron_1_specjalne = db.Column(db.String(200), default='')
+
+            bron_2_nazwa = db.Column(db.String(100), default='')
+            bron_2_bonus = db.Column(db.String(50), default='')
+            bron_2_obrazenia = db.Column(db.String(50), default='')
+            bron_2_krytyk = db.Column(db.String(50), default='')
+            bron_2_zasieg = db.Column(db.String(50), default='')
+            bron_2_waga = db.Column(db.String(50), default='')
+            bron_2_rodzaj = db.Column(db.String(50), default='')
+            bron_2_wielkosc = db.Column(db.String(50), default='')
+            bron_2_specjalne = db.Column(db.String(200), default='')
+
+            bron_3_nazwa = db.Column(db.String(100), default='')
+            bron_3_bonus = db.Column(db.String(50), default='')
+            bron_3_obrazenia = db.Column(db.String(50), default='')
+            bron_3_krytyk = db.Column(db.String(50), default='')
+            bron_3_zasieg = db.Column(db.String(50), default='')
+            bron_3_waga = db.Column(db.String(50), default='')
+            bron_3_rodzaj = db.Column(db.String(50), default='')
+            bron_3_wielkosc = db.Column(db.String(50), default='')
+            bron_3_specjalne = db.Column(db.String(200), default='')
+
+            # Zbroja
+            zbroja_rodzaj = db.Column(db.String(100), default='')
+            zbroja_premia = db.Column(db.Integer, default=0)
+            zbroja_max_zr = db.Column(db.Integer, default=0)
+            zbroja_kara_test = db.Column(db.Integer, default=0)
+            zbroja_niepowodzenie_czaru = db.Column(db.Integer, default=0)
+            zbroja_szybkosc = db.Column(db.Integer, default=0)
+            zbroja_waga = db.Column(db.String(50), default='')
+            zbroja_specjalne = db.Column(db.String(200), default='')
+
+            # Tarcza
+            tarcza_rodzaj = db.Column(db.String(100), default='')
+            tarcza_bonus = db.Column(db.Integer, default=0)
+            tarcza_max_zr = db.Column(db.Integer, default=0)
+            tarcza_kara_test = db.Column(db.Integer, default=0)
+            tarcza_niepowodzenie_czaru = db.Column(db.Integer, default=0)
+            tarcza_szybkosc = db.Column(db.Integer, default=0)
+            tarcza_waga = db.Column(db.String(50), default='')
+            tarcza_specjalne = db.Column(db.String(200), default='')
+
+            # STRONA 2 - Dodatkowe informacje
+            # Punkty doświadczenia i kampania
+            doswiadczenie = db.Column(db.Integer, default=0)
+            kampania = db.Column(db.String(200), default='')
+
+            # Pieniądze
+            platyna = db.Column(db.Integer, default=0)
+            zloto = db.Column(db.Integer, default=0)
+            srebro = db.Column(db.Integer, default=0)
+            miedziaki = db.Column(db.Integer, default=0)
+            inne_kosztownosci = db.Column(db.Text, default='')
+
+            # Łączne obciążenie
+            laczne_obciazenie = db.Column(db.String(100), default='')
+
+            # Max ranga i wolne punkty umiejętności
+            max_ranga = db.Column(db.Integer, default=4)
+            wolne_punkty = db.Column(db.Integer, default=0)
+
+            # Języki
+            jezyki = db.Column(db.Text, default='')
+
+            # Notatki
+            notatki = db.Column(db.Text, default='')
+
+            created_at = db.Column(db.DateTime, default=datetime.utcnow)
+            user = db.relationship('User', backref=db.backref('dnd3e_characters', lazy=True))
+
+        return CharacterDnD3e
+
+    @staticmethod
     def create_cthulhu_model(db):
         """Model dla Call of Cthulhu"""
 

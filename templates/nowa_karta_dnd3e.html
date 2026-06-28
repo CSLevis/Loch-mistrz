@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+{% block title %}Nowa Karta D&D 3e{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='character_cards.css') }}">
+
+<div class="floating-image" id="img" style="background-image: url('{{ url_for('static', filename='back.jpg') }}');"></div>
+<div class="overlay2"></div>
+
+<div class="card-form-container-dnd5e">
+    <h1 class="header-text-dnd5e">Nowa Postać D&D 3e</h1>
+
+    <form method="POST" class="character-form-dnd5e">
+
+        <!-- SEKCJA: DANE PODSTAWOWE -->
+        <div class="dnd5e-section">
+            <div class="section-title-dnd5e">
+                <label>Imię:</label>
+                <input type="text" name="imie" placeholder="Imię postaci" class="imie-input-dnd5e" required>
+            </div>
+
+            <table class="character-info-table">
+                <tr>
+                    <td>
+                        <label>Klasa i poziom:</label>
+                        <div class="info-group">
+                            <input type="text" name="klasa" placeholder="Klasa" class="info-input">
+                            <input type="number" name="poziom" value="1" min="1" max="20" class="info-input" style="max-width: 60px;">
+                        </div>
+                    </td>
+                    <td>
+                        <label>Rasa:</label>
+                        <input type="text" name="rasa" placeholder="Rasa" class="info-input">
+                    </td>
+                    <td>
+                        <label>Imię gracza:</label>
+                        <input type="text" name="gracz" placeholder="Imię gracza" class="info-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Charakter (Alignment):</label>
+                        <input type="text" name="charakter" placeholder="np. Lawful Good" class="info-input">
+                    </td>
+                    <td>
+                        <label>Wiara:</label>
+                        <input type="text" name="wiara" placeholder="Wiara/Bóstwo" class="info-input">
+                    </td>
+                    <td>
+                        <label>Rozmiar:</label>
+                        <select name="rozmiar" class="info-input">
+                            <option value="Mały">Mały (Small)</option>
+                            <option value="Średni" selected>Średni (Medium)</option>
+                            <option value="Duży">Duży (Large)</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Płeć:</label>
+                        <input type="text" name="plec" placeholder="Płeć" class="info-input">
+                    </td>
+                    <td>
+                        <label>Wiek:</label>
+                        <input type="text" name="wiek" placeholder="Wiek" class="info-input">
+                    </td>
+                    <td>
+                        <label>Wzrost:</label>
+                        <input type="text" name="wzrost" placeholder="Wzrost" class="info-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Waga:</label>
+                        <input type="text" name="waga" placeholder="Waga" class="info-input">
+                    </td>
+                    <td>
+                        <label>Oczy:</label>
+                        <input type="text" name="oczy" placeholder="Kolor oczu" class="info-input">
+                    </td>
+                    <td>
+                        <label>Włosy:</label>
+                        <input type="text" name="wlosy" placeholder="Kolor włosów" class="info-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <label>Karnacja:</label>
+                        <input type="text" name="karnacja" placeholder="Karnacja" class="info-input">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SEKCJA: ATRYBUTY (6 cech) -->
+        <div class="dnd5e-section">
+            <h3 class="column-title">Atrybuty (Cechy)</h3>
+            <table class="character-info-table">
+                <thead>
+                    <tr>
+                        <th>Cecha</th>
+                        <th>Wartość</th>
+                        <th>Modyfikator</th>
+                        <th>Tymczasowa</th>
+                        <th>Tymcz. Mod</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Siła (SIŁ)</strong></td>
+                        <td><input type="number" name="sila" value="10" min="3" max="30" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="sila_mod" value="0" min="-10" max="20" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="sila_temp" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="sila_temp_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zręczność (ZR)</strong></td>
+                        <td><input type="number" name="zrecznosc" value="10" min="3" max="30" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="zrecznosc_mod" value="0" min="-10" max="20" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="zrecznosc_temp" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="zrecznosc_temp_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Budowa (BD)</strong></td>
+                        <td><input type="number" name="budowa" value="10" min="3" max="30" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="budowa_mod" value="0" min="-10" max="20" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="budowa_temp" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="budowa_temp_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Inteligencja (INT)</strong></td>
+                        <td><input type="number" name="inteligencja" value="10" min="3" max="30" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="inteligencja_mod" value="0" min="-10" max="20" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="inteligencja_temp" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="inteligencja_temp_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mądrość (MD)</strong></td>
+                        <td><input type="number" name="madrosc" value="10" min="3" max="30" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="madrosc_mod" value="0" min="-10" max="20" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="madrosc_temp" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="madrosc_temp_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Charyzma (CHA)</strong></td>
+                        <td><input type="number" name="charyzma" value="10" min="3" max="30" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="charyzma_mod" value="0" min="-10" max="20" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="charyzma_temp" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="charyzma_temp_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SEKCJA: HP i OBRONA -->
+        <div class="dnd5e-section">
+            <h3 class="column-title">Punkty Wytrzymałości i Obrona</h3>
+            <table class="character-info-table">
+                <tr>
+                    <td>
+                        <label>PW Razem:</label>
+                        <input type="number" name="pw_razem" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>PW Aktualne (Rany):</label>
+                        <input type="number" name="pw_rany" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>Stłuczenia:</label>
+                        <input type="number" name="pw_stluczenia" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Klasa Pancerza (KP):</label>
+                        <input type="number" name="kp" value="10" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>Bazowy Atak:</label>
+                        <input type="number" name="bazowy_atak" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>Inicjatywa:</label>
+                        <input type="number" name="inicjatywa" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Szybkość (ft):</label>
+                        <input type="number" name="szybkosc" value="30" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>Kości Życia:</label>
+                        <input type="text" name="kosci_zycia" placeholder="np. 4d6" class="info-input">
+                    </td>
+                    <td>
+                        <label>Kara ze zbroi:</label>
+                        <input type="number" name="kara_ze_zbroi" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SEKCJA: RZUTY OBRONNE -->
+        <div class="dnd5e-section">
+            <h3 class="column-title">Rzuty Obronne (Saving Throws)</h3>
+            <table class="character-info-table">
+                <thead>
+                    <tr>
+                        <th>Typ</th>
+                        <th>Razem</th>
+                        <th>Bazowa</th>
+                        <th>Mod. Cechy</th>
+                        <th>Magiczny</th>
+                        <th>Inne</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Wytrwałość (Fortitude)</strong></td>
+                        <td><input type="number" name="wytrwalosc_razem" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wytrwalosc_bazowa" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wytrwalosc_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wytrwalosc_magiczny" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wytrwalosc_inne" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Refleks (Reflex)</strong></td>
+                        <td><input type="number" name="refleks_razem" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="refleks_bazowa" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="refleks_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="refleks_magiczny" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="refleks_inne" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wola (Will)</strong></td>
+                        <td><input type="number" name="wola_razem" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wola_bazowa" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wola_mod" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wola_magiczny" value="0" class="info-input" style="max-width: 60px;"></td>
+                        <td><input type="number" name="wola_inne" value="0" class="info-input" style="max-width: 60px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SEKCJA: PIENIĄDZE I DOŚWIADCZENIE -->
+        <div class="dnd5e-section">
+            <h3 class="column-title">Pieniądze i Doświadczenie</h3>
+            <table class="character-info-table">
+                <tr>
+                    <td>
+                        <label>Platyna (PP):</label>
+                        <input type="number" name="platyna" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>Złoto (GP):</label>
+                        <input type="number" name="zloto" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>Srebro (SP):</label>
+                        <input type="number" name="srebro" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                    <td>
+                        <label>Miedziaki (CP):</label>
+                        <input type="number" name="miedziaki" value="0" class="info-input" style="max-width: 80px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label>Punkty Doświadczenia:</label>
+                        <input type="number" name="doswiadczenie" value="0" class="info-input">
+                    </td>
+                    <td colspan="2">
+                        <label>Kampania:</label>
+                        <input type="text" name="kampania" placeholder="Nazwa kampanii" class="info-input">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SEKCJA: NOTATKI -->
+        <div class="dnd5e-section">
+            <h3 class="column-title">Notatki</h3>
+            <textarea name="notatki" placeholder="Notatki o postaci, historia, zdolności..." class="info-input" rows="6" style="width: 100%; resize: vertical;"></textarea>
+        </div>
+
+        <!-- PRZYCISKI -->
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-create">Zapisz Postać</button>
+            <a href="{{ url_for('karty_postaci') }}" class="btn btn-create">Anuluj</a>
+        </div>
+
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}
