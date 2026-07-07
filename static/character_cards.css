@@ -4736,9 +4736,8 @@
     padding: 40px;
     background: rgba(30, 70, 50, 0.95);
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    position: relative !important;
-    z-index: 10 !important;
+    position: relative;
+    z-index: 10;
 }
 
 .card-form-container-dnd3e .btn-save,
@@ -4775,16 +4774,16 @@
     margin-bottom: 20px;
     border-radius: 8px;
     border: 2px solid #1a4d2e;
-    position: relative;
-    z-index: 11;
 }
 
 /* Section title */
 .section-title-dnd3e {
     display: flex;
+    gap: 15px;
     align-items: center;
-    gap: 10px;
     margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1a4d2e;
 }
 
 .section-title-dnd3e label {
@@ -4806,11 +4805,11 @@
 
 /* Input name for character - light green border */
 .imie-input-dnd3e {
+    flex: 0 1 400px;
     font-size: 24px;
     padding: 10px;
     border: 2px solid #4a9d6f;
     border-radius: 5px;
-    width: 100%;
     background: rgba(255, 255, 255, 0.95);
 }
 
@@ -4900,6 +4899,18 @@
     .dnd3e-section {
         padding: 12px 8px;
         margin-bottom: 12px;
+    }
+
+    .section-title-dnd3e {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .imie-input-dnd3e {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
     }
 
     .header-text-dnd3e {
