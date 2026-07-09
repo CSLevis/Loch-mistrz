@@ -66,7 +66,7 @@ function changeNumber(change) {
     document.getElementById('numberDisplay').textContent = currentNumber;
 }
 
-// TYLKO JEDEN DOMContentLoaded - obsługa wszystkich przycisków b1-b7
+// TYLKO JEDEN DOMContentLoaded - obsługa wszystkich przycisków b1-b8
 document.addEventListener('DOMContentLoaded', function () {
     const diceMap = {
         b1: "4",
@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', function () {
         b3: "8",
         b4: "10",
         b5: "12",
-        b6: "20"
+        b6: "20",
+        b8: "100"
     };
 
     const buttons = document.querySelectorAll('.buttonrol');
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 diceValue = customSides; // Użyj wartości z input
             } else {
-                // Obsługa przycisków b1-b6
+                // Obsługa przycisków b1-b6, b8
                 diceValue = diceMap[btnId];
                 if (!diceValue) {
                     console.warn('Brak mapowania dla przycisku:', btnId);

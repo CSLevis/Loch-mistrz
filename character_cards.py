@@ -399,6 +399,11 @@ class Character:
             ruch = db.Column(db.Integer, default=0)
             poczytalnosc = db.Column(db.Integer, default=0)
 
+            # Parametry walki (MO, Krzepa, Unik)
+            mo = db.Column(db.Integer, default=0)
+            krzepa = db.Column(db.Integer, default=0)
+            unik = db.Column(db.Integer, default=0)
+
             created_at = db.Column(db.DateTime, default=datetime.utcnow)
             user = db.relationship('User', backref=db.backref('cthulhu_characters', lazy=True))
 

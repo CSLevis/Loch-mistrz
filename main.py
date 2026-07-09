@@ -177,6 +177,37 @@ with app.app_context():
         print(f"Error Błąd podczas migracji checked_skills: {e}")
         db.session.rollback()
 
+    # Automatyczna migracja dla Cthulhu Characters - dodaj kolumny mo, krzepa, unik
+    try:
+        from sqlalchemy import inspect, text
+        inspector = inspect(db.engine)
+
+        if 'characters_cthulhu' in inspector.get_table_names():
+            columns = [col['name'] for col in inspector.get_columns('characters_cthulhu')]
+
+            columns_to_add = []
+            if 'mo' not in columns:
+                columns_to_add.append('mo')
+            if 'krzepa' not in columns:
+                columns_to_add.append('krzepa')
+            if 'unik' not in columns:
+                columns_to_add.append('unik')
+
+            if columns_to_add:
+                print(f"! Brak kolumn {', '.join(columns_to_add)} w characters_cthulhu - dodaję...")
+                for col in columns_to_add:
+                    db.session.execute(text(f"""
+                        ALTER TABLE characters_cthulhu
+                        ADD COLUMN {col} INTEGER DEFAULT 0
+                    """))
+                db.session.commit()
+                print(f"✓ Dodano kolumny: {', '.join(columns_to_add)}")
+            else:
+                print("✓ Kolumny mo, krzepa, unik już istnieją")
+    except Exception as e:
+        print(f"Error Błąd podczas migracji mo/krzepa/unik: {e}")
+        db.session.rollback()
+
     # Teraz utwórz wszystkie tabele (w tym trader_manager z poprawną strukturą)
     # Wykonujemy to warunkowo lub optymalnie
     if os.environ.get('INIT_DB', 'true').lower() == 'true':
@@ -994,7 +1025,7 @@ def edytuj_karte_dnd5e(character_id):
             return jsonify({'success': True, 'message': '✅ Karta D&D 5e została zaktualizowana!'})
 
         flash('✅ Karta D&D 5e została zaktualizowana!')
-        return redirect(url_for('karty_postaci'))
+        return redirect(url_for('edytuj_karte_dnd5e', character_id=character_id))
 
     return render_template('edytuj_karte_dnd5e.html', character=character)
 
@@ -1431,7 +1462,7 @@ def edytuj_karte_dnd3e(character_id):
             return jsonify({'success': True, 'message': '✅ Karta D&D 3e została zaktualizowana!', 'redirect': url_for('karty_postaci')})
 
         flash('✅ Karta D&D 3e została zaktualizowana!')
-        return redirect(url_for('karty_postaci'))
+        return redirect(url_for('edytuj_karte_dnd3e', character_id=character_id))
 
     return render_template('edytuj_karte_dnd3e.html', character=character)
 
@@ -1506,7 +1537,7 @@ def nowa_karta_cthulhu():
             return jsonify({'success': True, 'message': '✅ Karta Cthulhu została zapisana!', 'redirect': url_for('karty_postaci')})
 
         flash('✅ Karta Cthulhu została zapisana!')
-        return redirect(url_for('karty_postaci'))
+        return redirect(url_for('edytuj_karte_cthulhu', character_id=character_id))
 
     return render_template('nowa_karta_cthulhu.html')
 
@@ -1730,6 +1761,11 @@ def bron_cthulhu(character_id):
                     malfunction=request.form.get(f'weapon_malfunction_{i}', '').strip()
                 )
                 db.session.add(item)
+
+        # Zapisz parametry walki (MO, Krzepa, Unik)
+        character.mo = int(request.form.get('mo', 0) or 0)
+        character.krzepa = int(request.form.get('krzepa', 0) or 0)
+        character.unik = int(request.form.get('unik', 0) or 0)
 
         db.session.commit()
 
