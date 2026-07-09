@@ -13,8 +13,9 @@
     <h1 class="header-text-cthulhu">Umiejętności: {{ character.imie }}</h1>
 
     <div class="checkbox-controls">
-        <button type="button" class="btn btn-clear-checks" onclick="clearAllCheckboxes()">Wyczyść wszystkie
-            checkboxy</button>
+        <form method="POST" action="{{ url_for('wyczysc_checkboxy_cthulhu', character_id=character.id) }}" style="display: inline;">
+            <button type="submit" class="btn btn-clear-checks">Wyczyść wszystkie checkboxy</button>
+        </form>
     </div>
 
     <form method="POST" class="skills-form">
@@ -23,7 +24,7 @@
             <!-- ========== KOLUMNA 1 ========== -->
             <div class="skills-column">
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="antropologia" {% if 'antropologia' in checked_skills %}checked{% endif %}>
                     <label>Antropologia (01%)</label>
                     <input type="number" name="antropologia" value="{{ skills.antropologia }}" class="skill-value">
                     <span class="skill-half">{{ (skills.antropologia // 2) }}</span>
@@ -31,7 +32,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="archeologia" {% if 'archeologia' in checked_skills %}checked{% endif %}>
                     <label>Archeologia (01%)</label>
                     <input type="number" name="archeologia" value="{{ skills.archeologia }}" class="skill-value">
                     <span class="skill-half">{{ (skills.archeologia // 2) }}</span>
@@ -39,7 +40,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="bron_karabin" {% if 'bron_karabin' in checked_skills %}checked{% endif %}>
                     <label>Broń Palna (25%)</label>
                     <input type="text" name="bron_karabin_custom" value="{{ skills.bron_karabin_custom }}"
                         placeholder="Karabin/Strzelba" class="skill-name-input">
@@ -49,7 +50,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="bron_karabin" {% if 'bron_karabin' in checked_skills %}checked{% endif %}>
                     <label>Broń Palna (Krótka) (20%)</label>
                     <input type="number" name="bron_krotka" value="{{ skills.bron_krotka }}" class="skill-value">
                     <span class="skill-half">{{ (skills.bron_krotka // 2) }}</span>
@@ -57,7 +58,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="charakteryzacja" {% if 'charakteryzacja' in checked_skills %}checked{% endif %}>
                     <label>Charakteryzacja (05%)</label>
                     <input type="number" name="charakteryzacja" value="{{ skills.charakteryzacja }}"
                         class="skill-value">
@@ -66,7 +67,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="elektryka" {% if 'elektryka' in checked_skills %}checked{% endif %}>
                     <label>Elektryka (10%)</label>
                     <input type="number" name="elektryka" value="{{ skills.elektryka }}" class="skill-value">
                     <span class="skill-half">{{ (skills.elektryka // 2) }}</span>
@@ -74,7 +75,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="gadanina" {% if 'gadanina' in checked_skills %}checked{% endif %}>
                     <label>Gadanina (05%)</label>
                     <input type="number" name="gadanina" value="{{ skills.gadanina }}" class="skill-value">
                     <span class="skill-half">{{ (skills.gadanina // 2) }}</span>
@@ -82,7 +83,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="historia" {% if 'historia' in checked_skills %}checked{% endif %}>
                     <label>Historia (05%)</label>
                     <input type="number" name="historia" value="{{ skills.historia }}" class="skill-value">
                     <span class="skill-half">{{ (skills.historia // 2) }}</span>
@@ -90,7 +91,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="jezdziectwo" {% if 'jezdziectwo' in checked_skills %}checked{% endif %}>
                     <label>Jeździectwo (05%)</label>
                     <input type="number" name="jezdziectwo" value="{{ skills.jezdziectwo }}" class="skill-value">
                     <span class="skill-half">{{ (skills.jezdziectwo // 2) }}</span>
@@ -98,7 +99,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="jezyk_obcy" {% if 'jezyk_obcy' in checked_skills %}checked{% endif %}>
                     <label>Język Obcy (01%)</label>
                     <input type="text" name="jezyk_obcy_1" value="{{ skills.jezyk_obcy_1 }}" placeholder="Nazwa języka"
                         class="skill-name-input">
@@ -109,7 +110,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="jezyk_obcy" {% if 'jezyk_obcy' in checked_skills %}checked{% endif %}>
                     <label>Język Obcy (01%)</label>
                     <input type="text" name="jezyk_obcy_2" value="{{ skills.jezyk_obcy_2 }}" placeholder="Nazwa języka"
                         class="skill-name-input">
@@ -120,7 +121,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="jezyk_obcy" {% if 'jezyk_obcy' in checked_skills %}checked{% endif %}>
                     <label>Język Obcy (01%)</label>
                     <input type="text" name="jezyk_obcy_3" value="{{ skills.jezyk_obcy_3 }}" placeholder="Nazwa języka"
                         class="skill-name-input">
@@ -131,7 +132,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="jezyk_ojczysty" {% if 'jezyk_ojczysty' in checked_skills %}checked{% endif %}>
                     <label>Język Ojczysty (WYK)</label>
                     <input type="text" name="jezyk_ojczysty" value="{{ skills.jezyk_ojczysty }}"
                         placeholder="Nazwa języka" class="skill-name-input">
@@ -142,7 +143,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="biblioteki" {% if 'biblioteki' in checked_skills %}checked{% endif %}>
                     <label>Korzystanie z Bibliotek (20%)</label>
                     <input type="number" name="biblioteki" value="{{ skills.biblioteki }}" class="skill-value">
                     <span class="skill-half">{{ (skills.biblioteki // 2) }}</span>
@@ -153,7 +154,7 @@
             <!-- ========== KOLUMNA 2 ========== -->
             <div class="skills-column">
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="ksiegowosc" {% if 'ksiegowosc' in checked_skills %}checked{% endif %}>
                     <label>Księgowość (05%)</label>
                     <input type="number" name="ksiegowosc" value="{{ skills.ksiegowosc }}" class="skill-value">
                     <span class="skill-half">{{ (skills.ksiegowosc // 2) }}</span>
@@ -161,7 +162,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="majetnosc" {% if 'majetnosc' in checked_skills %}checked{% endif %}>
                     <label>Majętność (00%)</label>
                     <input type="number" name="majetnosc" value="{{ skills.majetnosc }}" class="skill-value">
                     <span class="skill-half">{{ (skills.majetnosc // 2) }}</span>
@@ -169,7 +170,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="mechanika" {% if 'mechanika' in checked_skills %}checked{% endif %}>
                     <label>Mechanika (10%)</label>
                     <input type="number" name="mechanika" value="{{ skills.mechanika }}" class="skill-value">
                     <span class="skill-half">{{ (skills.mechanika // 2) }}</span>
@@ -177,7 +178,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="medycyna" {% if 'medycyna' in checked_skills %}checked{% endif %}>
                     <label>Medycyna (01%)</label>
                     <input type="number" name="medycyna" value="{{ skills.medycyna }}" class="skill-value">
                     <span class="skill-half">{{ (skills.medycyna // 2) }}</span>
@@ -185,7 +186,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="mity_cthulhu" {% if 'mity_cthulhu' in checked_skills %}checked{% endif %}>
                     <label>Mity Cthulhu (00%)</label>
                     <input type="number" name="mity_cthulhu" value="{{ skills.mity_cthulhu }}" class="skill-value">
                     <span class="skill-half">{{ (skills.mity_cthulhu // 2) }}</span>
@@ -193,7 +194,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="nasluchiwanie" {% if 'nasluchiwanie' in checked_skills %}checked{% endif %}>
                     <label>Nasłuchiwanie (20%)</label>
                     <input type="number" name="nasluchiwanie" value="{{ skills.nasluchiwanie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.nasluchiwanie // 2) }}</span>
@@ -201,7 +202,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="nauka" {% if 'nauka' in checked_skills %}checked{% endif %}>
                     <label>Nauka (01%)</label>
                     <input type="text" name="nauka_1" value="{{ skills.nauka_1 }}" placeholder="Dziedzina"
                         class="skill-name-input">
@@ -211,7 +212,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="nauka" {% if 'nauka' in checked_skills %}checked{% endif %}>
                     <label>Nauka (01%)</label>
                     <input type="text" name="nauka_2" value="{{ skills.nauka_2 }}" placeholder="Dziedzina"
                         class="skill-name-input">
@@ -221,7 +222,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="nauka" {% if 'nauka' in checked_skills %}checked{% endif %}>
                     <label>Nauka (01%)</label>
                     <input type="text" name="nauka_3" value="{{ skills.nauka_3 }}" placeholder="Dziedzina"
                         class="skill-name-input">
@@ -231,7 +232,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="nawigacja" {% if 'nawigacja' in checked_skills %}checked{% endif %}>
                     <label>Nawigacja (10%)</label>
                     <input type="number" name="nawigacja" value="{{ skills.nawigacja }}" class="skill-value">
                     <span class="skill-half">{{ (skills.nawigacja // 2) }}</span>
@@ -239,7 +240,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="ciezki_sprzet" {% if 'ciezki_sprzet' in checked_skills %}checked{% endif %}>
                     <label>Obsługa Ciężkiego Sprzętu (01%)</label>
                     <input type="number" name="ciezki_sprzet" value="{{ skills.ciezki_sprzet }}" class="skill-value">
                     <span class="skill-half">{{ (skills.ciezki_sprzet // 2) }}</span>
@@ -247,7 +248,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="okultyzm" {% if 'okultyzm' in checked_skills %}checked{% endif %}>
                     <label>Okultyzm (05%)</label>
                     <input type="number" name="okultyzm" value="{{ skills.okultyzm }}" class="skill-value">
                     <span class="skill-half">{{ (skills.okultyzm // 2) }}</span>
@@ -255,7 +256,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="perswazja" {% if 'perswazja' in checked_skills %}checked{% endif %}>
                     <label>Perswazja (10%)</label>
                     <input type="number" name="perswazja" value="{{ skills.perswazja }}" class="skill-value">
                     <span class="skill-half">{{ (skills.perswazja // 2) }}</span>
@@ -263,7 +264,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="pierwsza_pomoc" {% if 'pierwsza_pomoc' in checked_skills %}checked{% endif %}>
                     <label>Pierwsza Pomoc (30%)</label>
                     <input type="number" name="pierwsza_pomoc" value="{{ skills.pierwsza_pomoc }}" class="skill-value">
                     <span class="skill-half">{{ (skills.pierwsza_pomoc // 2) }}</span>
@@ -271,7 +272,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="pilotowanie" {% if 'pilotowanie' in checked_skills %}checked{% endif %}>
                     <label>Pilotowanie (01%)</label>
                     <input type="text" name="pilotowanie" value="{{ skills.pilotowanie }}" placeholder="Typ pojazdu"
                         class="skill-name-input">
@@ -290,7 +291,7 @@
             <!-- ========== KOLUMNA 3 ========== -->
             <div class="skills-column">
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="plywanie" {% if 'plywanie' in checked_skills %}checked{% endif %}>
                     <label>Pływanie (20%)</label>
                     <input type="number" name="plywanie" value="{{ skills.plywanie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.plywanie // 2) }}</span>
@@ -298,7 +299,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="prawo" {% if 'prawo' in checked_skills %}checked{% endif %}>
                     <label>Prawo (05%)</label>
                     <input type="number" name="prawo" value="{{ skills.prawo }}" class="skill-value">
                     <span class="skill-half">{{ (skills.prawo // 2) }}</span>
@@ -306,7 +307,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="prowadzenie" {% if 'prowadzenie' in checked_skills %}checked{% endif %}>
                     <label>Prowadzenie Samochodu (20%)</label>
                     <input type="number" name="prowadzenie" value="{{ skills.prowadzenie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.prowadzenie // 2) }}</span>
@@ -314,7 +315,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="psychoanaliza" {% if 'psychoanaliza' in checked_skills %}checked{% endif %}>
                     <label>Psychoanaliza (01%)</label>
                     <input type="number" name="psychoanaliza" value="{{ skills.psychoanaliza }}" class="skill-value">
                     <span class="skill-half">{{ (skills.psychoanaliza // 2) }}</span>
@@ -322,7 +323,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="psychologia" {% if 'psychologia' in checked_skills %}checked{% endif %}>
                     <label>Psychologia (10%)</label>
                     <input type="number" name="psychologia" value="{{ skills.psychologia }}" class="skill-value">
                     <span class="skill-half">{{ (skills.psychologia // 2) }}</span>
@@ -330,7 +331,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="rzucanie" {% if 'rzucanie' in checked_skills %}checked{% endif %}>
                     <label>Rzucanie (20%)</label>
                     <input type="number" name="rzucanie" value="{{ skills.rzucanie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.rzucanie // 2) }}</span>
@@ -338,7 +339,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="skakanie" {% if 'skakanie' in checked_skills %}checked{% endif %}>
                     <label>Skakanie (20%)</label>
                     <input type="number" name="skakanie" value="{{ skills.skakanie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.skakanie // 2) }}</span>
@@ -346,7 +347,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="spostrzegawczosc" {% if 'spostrzegawczosc' in checked_skills %}checked{% endif %}>
                     <label>Spostrzegawczość (25%)</label>
                     <input type="number" name="spostrzegawczosc" value="{{ skills.spostrzegawczosc }}"
                         class="skill-value">
@@ -355,7 +356,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="sztuka" {% if 'sztuka' in checked_skills %}checked{% endif %}>
                     <label>Sztuka/Rzemiosło (05%)</label>
                     <input type="text" name="sztuka_1" value="{{ skills.sztuka_1 }}" placeholder="Dziedzina"
                         class="skill-name-input">
@@ -365,7 +366,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="sztuka" {% if 'sztuka' in checked_skills %}checked{% endif %}>
                     <label>Sztuka/Rzemiosło (05%)</label>
                     <input type="text" name="sztuka_2" value="{{ skills.sztuka_2 }}" placeholder="Dziedzina"
                         class="skill-name-input">
@@ -375,7 +376,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="sztuka" {% if 'sztuka' in checked_skills %}checked{% endif %}>
                     <label>Sztuka/Rzemiosło (05%)</label>
                     <input type="text" name="sztuka_3" value="{{ skills.sztuka_3 }}" placeholder="Dziedzina"
                         class="skill-name-input">
@@ -385,7 +386,7 @@
                 </div>
 
                 <div class="skill-row skill-custom">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="przetrwanie" {% if 'przetrwanie' in checked_skills %}checked{% endif %}>
                     <label>Sztuka Przetrwania (10%)</label>
                     <input type="text" name="przetrwanie" value="{{ skills.przetrwanie }}" placeholder="Środowisko"
                         class="skill-name-input">
@@ -396,7 +397,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="slusarstwo" {% if 'slusarstwo' in checked_skills %}checked{% endif %}>
                     <label>Ślusarstwo (01%)</label>
                     <input type="number" name="slusarstwo" value="{{ skills.slusarstwo }}" class="skill-value">
                     <span class="skill-half">{{ (skills.slusarstwo // 2) }}</span>
@@ -404,7 +405,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="tropienie" {% if 'tropienie' in checked_skills %}checked{% endif %}>
                     <label>Tropienie (10%)</label>
                     <input type="number" name="tropienie" value="{{ skills.tropienie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.tropienie // 2) }}</span>
@@ -412,7 +413,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="ukrywanie" {% if 'ukrywanie' in checked_skills %}checked{% endif %}>
                     <label>Ukrywanie (20%)</label>
                     <input type="number" name="ukrywanie" value="{{ skills.ukrywanie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.ukrywanie // 2) }}</span>
@@ -423,7 +424,7 @@
             <!-- ========== KOLUMNA 4 ========== -->
             <div class="skills-column">
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="unik" {% if 'unik' in checked_skills %}checked{% endif %}>
                     <label>Unik (1/2 ZR)</label>
                     <input type="number" name="unik" value="{{ skills.unik }}" class="skill-value">
                     <span class="skill-half">{{ (skills.unik // 2) }}</span>
@@ -431,7 +432,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="urok" {% if 'urok' in checked_skills %}checked{% endif %}>
                     <label>Urok Osobisty (15%)</label>
                     <input type="number" name="urok" value="{{ skills.urok }}" class="skill-value">
                     <span class="skill-half">{{ (skills.urok // 2) }}</span>
@@ -439,7 +440,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="walka_wrecz" {% if 'walka_wrecz' in checked_skills %}checked{% endif %}>
                     <label>Walka Wręcz (Bijatyka) (25%)</label>
                     <input type="number" name="walka_wrecz" value="{{ skills.walka_wrecz }}" class="skill-value">
                     <span class="skill-half">{{ (skills.walka_wrecz // 2) }}</span>
@@ -467,7 +468,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="wiedza_o_naturze" {% if 'wiedza_o_naturze' in checked_skills %}checked{% endif %}>
                     <label>Wiedza o Naturze (10%)</label>
                     <input type="number" name="natura" value="{{ skills.natura }}" class="skill-value">
                     <span class="skill-half">{{ (skills.natura // 2) }}</span>
@@ -475,7 +476,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="wspinaczka" {% if 'wspinaczka' in checked_skills %}checked{% endif %}>
                     <label>Wspinaczka (20%)</label>
                     <input type="number" name="wspinaczka" value="{{ skills.wspinaczka }}" class="skill-value">
                     <span class="skill-half">{{ (skills.wspinaczka // 2) }}</span>
@@ -483,7 +484,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="wycena" {% if 'wycena' in checked_skills %}checked{% endif %}>
                     <label>Wycena (05%)</label>
                     <input type="number" name="wycena" value="{{ skills.wycena }}" class="skill-value">
                     <span class="skill-half">{{ (skills.wycena // 2) }}</span>
@@ -491,7 +492,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="zastraszanie" {% if 'zastraszanie' in checked_skills %}checked{% endif %}>
                     <label>Zastraszanie (15%)</label>
                     <input type="number" name="zastraszanie" value="{{ skills.zastraszanie }}" class="skill-value">
                     <span class="skill-half">{{ (skills.zastraszanie // 2) }}</span>
@@ -499,7 +500,7 @@
                 </div>
 
                 <div class="skill-row">
-                    <input type="checkbox" class="skill-check">
+                    <input type="checkbox" class="skill-check" name="skill_check" value="zreczne_palce" {% if 'zreczne_palce' in checked_skills %}checked{% endif %}>
                     <label>Zręczne Palce (10%)</label>
                     <input type="number" name="zreczne_palce" value="{{ skills.zreczne_palce }}" class="skill-value">
                     <span class="skill-half">{{ (skills.zreczne_palce // 2) }}</span>

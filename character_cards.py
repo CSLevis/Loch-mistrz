@@ -501,6 +501,9 @@ class Character:
             custom_skill_5 = db.Column(db.String(50), default='')
             custom_skill_5_val = db.Column(db.Integer, default=0)
 
+            # Pole dla zaznaczonych checkboxów (przechowuje listę nazw umiejętności jako JSON)
+            checked_skills = db.Column(db.Text, default='[]')
+
             character = db.relationship('CharacterCthulhu', backref=db.backref('skills', lazy=True))
 
         return CthulhuSkill

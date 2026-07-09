@@ -19,6 +19,7 @@ from flask import session
 import os
 import random
 import string
+import json
 from threading import Thread
 from flask_mail import Mail, Message
 
@@ -1625,6 +1626,10 @@ def umiejetnosci_cthulhu(character_id):
         skills.custom_skill_5 = request.form.get('custom_skill_5', '')
         skills.custom_skill_5_val = int(request.form.get('custom_skill_5_val', 0) or 0)
 
+        # Obsługa checkboxów - zbierz wszystkie zaznaczone
+        checked_list = request.form.getlist('skill_check')
+        skills.checked_skills = json.dumps(checked_list)
+
         db.session.commit()
 
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -1633,7 +1638,31 @@ def umiejetnosci_cthulhu(character_id):
         flash('✅ Umiejętności zapisane!')
         return redirect(url_for('edytuj_karte_cthulhu', character_id=character_id))
 
-    return render_template('umiejetnosci_cthulhu.html', character=character, skills=skills)
+    # Parsuj zaznaczone checkboxy do listy
+    try:
+        checked_skills_list = json.loads(skills.checked_skills) if skills.checked_skills else []
+    except:
+        checked_skills_list = []
+
+    return render_template('umiejetnosci_cthulhu.html', character=character, skills=skills, checked_skills=checked_skills_list)
+
+
+@app.route("/wyczysc-checkboxy-cthulhu/<int:character_id>", methods=["POST"])
+@login_required
+def wyczysc_checkboxy_cthulhu(character_id):
+    character = CharacterCthulhu.query.get_or_404(character_id)
+
+    if character.user_id != current_user.id:
+        flash('Nie masz dostępu do tej karty!')
+        return redirect(url_for('karty_postaci'))
+
+    skills = CthulhuSkill.query.filter_by(character_id=character_id).first()
+    if skills:
+        skills.checked_skills = '[]'
+        db.session.commit()
+
+    flash('✅ Checkboxy wyczyszczone!')
+    return redirect(url_for('umiejetnosci_cthulhu', character_id=character_id))
 
 
 @app.route("/bron-cthulhu/<int:character_id>", methods=["GET", "POST"])
