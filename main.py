@@ -1546,11 +1546,12 @@ def umiejetnosci_cthulhu(character_id):
         db.session.commit()
 
     # Dodaj pole checked_skills jeśli nie istnieje (dla starych rekordów)
-    if not hasattr(skills, 'checked_skills') or skills.checked_skills is None:
+    if getattr(skills, 'checked_skills', None) is None:
         try:
             skills.checked_skills = '[]'
             db.session.commit()
-        except:
+        except Exception as e:
+            print(f"Error initializing checked_skills: {e}")
             pass
 
     if request.method == "POST":
@@ -1636,8 +1637,7 @@ def umiejetnosci_cthulhu(character_id):
 
         # Obsługa checkboxów - zbierz wszystkie zaznaczone
         checked_list = request.form.getlist('skill_check')
-        if hasattr(skills, 'checked_skills'):
-            skills.checked_skills = json.dumps(checked_list)
+        skills.checked_skills = json.dumps(checked_list)
 
         db.session.commit()
 
@@ -1650,8 +1650,9 @@ def umiejetnosci_cthulhu(character_id):
     # Parsuj zaznaczone checkboxy do listy
     checked_skills_list = []
     try:
-        if hasattr(skills, 'checked_skills') and skills.checked_skills:
-            checked_skills_list = json.loads(skills.checked_skills)
+        checked_data = getattr(skills, 'checked_skills', None)
+        if checked_data:
+            checked_skills_list = json.loads(checked_data)
     except Exception as e:
         print(f"Error parsing checked_skills: {e}")
         checked_skills_list = []
