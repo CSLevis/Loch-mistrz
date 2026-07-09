@@ -1628,7 +1628,8 @@ def umiejetnosci_cthulhu(character_id):
 
         # Obsługa checkboxów - zbierz wszystkie zaznaczone
         checked_list = request.form.getlist('skill_check')
-        skills.checked_skills = json.dumps(checked_list)
+        if hasattr(skills, 'checked_skills'):
+            skills.checked_skills = json.dumps(checked_list)
 
         db.session.commit()
 
@@ -1639,9 +1640,12 @@ def umiejetnosci_cthulhu(character_id):
         return redirect(url_for('edytuj_karte_cthulhu', character_id=character_id))
 
     # Parsuj zaznaczone checkboxy do listy
+    checked_skills_list = []
     try:
-        checked_skills_list = json.loads(skills.checked_skills) if skills.checked_skills else []
-    except:
+        if hasattr(skills, 'checked_skills') and skills.checked_skills:
+            checked_skills_list = json.loads(skills.checked_skills)
+    except Exception as e:
+        print(f"Error parsing checked_skills: {e}")
         checked_skills_list = []
 
     return render_template('umiejetnosci_cthulhu.html', character=character, skills=skills, checked_skills=checked_skills_list)
