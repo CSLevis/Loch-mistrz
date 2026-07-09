@@ -60,7 +60,6 @@
                 <!-- Kolumna 3: przyciski -->
                 <div class="column">
                     <button class="buttonrol" id="b4"><img src="{{ url_for('static', filename='d10a.png') }}"></button>
-                    <button class="buttonrol" id="b8"><img src="{{ url_for('static', filename='d10a.png') }}"></button>
                     <button class="buttonrol" id="b5"><img src="{{ url_for('static', filename='d12a.png') }}"></button>
                     <button class="buttonrol" id="b6"><img src="{{ url_for('static', filename='d20a.png') }}"></button>
                 </div>
@@ -73,15 +72,37 @@
                     </div>
                     <div class="display-box"
                         style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
-                        <div class="display-content" id="box8"></div>
-                    </div>
-                    <div class="display-box"
-                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
                         <div class="display-content" id="box5"></div>
                     </div>
                     <div class="display-box"
                         style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
                         <div class="display-content" id="box6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.5 NOWY WIERSZ DLA K100 -->
+            <div class="flex-container" style="margin-top: -40px;">
+                <!-- Kolumna 1: pusty spacer -->
+                <div class="column" style="visibility: hidden;">
+                    <button class="buttonrol"><img src="{{ url_for('static', filename='d4a.png') }}"></button>
+                </div>
+
+                <!-- Kolumna 2: pusty spacer -->
+                <div class="column" style="visibility: hidden;">
+                    <div class="display-box"></div>
+                </div>
+
+                <!-- Kolumna 3: k100 -->
+                <div class="column">
+                    <button class="buttonrol" id="b8"><img src="{{ url_for('static', filename='d10a.png') }}"></button>
+                </div>
+
+                <!-- Kolumna 4: wynik k100 -->
+                <div class="column">
+                    <div class="display-box"
+                        style="background-image: url('{{ url_for('static', filename='frame.png') }}');">
+                        <div class="display-content" id="box8"></div>
                     </div>
                 </div>
             </div>

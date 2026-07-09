@@ -30,7 +30,9 @@
       "Bash(python -m py_compile main.py)",
       "Bash(git commit -m 'Auto-initialize checked_skills field for old Cthulhu skill records *)",
       "Bash(git commit -m 'Replace hasattr\\(\\) with getattr\\(\\) for checked_skills SQLAlchemy attribute *)",
-      "Bash(git commit -m 'Add automatic database migration for checked_skills column *)"
+      "Bash(git commit -m 'Add automatic database migration for checked_skills column *)",
+      "Bash(git commit -m 'Add k100 dice, fix save redirect, add combat stats to Cthulhu weapons *)",
+      "Bash(git commit -m 'Fix roller layout and embedded roller visibility *)"
     ],
     "deny": [],
     "ask": []
