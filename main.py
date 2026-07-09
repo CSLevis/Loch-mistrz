@@ -1545,6 +1545,14 @@ def umiejetnosci_cthulhu(character_id):
         db.session.add(skills)
         db.session.commit()
 
+    # Dodaj pole checked_skills jeśli nie istnieje (dla starych rekordów)
+    if not hasattr(skills, 'checked_skills') or skills.checked_skills is None:
+        try:
+            skills.checked_skills = '[]'
+            db.session.commit()
+        except:
+            pass
+
     if request.method == "POST":
         skills.antropologia = int(request.form.get('antropologia', 1) or 1)
         skills.archeologia = int(request.form.get('archeologia', 1) or 1)
