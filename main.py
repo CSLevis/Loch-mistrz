@@ -155,6 +155,28 @@ with app.app_context():
         print(f"Error Błąd podczas sprawdzania migracji: {e}")
         db.session.rollback()
 
+    # Automatyczna migracja dla Cthulhu Skills - dodaj kolumnę checked_skills
+    try:
+        from sqlalchemy import inspect, text
+        inspector = inspect(db.engine)
+
+        if 'cthulhu_skills' in inspector.get_table_names():
+            columns = [col['name'] for col in inspector.get_columns('cthulhu_skills')]
+
+            if 'checked_skills' not in columns:
+                print("! Brak kolumny checked_skills w cthulhu_skills - dodaję...")
+                db.session.execute(text("""
+                    ALTER TABLE cthulhu_skills
+                    ADD COLUMN checked_skills TEXT DEFAULT '[]'
+                """))
+                db.session.commit()
+                print("✓ Dodano kolumnę checked_skills")
+            else:
+                print("✓ Kolumna checked_skills już istnieje")
+    except Exception as e:
+        print(f"Error Błąd podczas migracji checked_skills: {e}")
+        db.session.rollback()
+
     # Teraz utwórz wszystkie tabele (w tym trader_manager z poprawną strukturą)
     # Wykonujemy to warunkowo lub optymalnie
     if os.environ.get('INIT_DB', 'true').lower() == 'true':
